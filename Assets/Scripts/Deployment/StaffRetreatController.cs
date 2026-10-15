@@ -27,14 +27,14 @@ namespace DamasDenis.Deployment
 
         private DeployedUnit deployedUnit;
         private StaffVitality vitality;
-        private TowerInstance tower;
+        private StaffCombat combat;
         private bool processing;
 
         private void Awake()
         {
             deployedUnit = GetComponent<DeployedUnit>();
             vitality = GetComponent<StaffVitality>();
-            tower = GetComponent<TowerInstance>();
+            combat = GetComponent<StaffCombat>();
         }
 
         public bool TryBeginRetreat()
@@ -66,7 +66,7 @@ namespace DamasDenis.Deployment
             get
             {
                 if (vitality != null) return vitality.HealthFraction;
-                return tower == null ? 1f : tower.HealthFraction;
+                return combat == null ? 1f : combat.HealthFraction;
             }
         }
 

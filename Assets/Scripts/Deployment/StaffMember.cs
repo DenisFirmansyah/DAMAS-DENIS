@@ -3,7 +3,7 @@ using DamasDenis.Stage;
 
 namespace DamasDenis.Deployment
 {
-    /// <summary>Runtime staff state. Attach alongside TowerInstance when this staff attacks.</summary>
+    /// <summary>Runtime staff state. Attach alongside StaffCombat when this staff attacks.</summary>
     public sealed class StaffMember : MonoBehaviour
     {
         public UnitDeploymentData Data { get; private set; }
@@ -19,9 +19,9 @@ namespace DamasDenis.Deployment
             if (upgrade == null || Data != upgrade.TargetStaff || UpgradeLevel >= upgrade.MaximumLevel)
                 return false;
 
-            TowerInstance tower = GetComponent<TowerInstance>();
-            if (tower != null)
-                tower.ApplyStageUpgrade(upgrade.DamageMultiplier, upgrade.RangeMultiplier, upgrade.AttackRateMultiplier);
+            StaffCombat combat = GetComponent<StaffCombat>();
+            if (combat != null)
+                combat.ApplyStageUpgrade(upgrade.DamageMultiplier, upgrade.RangeMultiplier, upgrade.AttackRateMultiplier);
 
             UpgradeLevel++;
             StageEventLog.Record("staff_upgraded", Data.DisplayName + " level " + UpgradeLevel);

@@ -88,7 +88,7 @@ namespace Enemies
 
         void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.CompareTag("Tower"))
+            if (collision.gameObject.CompareTag("Tower") || collision.gameObject.CompareTag("Unit") || collision.gameObject.CompareTag("Staff"))
             {
                 isMoving = false;
                 

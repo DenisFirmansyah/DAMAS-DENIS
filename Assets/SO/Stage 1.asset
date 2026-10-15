@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Stage 1
   m_EditorClassIdentifier: 
   stageId: stage_01
-  sceneName: 
+  sceneName: stage 1
   isOptionalStage: 0
   survivalSeconds: 120
   baseHealth: 100

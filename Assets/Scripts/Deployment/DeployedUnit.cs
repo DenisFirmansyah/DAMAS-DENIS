@@ -18,6 +18,10 @@ namespace DamasDenis.Deployment
             StaffMember staffMember = GetComponent<StaffMember>();
             if (staffMember != null)
                 staffMember.Initialize(data);
+
+            StaffCombat staffCombat = GetComponent<StaffCombat>();
+            if (staffCombat != null)
+                staffCombat.Initialize(data);
         }
 
         public void SetFacing(Vector2Int facing)
