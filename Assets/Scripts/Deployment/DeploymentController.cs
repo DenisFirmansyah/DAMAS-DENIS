@@ -1,4 +1,4 @@
-using Core.PlayerState;
+using DamasDenis.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DamasDenis.Stage;
@@ -17,6 +17,15 @@ namespace DamasDenis.Deployment
         [SerializeField] private StageState stageState;
         [SerializeField] private Transform unitContainer;
 
+        [Header("Placement Feedback")]
+        [Tooltip("Small arrow parented to the preview. Its tip must point UP in the prefab.")]
+        [SerializeField] private GameObject facingIndicatorPrefab;
+        [Tooltip("The mouse must be this far (world units) from the cell centre to change facing.")]
+        [Min(0f)] [SerializeField] private float facingDeadZone = 0.3f;
+        [Range(0.1f, 1f)] [SerializeField] private float previewAlpha = 0.5f;
+
+        private Vector3 lastMouseScreenPos;
+
         [Header("Limits")]
         [Min(0)] [SerializeField] private int maximumDeployedUnits = 8;
 
@@ -24,6 +33,18 @@ namespace DamasDenis.Deployment
         private MapCell pendingCell;
         private Vector2Int pendingFacing = Vector2Int.up;
         private GameObject preview;
+
+        public Transform UnitContainer
+        {
+            get => unitContainer;
+            set => unitContainer = value;
+        }
+
+        public void SetUnitContainer(Transform container)
+        {
+            unitContainer = container;
+        }
+
         public bool IsPlacing { get { return selectedUnit != null; } }
         public bool IsAwaitingDirection { get { return pendingCell != null; } }
 
@@ -76,21 +97,50 @@ namespace DamasDenis.Deployment
 
         private void HandleCellSelection()
         {
-            if (!Input.GetMouseButtonDown(0) || IsPointerOverUi())
+            if (!Input.GetMouseButtonDown(0))
                 return;
+
+            if (IsPointerOverUi())
+            {
+                Debug.Log("[Deploy] Blocked: pointer is over a UI element with Raycast Target.");
+                return;
+            }
 
             if (stageState == null)
                 stageState = StageState.Instance;
 
-            MapCell cell = GetCellUnderCursor();
-            if (cell == null || !cell.CanHost(selectedUnit) || stageState == null ||
-                stageState.CurrentStageResources < selectedUnit.DeploymentCost)
+            if (stageState == null)
+            {
+                Debug.Log("[Deploy] Blocked: StageState.Instance is null.");
                 return;
+            }
+
+            MapCell cell = GetCellUnderCursor();
+            if (cell == null)
+            {
+                Debug.Log("[Deploy] Blocked: no MapCell under cursor (collider, layer, mask, or camera).");
+                return;
+            }
+
+            if (!cell.CanHost(selectedUnit))
+            {
+                Debug.Log($"[Deploy] Blocked: cell {cell.name} can't host {selectedUnit.DisplayName} " +
+                        $"(terrain={cell.Terrain}, allowDeployment={cell.AllowDeployment}, occupied={cell.IsOccupied}).");
+                return;
+            }
+
+            if (stageState.CurrentStageResources < selectedUnit.DeploymentCost)
+            {
+                Debug.Log($"[Deploy] Blocked: resources {stageState.CurrentStageResources} < cost {selectedUnit.DeploymentCost}.");
+                return;
+            }
 
             pendingCell = cell;
             pendingFacing = Vector2Int.up;
+            lastMouseScreenPos = Input.mousePosition;
             preview = Instantiate(selectedUnit.UnitPrefab, cell.transform.position, Quaternion.identity, unitContainer);
             SetPreviewState(preview, true);
+            AttachFacingIndicator();
             UpdatePreviewRotation();
 
             if (!selectedUnit.CanFace)
@@ -99,15 +149,75 @@ namespace DamasDenis.Deployment
 
         private void HandleDirectionSelection()
         {
-            Vector2Int requestedFacing = ReadFacingInput();
-            if (requestedFacing != Vector2Int.zero)
+            Vector2Int requested = ReadFacingInput(); // keyboard wins when pressed
+
+            Vector3 mouse = Input.mousePosition;
+            bool mouseMoved = mouse != lastMouseScreenPos;
+            lastMouseScreenPos = mouse;
+
+            // Only let the mouse drive facing when it actually moved,
+            // otherwise it would instantly undo a keyboard choice.
+            if (requested == Vector2Int.zero && mouseMoved)
+                requested = ReadMouseFacing();
+
+            if (requested != Vector2Int.zero && requested != pendingFacing)
             {
-                pendingFacing = requestedFacing;
+                pendingFacing = requested;
                 UpdatePreviewRotation();
             }
 
             if (Input.GetMouseButtonDown(0) && !IsPointerOverUi())
                 ConfirmPlacement();
+        }
+
+        /// <summary>Cardinal direction from the pending cell toward the mouse, or zero inside the dead zone.</summary>
+        private Vector2Int ReadMouseFacing()
+        {
+            if (worldCamera == null || pendingCell == null)
+                return Vector2Int.zero;
+
+            Vector2 mouseWorld = worldCamera.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 offset = mouseWorld - (Vector2)pendingCell.transform.position;
+
+            if (offset.magnitude < facingDeadZone)
+                return Vector2Int.zero;
+
+            if (Mathf.Abs(offset.x) > Mathf.Abs(offset.y))
+                return offset.x > 0f ? Vector2Int.right : Vector2Int.left;
+
+            return offset.y > 0f ? Vector2Int.up : Vector2Int.down;
+        }
+
+        private void AttachFacingIndicator()
+        {
+            if (facingIndicatorPrefab == null || preview == null || !selectedUnit.CanFace)
+                return;
+
+            // Parented to the preview, so it rotates with it. Local offset comes from the prefab.
+            Instantiate(facingIndicatorPrefab, preview.transform);
+        }
+
+        private void SetPreviewState(GameObject root, bool isPreview)
+        {
+            foreach (Collider2D col in root.GetComponentsInChildren<Collider2D>())
+                col.enabled = !isPreview;
+
+            foreach (MonoBehaviour behaviour in root.GetComponentsInChildren<MonoBehaviour>())
+            {
+                if (!(behaviour is DeployedUnit))
+                    behaviour.enabled = !isPreview;
+            }
+
+            if (!isPreview)
+                return;
+
+            // Ghost look. The preview is destroyed on confirm, so nothing needs restoring.
+            foreach (SpriteRenderer sr in root.GetComponentsInChildren<SpriteRenderer>())
+            {
+                Color c = sr.color;
+                c.a = previewAlpha;
+                sr.color = c;
+            }
         }
 
         private void ConfirmPlacement()
@@ -171,16 +281,5 @@ namespace DamasDenis.Deployment
                 preview.transform.up = new Vector3(pendingFacing.x, pendingFacing.y, 0f);
         }
 
-        private static void SetPreviewState(GameObject root, bool isPreview)
-        {
-            foreach (Collider2D collider in root.GetComponentsInChildren<Collider2D>())
-                collider.enabled = !isPreview;
-
-            foreach (MonoBehaviour behaviour in root.GetComponentsInChildren<MonoBehaviour>())
-            {
-                if (!(behaviour is DeployedUnit))
-                    behaviour.enabled = !isPreview;
-            }
-        }
     }
 }

@@ -1,4 +1,4 @@
-using Core.PlayerState;
+using DamasDenis.Core;
 using UnityEngine;
 
 namespace DamasDenis.Deployment

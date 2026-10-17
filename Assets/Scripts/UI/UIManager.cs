@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using Core.PlayerState;
+using DamasDenis.Core;
 using DamasDenis.Stage;
 using UnityEngine.SceneManagement;
 

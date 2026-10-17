@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using Core.PlayerState;
 using Core.Waypoint;
 using DamasDenis.Stage;
 
@@ -32,8 +31,8 @@ namespace Enemies
                 sr = visualObj.GetComponentInChildren<SpriteRenderer>();
             }
 
-            if (LevelManager.main != null) {
-                target = LevelManager.main.startPoint.GetComponent<Waypoint>();
+            if (EnemyPath.Instance != null) {
+                target = EnemyPath.Instance.StartWaypoint;
             }
 
             StartCoroutine(StartMovementAfterDelay(1));

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DamasDenis.Stage;
 
 public enum GameState { Boot, MainMenu, Gameplay, Review }
 
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     public GameState State { get; private set; } = GameState.Boot;
     public string CurrentStage { get; private set; }
+    public StageDefinition CurrentStageDefinition { get; private set; }
     public bool IsLoading { get; private set; }
 
     public event Action<GameState> StateChanged;
@@ -48,6 +50,13 @@ public class GameManager : MonoBehaviour
         StartCoroutine(LoadSingleRoutine(ReviewScene, GameState.Review));
     }
 
+    public void StartGameplay(StageDefinition stageDef)
+    {
+        if (IsLoading || stageDef == null) return;
+        CurrentStageDefinition = stageDef;
+        StartCoroutine(StartGameplayRoutine(stageDef.SceneName));
+    }
+
     public void StartGameplay(string stageScene)
     {
         if (IsLoading) return;
@@ -67,6 +76,7 @@ public class GameManager : MonoBehaviour
     {
         IsLoading = true;
         CurrentStage = null;
+        CurrentStageDefinition = null;
         yield return SceneManager.LoadSceneAsync(scene);
         SetState(next);
         IsLoading = false;

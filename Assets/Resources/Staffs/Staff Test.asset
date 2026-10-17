@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 972f821c5ed931ee2b662af77714cc9e, type: 3}
+  m_Name: Staff Test
+  m_EditorClassIdentifier: 
+  displayName: Staff Test
+  unlockId: staff.staff_test
+  unlockedByDefault: 1
+  unitPrefab: {fileID: 5702450014059770907, guid: b9e64ce035e8b84e79965ddd04088fda, type: 3}
+  deploymentCost: 10
+  deployOnGround: 0
+  deployOnElevated: 1
+  canFace: 1
+  isMedic: 0
+  attackType: 1
+  damage: 10
+  range: 3
+  attackSpeed: 1
+  projectileSpeed: 10
+  projectilePrefab: {fileID: 7694949244247594112, guid: 6cb61703728d7dc8abf84d605a72dcc8, type: 3}
+  maxHealth: 100

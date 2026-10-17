@@ -14,7 +14,14 @@ namespace DamasDenis.Stage
                 return;
             }
 
-            SceneManager.LoadScene(stage.SceneName);
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.StartGameplay(stage);
+            }
+            else
+            {
+                SceneManager.LoadScene(stage.SceneName);
+            }
         }
     }
 }

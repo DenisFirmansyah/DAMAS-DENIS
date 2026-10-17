@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using DamasDenis.Stage;
 using UnityEngine;
 
-namespace Core.PlayerState
+namespace DamasDenis.Core
 {
     /// <summary>
     /// Persistent player state across gameplay (not reset per stage).

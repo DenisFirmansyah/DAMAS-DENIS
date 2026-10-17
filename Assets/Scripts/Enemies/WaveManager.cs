@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Enemies;
 
 public class WaveManager : MonoBehaviour {
     
@@ -41,7 +42,7 @@ public class WaveManager : MonoBehaviour {
             
             for (int i = 0; i < segment.count; i++) {
                 if (stopped) yield break;
-                Vector3 startPos = LevelManager.main.path[0].position;
+                Vector3 startPos = EnemyPath.Instance != null ? EnemyPath.Instance.SpawnPosition : Vector3.zero;
                 
                 GameObject enemy = Instantiate(segment.enemyPrefab, startPos, Quaternion.identity);
                 activeEnemies.Add(enemy);

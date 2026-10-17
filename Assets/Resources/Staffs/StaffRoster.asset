@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33f45ee637217dcba8733331de335181, type: 3}
+  m_Name: StaffRoster
+  m_EditorClassIdentifier: 
+  units:
+  - {fileID: 11400000, guid: 331e645f6379116e993eaa8d3dbc5055, type: 2}
+  - {fileID: 11400000, guid: 58dee752c083db5afbbb48d11ee7e5d5, type: 2}
