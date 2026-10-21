@@ -28,5 +28,16 @@ namespace DamasDenis.Deployment
             }
             return result;
         }
+
+        private void OnValidate()
+        {
+            var seen = new HashSet<string>();
+            foreach (UnitDeploymentData unit in units)
+            {
+                if (unit != null && !seen.Add(unit.UnlockId))
+                    Debug.LogWarning($"{name}: duplicate Unlock Id '{unit.UnlockId}' ({unit.DisplayName}). " +
+                                    "Cooldowns and unlocks are keyed by this id.", this);
+            }
+        }
     }
 }

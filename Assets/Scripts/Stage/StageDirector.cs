@@ -1,6 +1,7 @@
 using System.Collections;
 using DamasDenis.Core;
 using DamasDenis.Deployment;
+using DamasDenis.Enemies;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -87,6 +88,8 @@ namespace DamasDenis.Stage
             if (currentStageScene.IsValid() && currentStageScene == unloadedScene)
             {
                 if (waveManager != null) waveManager.StopWaves();
+
+                waveManager = null;
                 phase = StagePhase.AwaitingStage;
                 currentStageScene = default;
             }
@@ -133,7 +136,11 @@ namespace DamasDenis.Stage
                 deploymentController.SetUnitContainer(stageUnitContainer);
             }
 
-            // 3. Initialize StageState for this stage
+            // 3. Resolve WaveManager in the stage scene
+            if (waveManager == null)
+                waveManager = FindWaveManagerInScene(stageScene);
+
+            // 4. Initialize StageState for this stage
             if (stageState == null) stageState = StageState.Instance ?? FindObjectOfType<StageState>();
             if (stageState == null) stageState = gameObject.AddComponent<StageState>();
 
@@ -288,6 +295,22 @@ namespace DamasDenis.Stage
             GameObject containerGo = new GameObject("Unit Container");
             SceneManager.MoveGameObjectToScene(containerGo, scene);
             return containerGo.transform;
+        }
+
+        private WaveManager FindWaveManagerInScene(Scene scene)
+        {
+            if (!scene.IsValid() || !scene.isLoaded)
+                return null;
+
+            foreach (GameObject root in scene.GetRootGameObjects())
+            {
+                WaveManager manager = root.GetComponentInChildren<WaveManager>(true);
+
+                if (manager != null)
+                    return manager;
+            }
+
+            return null;
         }
 
         #endregion

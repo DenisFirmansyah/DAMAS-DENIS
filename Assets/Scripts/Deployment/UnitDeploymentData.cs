@@ -28,7 +28,11 @@ namespace DamasDenis.Deployment
         [Header("Combat Type & Attributes")]
         [SerializeField] private UnitAttackType attackType = UnitAttackType.Ranged;
         [Min(0f)] [SerializeField] private float damage = 10f;
-        [Min(0.1f)] [SerializeField] private float range = 3f;
+        
+        [Tooltip("Tiles this unit attacks, relative to where it faces. Leave empty for units that don't attack.")]
+        [SerializeField] private AttackRangePattern rangePattern;
+        [Tooltip("How many enemies this unit holds in its tile. 0 = does not block.")]
+        [Min(0)] [SerializeField] private int blockCount;
         [Min(0.01f)] [SerializeField] private float attackSpeed = 1f;
         [SerializeField] private float projectileSpeed = 10f;
         [SerializeField] private GameObject projectilePrefab;
@@ -45,7 +49,8 @@ namespace DamasDenis.Deployment
         public UnitAttackType AttackType => attackType;
         public UnitAttackType Type => attackType;
         public float Damage => damage;
-        public float Range => range;
+        public AttackRangePattern RangePattern => rangePattern;
+        public int BlockCount => blockCount;
         public float AttackSpeed => attackSpeed;
         public float ProjectileSpeed => projectileSpeed;
         public GameObject ProjectilePrefab => projectilePrefab;

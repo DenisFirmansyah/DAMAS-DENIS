@@ -17,6 +17,15 @@ namespace DamasDenis.Deployment
         [SerializeField] private Vector2Int coordinates;
         [SerializeField] private CellTerrain terrain = CellTerrain.Ground;
         [SerializeField] private bool allowDeployment = true;
+        private Collider surfaceCollider;
+        private Vector2Int registeredKey;
+
+        private void OnEnable()
+        {
+            registeredKey = Coordinates;
+            BoardGrid.Register(this, registeredKey);
+        }
+        private void OnDisable() => BoardGrid.Unregister(this, registeredKey);
 
         public Vector2Int Coordinates { get { return coordinates; } }
         public CellTerrain Terrain { get { return terrain; } }
@@ -44,6 +53,20 @@ namespace DamasDenis.Deployment
         {
             if (Occupant == unit)
                 Occupant = null;
+        }
+
+        public Vector3 SurfacePoint
+        {
+            get
+            {
+                if (surfaceCollider == null)
+                    surfaceCollider = GetComponentInChildren<Collider>();
+
+                Vector3 p = transform.position;
+                if (surfaceCollider != null)
+                    p.y = surfaceCollider.bounds.max.y;
+                return p;
+            }
         }
     }
 }

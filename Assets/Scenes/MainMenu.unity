@@ -394,7 +394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectionController: {fileID: 452532384}
-  stage: {fileID: 11400000, guid: 86c8806ecfa486f62ad5f7900b30468a, type: 2}
+  stage: {fileID: 11400000, guid: d6f151f0aa25d3b0095bbb5bc09d8cec, type: 2}
 --- !u!1 &416726610
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,19 +1,24 @@
-using Enemies;
+using DamasDenis.Enemies;
 using UnityEngine;
 
 namespace DamasDenis.Deployment
 {
+    /// <summary>Homing projectile. Damages its target when it gets close enough; no physics needed.</summary>
     public class Projectile : MonoBehaviour
     {
         [SerializeField] private float lifetime = 5f;
+        [Tooltip("The projectile hits when it is this close to its target (world units).")]
+        [Min(0.01f)] [SerializeField] private float hitDistance = 0.15f;
+        [SerializeField] private float aimHeight = 0.5f;
 
-        private Transform target;
+        private EnemyInstance target;
         private float speed;
         private float damage;
 
+        /// <summary>Launches the projectile at an enemy.</summary>
         public void Setup(Transform targetEnemy, float projectileSpeed, float projectileDamage)
         {
-            target = targetEnemy;
+            target = targetEnemy != null ? targetEnemy.GetComponentInParent<EnemyInstance>() : null;
             speed = projectileSpeed;
             damage = projectileDamage;
             Destroy(gameObject, lifetime);
@@ -21,30 +26,14 @@ namespace DamasDenis.Deployment
 
         private void Update()
         {
-            if (target == null)
+            if (target == null || target.IsDead) { Destroy(gameObject); return; }
+
+            Vector3 aim = target.transform.position + Vector3.up * aimHeight;
+            transform.position = Vector3.MoveTowards(transform.position, aim, speed * Time.deltaTime);
+
+            if ((aim - transform.position).sqrMagnitude <= hitDistance * hitDistance)
             {
-                Destroy(gameObject);
-                return;
-            }
-
-            // Move towards the target's current position
-            Vector2 direction = (target.position - transform.position).normalized;
-            transform.Translate(direction * speed * Time.deltaTime, Space.World);
-
-            // Rotate to face the target
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
-        }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.CompareTag("Enemy"))
-            {
-                EnemyInstance enemy = collision.GetComponent<EnemyInstance>();
-                if (enemy != null)
-                {
-                    enemy.TakeDamage(damage);
-                }
+                target.TakeDamage(damage);
                 Destroy(gameObject);
             }
         }

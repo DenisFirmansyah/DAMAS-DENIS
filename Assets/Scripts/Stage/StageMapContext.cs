@@ -1,5 +1,5 @@
 using UnityEngine;
-using Enemies;
+using DamasDenis.Enemies;
 
 namespace DamasDenis.Stage
 {

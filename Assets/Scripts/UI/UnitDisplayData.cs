@@ -32,7 +32,7 @@ namespace DamasDenis.UI
             displayName = unitData != null ? unitData.DisplayName : "Unknown";
             cost = unitData != null ? unitData.DeploymentCost : 0;
             damage = unitData != null ? unitData.Damage : 0f;
-            range = unitData != null ? unitData.Range : 0f;
+            range  = unitData != null && unitData.RangePattern != null ? unitData.RangePattern.CellCount : 0;
             attackSpeed = unitData != null ? unitData.AttackSpeed : 0f;
             maxHealth = unitData != null ? unitData.MaxHealth : 0f;
             isMedic = unitData != null ? unitData.IsMedic : false;

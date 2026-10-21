@@ -22,7 +22,7 @@ namespace DamasDenis.Deployment
         [Header("Medic requirement")]
         [SerializeField] private MedicRequirement medicRequirement = MedicRequirement.OnlyBelowHealthThreshold;
         [Range(0f, 1f)] [SerializeField] private float healthThreshold = 0.1f;
-        [Min(0f)] [SerializeField] private float medicSearchRadius = 2f;
+        [Min(0)] [SerializeField] private int medicRangeTiles = 2;
 
         private DeployedUnit deployedUnit;
         private StaffVitality vitality;
@@ -31,13 +31,15 @@ namespace DamasDenis.Deployment
 
         private void Awake()
         {
-            deployedUnit = GetComponent<DeployedUnit>();
             vitality = GetComponent<StaffVitality>();
             combat = GetComponent<StaffCombat>();
         }
 
         public bool TryBeginRetreat()
         {
+            // DeployedUnit may be added after Instantiate (see DeploymentController.ConfirmPlacement),
+            // so resolve it here instead of in Awake.
+            if (deployedUnit == null) deployedUnit = GetComponent<DeployedUnit>();
             if (processing || deployedUnit == null || deployedUnit.Data == null || !MedicRequirementMet())
                 return false;
 
@@ -53,9 +55,9 @@ namespace DamasDenis.Deployment
 
             foreach (DeployedUnit candidate in FindObjectsByType<DeployedUnit>(FindObjectsSortMode.None))
             {
-                if (candidate != deployedUnit && candidate.Data != null && candidate.Data.IsMedic &&
-                    Vector2.Distance(candidate.transform.position, transform.position) <= medicSearchRadius)
-                    return true;
+                Vector2Int a = deployedUnit.Cell.Coordinates, b = candidate.Cell.Coordinates;
+                int tiles = Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
+                if (tiles <= medicRangeTiles) return true;
             }
             return false;
         }

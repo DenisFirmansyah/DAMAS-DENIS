@@ -2,6 +2,7 @@ using DamasDenis.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DamasDenis.Stage;
+using System.Collections.Generic;
 
 namespace DamasDenis.Deployment
 {
@@ -24,10 +25,18 @@ namespace DamasDenis.Deployment
         [Min(0f)] [SerializeField] private float facingDeadZone = 0.3f;
         [Range(0.1f, 1f)] [SerializeField] private float previewAlpha = 0.5f;
 
+        [Header("Range Preview")]
+        [Tooltip("A flat, collider-free marker placed on each covered tile.")]
+        [SerializeField] private GameObject rangeTilePrefab;
+
+        private readonly List<GameObject> rangeTiles = new List<GameObject>();
+        private readonly List<Vector2Int> rangeCoords = new List<Vector2Int>();
+
         private Vector3 lastMouseScreenPos;
 
         [Header("Limits")]
         [Min(0)] [SerializeField] private int maximumDeployedUnits = 8;
+        [SerializeField, Min(1f)] private float maxRaycastDistance = 1000f;
 
         private UnitDeploymentData selectedUnit;
         private MapCell pendingCell;
@@ -138,10 +147,11 @@ namespace DamasDenis.Deployment
             pendingCell = cell;
             pendingFacing = Vector2Int.up;
             lastMouseScreenPos = Input.mousePosition;
-            preview = Instantiate(selectedUnit.UnitPrefab, cell.transform.position, Quaternion.identity, unitContainer);
+            preview = Instantiate(selectedUnit.UnitPrefab, cell.SurfacePoint, Quaternion.identity, unitContainer);
             SetPreviewState(preview, true);
             AttachFacingIndicator();
             UpdatePreviewRotation();
+            RefreshRangePreview();
 
             if (!selectedUnit.CanFace)
                 ConfirmPlacement();
@@ -164,6 +174,7 @@ namespace DamasDenis.Deployment
             {
                 pendingFacing = requested;
                 UpdatePreviewRotation();
+                RefreshRangePreview();
             }
 
             if (Input.GetMouseButtonDown(0) && !IsPointerOverUi())
@@ -171,21 +182,34 @@ namespace DamasDenis.Deployment
         }
 
         /// <summary>Cardinal direction from the pending cell toward the mouse, or zero inside the dead zone.</summary>
+        
         private Vector2Int ReadMouseFacing()
         {
             if (worldCamera == null || pendingCell == null)
                 return Vector2Int.zero;
 
-            Vector2 mouseWorld = worldCamera.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 offset = mouseWorld - (Vector2)pendingCell.transform.position;
+            Plane groundPlane = new Plane(Vector3.up, pendingCell.SurfacePoint);
+
+            Ray ray = worldCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (!groundPlane.Raycast(ray, out float distance))
+                return Vector2Int.zero;
+
+            Vector3 mouseWorld = ray.GetPoint(distance);
+            Vector3 offset = mouseWorld - pendingCell.SurfacePoint;
 
             if (offset.magnitude < facingDeadZone)
                 return Vector2Int.zero;
 
-            if (Mathf.Abs(offset.x) > Mathf.Abs(offset.y))
-                return offset.x > 0f ? Vector2Int.right : Vector2Int.left;
+            // Logical grid directions: XZ plane, not XY.
+            if (Mathf.Abs(offset.x) > Mathf.Abs(offset.z))
+                return offset.x > 0f
+                    ? Vector2Int.right
+                    : Vector2Int.left;
 
-            return offset.y > 0f ? Vector2Int.up : Vector2Int.down;
+            return offset.z > 0f
+                ? Vector2Int.up
+                : Vector2Int.down;
         }
 
         private void AttachFacingIndicator()
@@ -199,25 +223,53 @@ namespace DamasDenis.Deployment
 
         private void SetPreviewState(GameObject root, bool isPreview)
         {
-            foreach (Collider2D col in root.GetComponentsInChildren<Collider2D>())
+            foreach (Collider col in root.GetComponentsInChildren<Collider>())
                 col.enabled = !isPreview;
 
-            foreach (MonoBehaviour behaviour in root.GetComponentsInChildren<MonoBehaviour>())
+            foreach (MonoBehaviour behaviour in
+                    root.GetComponentsInChildren<MonoBehaviour>())
             {
-                if (!(behaviour is DeployedUnit))
+                if (!(behaviour is DeployedUnit) && !(behaviour is Billboard))
                     behaviour.enabled = !isPreview;
             }
 
             if (!isPreview)
                 return;
 
-            // Ghost look. The preview is destroyed on confirm, so nothing needs restoring.
-            foreach (SpriteRenderer sr in root.GetComponentsInChildren<SpriteRenderer>())
+            foreach (SpriteRenderer sr in
+                    root.GetComponentsInChildren<SpriteRenderer>())
             {
-                Color c = sr.color;
-                c.a = previewAlpha;
-                sr.color = c;
+                Color color = sr.color;
+                color.a = previewAlpha;
+                sr.color = color;
             }
+        }
+
+        private void RefreshRangePreview()
+        {
+            int used = 0;
+            AttackRangePattern pattern = selectedUnit != null ? selectedUnit.RangePattern : null;
+
+            if (pattern != null && pendingCell != null && rangeTilePrefab != null)
+            {
+                Vector2Int facing = selectedUnit.CanFace ? pendingFacing : Vector2Int.up;
+                pattern.GetCoordinates(pendingCell.Coordinates, facing, rangeCoords);
+
+                for (int i = 0; i < rangeCoords.Count; i++)
+                {
+                    if (!BoardGrid.TryGetCell(rangeCoords[i], out MapCell cell)) continue;
+
+                    if (used == rangeTiles.Count)
+                        rangeTiles.Add(Instantiate(rangeTilePrefab, transform));
+
+                    GameObject tile = rangeTiles[used++];
+                    tile.transform.position = cell.SurfacePoint + Vector3.up * 0.02f; // lifted to avoid z-fighting
+                    tile.SetActive(true);
+                }
+            }
+
+            for (int i = used; i < rangeTiles.Count; i++)
+                rangeTiles[i].SetActive(false);
         }
 
         private void ConfirmPlacement()
@@ -235,7 +287,7 @@ namespace DamasDenis.Deployment
             if (preview != null)
                 Destroy(preview);
 
-            GameObject instance = Instantiate(selectedUnit.UnitPrefab, pendingCell.transform.position, Quaternion.identity, unitContainer);
+            GameObject instance = Instantiate(selectedUnit.UnitPrefab, pendingCell.SurfacePoint, Quaternion.identity, unitContainer);
             DeployedUnit deployedUnit = instance.GetComponent<DeployedUnit>();
             if (deployedUnit == null)
                 deployedUnit = instance.AddComponent<DeployedUnit>();
@@ -250,13 +302,20 @@ namespace DamasDenis.Deployment
 
         private MapCell GetCellUnderCursor()
         {
-            if (worldCamera == null)
-                return null;
+            if (worldCamera == null) return null;
 
-            Vector3 screenPosition = Input.mousePosition;
-            Vector3 worldPosition = worldCamera.ScreenToWorldPoint(screenPosition);
-            RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero, 0f, mapCellLayer);
-            return hit.collider == null ? null : hit.collider.GetComponent<MapCell>();
+            Ray ray = worldCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (!Physics.Raycast(ray, out RaycastHit hit, maxRaycastDistance,
+                    mapCellLayer, QueryTriggerInteraction.Collide))
+                return null; // Clicking empty space is normal, so no warning.
+
+            // The collider can sit on a child of the tile, so search upward.
+            MapCell cell = hit.collider.GetComponentInParent<MapCell>();
+            if (cell == null)
+                Debug.LogWarning($"[Deploy] '{hit.collider.name}' is on the Map Cell layer but has no MapCell.");
+
+            return cell;
         }
 
         private static Vector2Int ReadFacingInput()
@@ -274,11 +333,22 @@ namespace DamasDenis.Deployment
         {
             return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
         }
-
+        
         private void UpdatePreviewRotation()
         {
-            if (preview != null)
-                preview.transform.up = new Vector3(pendingFacing.x, pendingFacing.y, 0f);
+            if (preview == null)
+                return;
+
+            Vector3 direction = new Vector3(
+                pendingFacing.x,
+                0f,
+                pendingFacing.y
+            );
+
+            if (direction.sqrMagnitude > 0f)
+            {
+                preview.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+            }
         }
 
     }

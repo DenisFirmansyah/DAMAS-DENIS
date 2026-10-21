@@ -15,6 +15,13 @@ namespace DamasDenis.Deployment
             Data = data;
             SetFacing(facing);
 
+            if (data != null && data.BlockCount > 0)
+            {
+                StaffBlocker blocker = GetComponent<StaffBlocker>();
+                if (blocker == null) blocker = gameObject.AddComponent<StaffBlocker>();
+                blocker.Initialize(data.BlockCount);
+            }
+
             StaffMember staffMember = GetComponent<StaffMember>();
             if (staffMember != null)
                 staffMember.Initialize(data);
@@ -30,7 +37,9 @@ namespace DamasDenis.Deployment
                 facing = Vector2Int.up;
 
             Facing = facing;
-            transform.up = new Vector3(facing.x, facing.y, 0f);
+            // Hybrid 3D Environment: Root rotates on XZ plane to define gameplay direction.
+            // 2D Character Sprite child will handle visual billboarding.
+            transform.rotation = Quaternion.LookRotation(new Vector3(facing.x, 0f, facing.y), Vector3.up);
         }
 
         private void OnDestroy()

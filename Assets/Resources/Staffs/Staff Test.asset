@@ -23,7 +23,8 @@ MonoBehaviour:
   isMedic: 0
   attackType: 1
   damage: 10
-  range: 3
+  rangePattern: {fileID: 11400000, guid: 92e628cc31e3ece5095369d888a52d69, type: 2}
+  blockCount: 3
   attackSpeed: 1
   projectileSpeed: 10
   projectilePrefab: {fileID: 7694949244247594112, guid: 6cb61703728d7dc8abf84d605a72dcc8, type: 3}

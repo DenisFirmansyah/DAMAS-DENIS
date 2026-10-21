@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Core.Waypoint
+namespace DamasDenis.Enemies
 {
    public class Waypoint : MonoBehaviour
     {
