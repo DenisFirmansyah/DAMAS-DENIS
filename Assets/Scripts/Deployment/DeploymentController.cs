@@ -18,19 +18,12 @@ namespace DamasDenis.Deployment
         [SerializeField] private StageState stageState;
         [SerializeField] private Transform unitContainer;
 
-        [Header("Placement Feedback")]
-        [Tooltip("Small arrow parented to the preview. Its tip must point UP in the prefab.")]
-        [SerializeField] private GameObject facingIndicatorPrefab;
+        [Header("Range Preview")]
+        [Tooltip("Marks the tiles the pending unit would cover. Don't share this instance with the selected-unit one.")]
+        [SerializeField] private RangePreview rangePreview;
         [Tooltip("The mouse must be this far (world units) from the cell centre to change facing.")]
         [Min(0f)] [SerializeField] private float facingDeadZone = 0.3f;
         [Range(0.1f, 1f)] [SerializeField] private float previewAlpha = 0.5f;
-
-        [Header("Range Preview")]
-        [Tooltip("A flat, collider-free marker placed on each covered tile.")]
-        [SerializeField] private GameObject rangeTilePrefab;
-
-        private readonly List<GameObject> rangeTiles = new List<GameObject>();
-        private readonly List<Vector2Int> rangeCoords = new List<Vector2Int>();
 
         private Vector3 lastMouseScreenPos;
 
@@ -56,6 +49,8 @@ namespace DamasDenis.Deployment
 
         public bool IsPlacing { get { return selectedUnit != null; } }
         public bool IsAwaitingDirection { get { return pendingCell != null; } }
+        public event System.Action<UnitDeploymentData> PlacingChanged;
+        public MapCell PickCellUnderCursor() => GetCellUnderCursor();
 
         private void Awake()
         {
@@ -82,15 +77,38 @@ namespace DamasDenis.Deployment
                 HandleDirectionSelection();
         }
 
+        private void LateUpdate()
+        {
+            if (rangePreview == null) return;
+
+            // Derived from state every frame, so it can't go stale however placement ends.
+            if (selectedUnit != null && pendingCell != null)
+            {
+                Vector2Int facing = selectedUnit.CanFace ? pendingFacing : Vector2Int.up;
+                rangePreview.Show(selectedUnit.RangePattern, pendingCell.Coordinates, facing);
+            }
+            else
+            {
+                rangePreview.Hide();
+            }
+        }
+
         // Call this from a unit-card button's OnClick event.
         public void BeginPlacement(UnitDeploymentData unit)
         {
+            if (unit != null && unit == selectedUnit)
+            {
+                CancelPlacement();
+                return;
+            }
+
             CancelPlacement();
             if (unit == null || !unit.IsUnlocked || StaffCooldowns.IsCoolingDown(unit.UnlockId) || unit.UnitPrefab == null ||
                 FindObjectsByType<DeployedUnit>(FindObjectsSortMode.None).Length >= maximumDeployedUnits)
                 return;
 
             selectedUnit = unit;
+            PlacingChanged?.Invoke(selectedUnit);
         }
 
         public void CancelPlacement()
@@ -98,10 +116,13 @@ namespace DamasDenis.Deployment
             if (preview != null)
                 Destroy(preview);
 
+            bool wasPlacing = selectedUnit != null;
             preview = null;
             selectedUnit = null;
             pendingCell = null;
             pendingFacing = Vector2Int.up;
+
+            if (wasPlacing) PlacingChanged?.Invoke(null);
         }
 
         private void HandleCellSelection()
@@ -149,9 +170,8 @@ namespace DamasDenis.Deployment
             lastMouseScreenPos = Input.mousePosition;
             preview = Instantiate(selectedUnit.UnitPrefab, cell.SurfacePoint, Quaternion.identity, unitContainer);
             SetPreviewState(preview, true);
-            AttachFacingIndicator();
+            // AttachFacingIndicator();
             UpdatePreviewRotation();
-            RefreshRangePreview();
 
             if (!selectedUnit.CanFace)
                 ConfirmPlacement();
@@ -174,7 +194,6 @@ namespace DamasDenis.Deployment
             {
                 pendingFacing = requested;
                 UpdatePreviewRotation();
-                RefreshRangePreview();
             }
 
             if (Input.GetMouseButtonDown(0) && !IsPointerOverUi())
@@ -212,14 +231,14 @@ namespace DamasDenis.Deployment
                 : Vector2Int.down;
         }
 
-        private void AttachFacingIndicator()
-        {
-            if (facingIndicatorPrefab == null || preview == null || !selectedUnit.CanFace)
-                return;
+        // private void AttachFacingIndicator()
+        // {
+        //     if (facingIndicatorPrefab == null || preview == null || !selectedUnit.CanFace)
+        //         return;
 
-            // Parented to the preview, so it rotates with it. Local offset comes from the prefab.
-            Instantiate(facingIndicatorPrefab, preview.transform);
-        }
+        //     // Parented to the preview, so it rotates with it. Local offset comes from the prefab.
+        //     Instantiate(facingIndicatorPrefab, preview.transform);
+        // }
 
         private void SetPreviewState(GameObject root, bool isPreview)
         {
@@ -236,40 +255,12 @@ namespace DamasDenis.Deployment
             if (!isPreview)
                 return;
 
-            foreach (SpriteRenderer sr in
-                    root.GetComponentsInChildren<SpriteRenderer>())
+            foreach (SpriteRenderer sr in root.GetComponentsInChildren<SpriteRenderer>())
             {
                 Color color = sr.color;
                 color.a = previewAlpha;
                 sr.color = color;
             }
-        }
-
-        private void RefreshRangePreview()
-        {
-            int used = 0;
-            AttackRangePattern pattern = selectedUnit != null ? selectedUnit.RangePattern : null;
-
-            if (pattern != null && pendingCell != null && rangeTilePrefab != null)
-            {
-                Vector2Int facing = selectedUnit.CanFace ? pendingFacing : Vector2Int.up;
-                pattern.GetCoordinates(pendingCell.Coordinates, facing, rangeCoords);
-
-                for (int i = 0; i < rangeCoords.Count; i++)
-                {
-                    if (!BoardGrid.TryGetCell(rangeCoords[i], out MapCell cell)) continue;
-
-                    if (used == rangeTiles.Count)
-                        rangeTiles.Add(Instantiate(rangeTilePrefab, transform));
-
-                    GameObject tile = rangeTiles[used++];
-                    tile.transform.position = cell.SurfacePoint + Vector3.up * 0.02f; // lifted to avoid z-fighting
-                    tile.SetActive(true);
-                }
-            }
-
-            for (int i = used; i < rangeTiles.Count; i++)
-                rangeTiles[i].SetActive(false);
         }
 
         private void ConfirmPlacement()
@@ -298,6 +289,7 @@ namespace DamasDenis.Deployment
             selectedUnit = null;
             pendingCell = null;
             preview = null;
+            PlacingChanged?.Invoke(null);
         }
 
         private MapCell GetCellUnderCursor()

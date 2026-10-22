@@ -36,7 +36,7 @@ namespace DamasDenis.Enemies
 
         private EnemyPath path;
         private int nextIndex;
-        private bool isMoving = true;
+        // private bool isMoving = true;
         private bool canMove;
         private StaffBlocker blockedBy;
         private float attackTimer;

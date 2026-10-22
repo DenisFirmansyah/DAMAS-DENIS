@@ -8,6 +8,7 @@ namespace DamasDenis.Deployment
         public MapCell Cell { get; private set; }
         public UnitDeploymentData Data { get; private set; }
         public Vector2Int Facing { get; private set; }
+        public Vector2Int EffectiveFacing => (Data != null && !Data.CanFace) ? Vector2Int.up : Facing;
 
         public void Initialize(MapCell cell, UnitDeploymentData data, Vector2Int facing)
         {

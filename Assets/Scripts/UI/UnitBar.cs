@@ -87,11 +87,7 @@ namespace DamasDenis.UI
             }
         }
 
-        private void OnSlotSelected(UnitDeploymentData unit)
-        {
-            SelectedUnit = unit;      // highlights the card
-            UnitChosen?.Invoke(unit); // tells whoever is listening (the manager)
-        }
+        private void OnSlotSelected(UnitDeploymentData unit) => UnitChosen?.Invoke(unit);
 
         /// <summary>
         /// Get units available for deployment in the current stage.

@@ -30,6 +30,8 @@ namespace DamasDenis.UI
 
         [SerializeField] private DeploymentController deploymentController;
 
+        private bool initialized;
+
         private void Awake()
         {
             // Auto-find references
@@ -45,6 +47,9 @@ namespace DamasDenis.UI
         /// </summary>
         public void Initialize()
         {
+            if (initialized) return;
+            initialized = true;
+
             if (unitBar == null)
             {
                 Debug.LogError("UnitBar not found. Assign it in Inspector.");
@@ -73,6 +78,11 @@ namespace DamasDenis.UI
 
             onUnitBarReady?.Invoke();
             Debug.Log("Unit Bar Manager initialized.");
+
+            if (deploymentController == null)
+                Debug.LogError("[UnitBarManager] Deployment Controller is not assigned: unit cards can't start placement.", this);
+            else
+                deploymentController.PlacingChanged += OnPlacingChanged;
         }
 
         private void OnStageResourcesChanged(int gold)
@@ -80,6 +90,9 @@ namespace DamasDenis.UI
             UpdateGold(gold);
             unitBar.UpdateAffordability(gold);
         }
+
+        private void OnPlacingChanged(UnitDeploymentData unit) => unitBar.SelectedUnit = unit;
+
 
         private void OnUnitChosen(UnitDeploymentData unit)
         {
@@ -127,6 +140,7 @@ namespace DamasDenis.UI
             if (unitBar != null) unitBar.UnitChosen -= OnUnitChosen;
             if (playerState != null) playerState.OnResearchCreditsChanged -= UpdateResearchCredits;
             if (stageState != null) stageState.OnStageResourceChanged -= OnStageResourcesChanged;
+            if (deploymentController != null) deploymentController.PlacingChanged -= OnPlacingChanged;
         }
     }
 }

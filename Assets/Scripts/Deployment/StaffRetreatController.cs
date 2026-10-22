@@ -1,16 +1,14 @@
+using System;
 using System.Collections;
 using DamasDenis.Stage;
 using UnityEngine;
 
 namespace DamasDenis.Deployment
 {
-    public enum MedicRequirement
-    {
-        Never,
-        Always,
-        OnlyBelowHealthThreshold
-    }
-
+    /// <summary>
+    /// Carries out one unit's medevac: a timed extraction, then refund, redeploy cooldown and
+    /// removal. Started only by Medevac, which owns charges and capacity.
+    /// </summary>
     public sealed class StaffRetreatController : MonoBehaviour
     {
         [Header("Processing")]
@@ -19,71 +17,58 @@ namespace DamasDenis.Deployment
         [Range(0f, 1f)] [SerializeField] private float resourceRefundFraction = 0.5f;
         [Min(0f)] [SerializeField] private float cooldownSeconds = 8f;
 
-        [Header("Medic requirement")]
-        [SerializeField] private MedicRequirement medicRequirement = MedicRequirement.OnlyBelowHealthThreshold;
-        [Range(0f, 1f)] [SerializeField] private float healthThreshold = 0.1f;
-        [Min(0)] [SerializeField] private int medicRangeTiles = 2;
-
         private DeployedUnit deployedUnit;
-        private StaffVitality vitality;
-        private StaffCombat combat;
-        private bool processing;
+        private Action onEnded;
 
-        private void Awake()
-        {
-            vitality = GetComponent<StaffVitality>();
-            combat = GetComponent<StaffCombat>();
-        }
+        /// <summary>True while the extraction countdown runs.</summary>
+        public bool IsProcessing { get; private set; }
+        /// <summary>0 to 1 progress of the extraction, for a UI bar.</summary>
+        public float Progress01 { get; private set; }
 
-        public bool TryBeginRetreat()
-        {
-            // DeployedUnit may be added after Instantiate (see DeploymentController.ConfirmPlacement),
-            // so resolve it here instead of in Awake.
-            if (deployedUnit == null) deployedUnit = GetComponent<DeployedUnit>();
-            if (processing || deployedUnit == null || deployedUnit.Data == null || !MedicRequirementMet())
-                return false;
-
-            StartCoroutine(ProcessRetreat());
-            return true;
-        }
-
-        private bool MedicRequirementMet()
-        {
-            bool needsMedic = medicRequirement == MedicRequirement.Always ||
-                              (medicRequirement == MedicRequirement.OnlyBelowHealthThreshold && HealthFraction <= healthThreshold);
-            if (!needsMedic) return true;
-
-            foreach (DeployedUnit candidate in FindObjectsByType<DeployedUnit>(FindObjectsSortMode.None))
-            {
-                Vector2Int a = deployedUnit.Cell.Coordinates, b = candidate.Cell.Coordinates;
-                int tiles = Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
-                if (tiles <= medicRangeTiles) return true;
-            }
-            return false;
-        }
-
-        private float HealthFraction
+        internal bool IsDeployed
         {
             get
             {
-                if (vitality != null) return vitality.HealthFraction;
-                return combat == null ? 1f : combat.HealthFraction;
+                // DeployedUnit may be added after Instantiate, so resolve it lazily.
+                if (deployedUnit == null) deployedUnit = GetComponent<DeployedUnit>();
+                return deployedUnit != null && deployedUnit.Data != null && deployedUnit.Cell != null;
             }
         }
 
-        private IEnumerator ProcessRetreat()
+        /// <summary>Starts the extraction. Only Medevac calls this, after it has spent a charge.</summary>
+        internal void Begin(Action ended)
         {
-            processing = true;
-            float duration = baseProcessingSeconds + deployedUnit.Data.DeploymentCost * secondsPerDeploymentCost;
-            yield return new WaitForSeconds(duration);
+            onEnded = ended;
+            IsProcessing = true;
+            StageEventLog.Record("medevac_started", deployedUnit.Data.DisplayName);
+            StartCoroutine(Process());
+        }
+
+        private IEnumerator Process()
+        {
+            UnitDeploymentData data = deployedUnit.Data;
+            float duration = baseProcessingSeconds + data.DeploymentCost * secondsPerDeploymentCost;
+
+            float elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                Progress01 = Mathf.Clamp01(elapsed / duration);
+                yield return null;
+            }
+            Progress01 = 1f;
 
             StageState stageState = StageState.Instance;
             if (stageState != null)
-                stageState.AddStageResources(Mathf.RoundToInt(deployedUnit.Data.DeploymentCost * resourceRefundFraction));
+                stageState.AddStageResources(Mathf.RoundToInt(data.DeploymentCost * resourceRefundFraction));
 
-            StaffCooldowns.StartCooldown(deployedUnit.Data.UnlockId, cooldownSeconds);
-            StageEventLog.Record("staff_retreated", deployedUnit.Data.DisplayName);
+            StaffCooldowns.StartCooldown(data.UnlockId, cooldownSeconds);
+            StageEventLog.Record("staff_retreated", data.DisplayName);
             Destroy(gameObject);
         }
+
+        // Runs on completion AND when the unit dies mid-process (a coroutine stops silently
+        // with its object), so the medevac slot is always freed.
+        private void OnDestroy() => onEnded?.Invoke();
     }
 }
