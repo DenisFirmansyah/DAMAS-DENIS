@@ -42,6 +42,12 @@ namespace DamasDenis.Enemies
         private float attackTimer;
 
         public bool IsDead { get; private set; }
+
+        public void Initialize(EnemyPath route)
+        {
+            path = route;
+        }
+
         public float RouteProgress
         {
             get
@@ -57,6 +63,9 @@ namespace DamasDenis.Enemies
                 return from + Mathf.Clamp01(FlatDistance(transform.position, b) / segment);
             }
         }
+
+        /// <summary>Waypoints left before the base. Smaller means more dangerous. Comparable across different routes.</summary>
+        public float RemainingSteps => path == null ? float.MaxValue : (path.PointCount - 1) - RouteProgress;
 
         public MapCell CurrentCell
         {
@@ -84,7 +93,6 @@ namespace DamasDenis.Enemies
                 return;
             }
 
-            path = EnemyPath.Instance;
             if (path == null || path.PointCount < 2)
             {
                 Debug.LogError($"{name}: the scene needs an EnemyPath with at least 2 points.", this);

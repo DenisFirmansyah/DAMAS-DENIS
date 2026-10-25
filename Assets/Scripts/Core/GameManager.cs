@@ -48,9 +48,40 @@ public sealed class GameManager : MonoBehaviour
             Instance = null;
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     public void LoadMainMenu() => LoadSingleScene(MainMenuScene, GameState.MainMenu);
     public void LoadLobby() => LoadSingleScene(LobbyScene, GameState.Lobby);
     public void LoadReview() => LoadSingleScene(ReviewScene, GameState.Review);
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (AudioManager.Instance == null)
+            return;
+
+        switch (scene.name)
+        {
+            case "MainMenu":
+                AudioManager.Instance.PlayMainMenuMusic();
+                break;
+
+            case "Gameplay":
+                AudioManager.Instance.PlayGameplayMusic();
+                break;
+
+            case "Roaming":
+                AudioManager.Instance.PlayRoamingMusic();
+                break;
+        }
+    }
 
     private void LoadSingleScene(string sceneName, GameState nextState)
     {

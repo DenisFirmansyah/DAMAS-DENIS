@@ -20,6 +20,6 @@ MonoBehaviour:
   enemyPrefab: {fileID: 8911043885071947908, guid: a1919c3613b66466fa5eb11fac056b89, type: 3}
   maxHealth: 10
   damage: 20
-  speed: 0.2
+  speed: 0.6
   reward: 0
   type: 0

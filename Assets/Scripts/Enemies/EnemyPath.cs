@@ -10,8 +10,6 @@ namespace DamasDenis.Enemies
     /// </summary>
     public class EnemyPath : MonoBehaviour
     {
-        public static EnemyPath Instance { get; private set; }
-        public static EnemyPath main => Instance;
 
         [Header("Editor Validation")]
         [Tooltip("Scene view draws a route segment red when two consecutive points are farther apart than this (world units).")]
@@ -63,31 +61,6 @@ namespace DamasDenis.Enemies
             }
         }
 
-        public Waypoint StartWaypoint
-        {
-            get
-            {
-                if (startPoint != null)
-                {
-                    Waypoint wp = startPoint.GetComponent<Waypoint>();
-                    if (wp != null) return wp;
-                }
-
-                if (path != null && path.Length > 0 && path[0] != null)
-                {
-                    Waypoint wp = path[0].GetComponent<Waypoint>();
-                    if (wp != null) return wp;
-                }
-
-                return null;
-            }
-        }
-
-        private void Awake()
-        {
-            Instance = this;
-        }
-
         private void OnDrawGizmos()
         {
             if (path == null) return;
@@ -112,12 +85,6 @@ namespace DamasDenis.Enemies
                     Gizmos.DrawLine(path[i].position, path[i + 1].position);
                 }
             }
-        }
-
-        private void OnDestroy()
-        {
-            if (Instance == this)
-                Instance = null;
         }
     }
 }

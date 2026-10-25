@@ -114,7 +114,7 @@ namespace DamasDenis.Deployment
             if (covered.Count == 0) return null;
 
             EnemyInstance best = null;
-            float bestProgress = float.MinValue;
+            float bestRemaining = float.MinValue;
 
             IReadOnlyList<EnemyInstance> enemies = EnemyInstance.Active;
             for (int i = 0; i < enemies.Count; i++)
@@ -125,10 +125,10 @@ namespace DamasDenis.Deployment
                 MapCell enemyCell = enemy.CurrentCell;
                 if (enemyCell == null || !ContainsCell(covered, enemyCell)) continue;
 
-                float progress = enemy.RouteProgress;
-                if (progress > bestProgress)
+                float remaining = enemy.RemainingSteps;
+                if (remaining < bestRemaining)
                 {
-                    bestProgress = progress;
+                    bestRemaining = remaining;
                     best = enemy;
                 }
             }

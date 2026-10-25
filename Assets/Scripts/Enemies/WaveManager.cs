@@ -9,13 +9,14 @@ namespace DamasDenis.Enemies
         [System.Serializable]
         public class WaveSegment {
             [Tooltip("Must be the prefab containing the EnemyInstance script")]
-            public GameObject enemyPrefab; 
+            public GameObject enemyPrefab;
+            [Tooltip("The route (and spawn point) this group uses.")]
+            public EnemyPath enemyPath;
             public int count;
             public float spawnDelay;
             public bool waitForClear; 
         }
 
-        [Tooltip("Parent for spawned enemies. Created automatically if left empty.")]
         [SerializeField] private Transform enemyContainer;
 
         public List<WaveSegment> waves; 
@@ -25,14 +26,15 @@ namespace DamasDenis.Enemies
         private bool stopped;
         public System.Action OnWavesCompleted;
 
-        void Awake()
+        public Transform EnemyContainer
         {
-            if (enemyContainer == null)
-            {
-                GameObject go = new GameObject("Enemy Container");
-                go.transform.SetParent(transform, false);
-                enemyContainer = go.transform;
-            }
+            get => enemyContainer;
+            set => enemyContainer = value;
+        }
+
+        public void SetEnemyContainer(Transform container)
+        {
+            enemyContainer = container;
         }
 
         void Start() {
@@ -52,13 +54,19 @@ namespace DamasDenis.Enemies
 
         IEnumerator SpawnWaveRoutine() {
             foreach (WaveSegment segment in waves) {
+                if (segment.enemyPath == null)
+                {
+                    Debug.LogError("WaveManager: a wave segment has no Enemy Path and was skipped.", this);
+                    continue;
+                }
                 if (stopped) yield break;
                 
                 for (int i = 0; i < segment.count; i++) {
                     if (stopped) yield break;
-                    Vector3 startPos = EnemyPath.Instance != null ? EnemyPath.Instance.SpawnPosition : Vector3.zero;
                     
-                    GameObject enemy = Instantiate(segment.enemyPrefab, startPos, Quaternion.identity, enemyContainer);
+                    GameObject enemy = Instantiate(segment.enemyPrefab, segment.enemyPath.SpawnPosition, Quaternion.identity, enemyContainer);
+                    EnemyInstance instance = enemy.GetComponent<EnemyInstance>();
+                    if (instance != null) instance.Initialize(segment.enemyPath);
                     activeEnemies.Add(enemy);
                     
                     yield return new WaitForSeconds(segment.spawnDelay);

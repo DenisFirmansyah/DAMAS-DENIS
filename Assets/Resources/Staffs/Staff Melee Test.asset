@@ -22,10 +22,10 @@ MonoBehaviour:
   canFace: 1
   isMedic: 0
   attackType: 0
-  damage: 10
+  damage: 0
   rangePattern: {fileID: 11400000, guid: dae31cf758863feebb143fa0d6d16b85, type: 2}
   blockCount: 1
   attackSpeed: 1
   projectileSpeed: 0
   projectilePrefab: {fileID: 0}
-  maxHealth: 100
+  maxHealth: 500

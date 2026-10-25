@@ -209,9 +209,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicSource: {fileID: 2023260191}
+  mainMenuMusic: {fileID: 8300000, guid: 64788075ed7aaf8bcb3e74a145750a5b, type: 3}
+  gameplayMusic: {fileID: 8300000, guid: 64788075ed7aaf8bcb3e74a145750a5b, type: 3}
+  roamingMusic: {fileID: 8300000, guid: 64788075ed7aaf8bcb3e74a145750a5b, type: 3}
   sfxSource: {fileID: 1133284935}
-  mainMenuMusic: {fileID: 0}
-  matchMusic: {fileID: 0}
 --- !u!4 &745919266
 Transform:
   m_ObjectHideFlags: 0
@@ -403,7 +404,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

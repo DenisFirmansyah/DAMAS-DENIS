@@ -1,5 +1,4 @@
 using UnityEngine;
-using DamasDenis.Enemies;
 
 namespace DamasDenis.Stage
 {
@@ -17,13 +16,10 @@ namespace DamasDenis.Stage
         [Header("Stage Hierarchy References")]
         [Tooltip("Parent transform where units deployed during this stage are instantiated")]
         [SerializeField] private Transform unitContainer;
-
-        [Tooltip("The enemy navigation route configured for this stage map")]
-        [SerializeField] private EnemyPath enemyPath;
+        [SerializeField] private Transform enemyContainer;
 
         public StageDefinition StageDefinition => stageDefinition;
         public Transform UnitContainer => unitContainer;
-        public EnemyPath EnemyPath => enemyPath;
 
         private void Awake()
         {
@@ -55,6 +51,27 @@ namespace DamasDenis.Stage
 
             unitContainer = found;
             return unitContainer;
+        }
+
+        /// <summary>
+        /// Ensures a valid enemy container transform exists in the stage scene.
+        /// </summary>
+        public Transform GetOrCreateEnemyContainer()
+        {
+            if (enemyContainer != null)
+                return enemyContainer;
+
+            // Search for an existing container in the scene
+            Transform found = transform.Find("Enemy Container");
+            if (found == null)
+            {
+                GameObject newContainer = new GameObject("Enemy Container");
+                newContainer.transform.SetParent(transform, false);
+                found = newContainer.transform;
+            }
+
+            enemyContainer = found;
+            return enemyContainer;
         }
     }
 }

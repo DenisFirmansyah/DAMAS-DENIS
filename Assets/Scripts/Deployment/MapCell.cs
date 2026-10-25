@@ -14,7 +14,6 @@ namespace DamasDenis.Deployment
     [DisallowMultipleComponent]
     public sealed class MapCell : MonoBehaviour
     {
-        [SerializeField] private Vector2Int coordinates;
         [SerializeField] private CellTerrain terrain = CellTerrain.Ground;
         [SerializeField] private bool allowDeployment = true;
         private Collider surfaceCollider;
@@ -27,7 +26,7 @@ namespace DamasDenis.Deployment
         }
         private void OnDisable() => BoardGrid.Unregister(this, registeredKey);
 
-        public Vector2Int Coordinates { get { return coordinates; } }
+        public Vector2Int Coordinates => BoardGrid.WorldToCoordinates(transform.position);
         public CellTerrain Terrain { get { return terrain; } }
         public bool AllowDeployment { get { return allowDeployment; } }
         public DeployedUnit Occupant { get; private set; }
@@ -37,6 +36,11 @@ namespace DamasDenis.Deployment
         {
             if (terrain == CellTerrain.Blocked || terrain == CellTerrain.Route)
                 allowDeployment = false;
+
+            Vector3 p = transform.position;
+            Vector3 snapped = BoardGrid.CoordinatesToWorld(BoardGrid.WorldToCoordinates(p), p.y);
+            if ((snapped - p).sqrMagnitude > 0.0001f)
+                Debug.LogWarning($"{name}: tile is off the grid (position {p}). It will register at {BoardGrid.WorldToCoordinates(p)}.", this);
         }
 
         public bool CanHost(UnitDeploymentData unit)
