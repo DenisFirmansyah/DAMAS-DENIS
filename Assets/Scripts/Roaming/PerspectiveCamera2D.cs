@@ -2,15 +2,9 @@ using UnityEngine;
 
 namespace DamasDenis.Roaming
 {
-    /// <summary>
-    /// Orthographic camera with an oblique (sheared) projection, plus a smooth follow.
-    /// Heights in the 3D map are pushed sideways/upwards on screen, which gives the
-    /// "2D game with depth" look while keeping sprites pixel-sharp.
-    /// Runs in the editor too, so the angle sliders update the Game view live.
-    /// </summary>
     [ExecuteAlways]
     [RequireComponent(typeof(Camera))]
-    public sealed class ObliqueCamera2D : MonoBehaviour
+    public sealed class PerspectiveCamera2D : MonoBehaviour
     {
 
         [Header("Follow")]

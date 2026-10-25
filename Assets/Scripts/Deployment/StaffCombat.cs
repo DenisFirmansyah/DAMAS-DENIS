@@ -106,15 +106,11 @@ namespace DamasDenis.Deployment
         /// <summary>The enemy furthest along the route among those on covered tiles, or null.</summary>
         public EnemyInstance FindTarget()
         {
-            if (blocker == null) blocker = GetComponent<StaffBlocker>();
-            EnemyInstance held = blocker != null ? blocker.FirstBlocked : null;
-            if (held != null && !held.IsDead) return held;
-
             IReadOnlyList<MapCell> covered = GetCoveredCells();
             if (covered.Count == 0) return null;
 
             EnemyInstance best = null;
-            float bestRemaining = float.MinValue;
+            float bestRemaining = float.MaxValue;
 
             IReadOnlyList<EnemyInstance> enemies = EnemyInstance.Active;
             for (int i = 0; i < enemies.Count; i++)

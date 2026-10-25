@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 207040cddf9de6dc59a19a527ed9a869, type: 3}
   m_Name: Stage 2
   m_EditorClassIdentifier: 
-  stageId: stage_02
-  sceneName: stage 2
+  stageId: template_stage
+  sceneName: Template Stage
   isOptionalStage: 0
   survivalSeconds: 600
   baseHealth: 100
