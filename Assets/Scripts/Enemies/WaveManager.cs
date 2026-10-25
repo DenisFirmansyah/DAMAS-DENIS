@@ -15,12 +15,25 @@ namespace DamasDenis.Enemies
             public bool waitForClear; 
         }
 
+        [Tooltip("Parent for spawned enemies. Created automatically if left empty.")]
+        [SerializeField] private Transform enemyContainer;
+
         public List<WaveSegment> waves; 
         public bool autoStart = true;
         private List<GameObject> activeEnemies = new List<GameObject>();
         private bool hasStarted;
         private bool stopped;
         public System.Action OnWavesCompleted;
+
+        void Awake()
+        {
+            if (enemyContainer == null)
+            {
+                GameObject go = new GameObject("Enemy Container");
+                go.transform.SetParent(transform, false);
+                enemyContainer = go.transform;
+            }
+        }
 
         void Start() {
             if (autoStart) BeginWaves();
@@ -45,7 +58,7 @@ namespace DamasDenis.Enemies
                     if (stopped) yield break;
                     Vector3 startPos = EnemyPath.Instance != null ? EnemyPath.Instance.SpawnPosition : Vector3.zero;
                     
-                    GameObject enemy = Instantiate(segment.enemyPrefab, startPos, Quaternion.identity);
+                    GameObject enemy = Instantiate(segment.enemyPrefab, startPos, Quaternion.identity, enemyContainer);
                     activeEnemies.Add(enemy);
                     
                     yield return new WaitForSeconds(segment.spawnDelay);

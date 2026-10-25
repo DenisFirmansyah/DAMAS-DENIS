@@ -1,3 +1,4 @@
+using DamasDenis.Stage;
 using System;
 using UnityEngine;
 
@@ -30,6 +31,9 @@ namespace DamasDenis.Deployment
             currentHealth = Mathf.Max(0f, currentHealth - amount);
             if (IsDead)
             {
+                DeployedUnit du = GetComponent<DeployedUnit>();
+                string who = du != null && du.Data != null ? du.Data.DisplayName : gameObject.name;
+                StageEventLog.Record(StageEvents.StaffDied, who);
                 Died?.Invoke(this);
                 Destroy(gameObject);
             }

@@ -1,64 +1,60 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
-[RequireComponent(typeof(Camera))]
-public class ObliqueCamera2D : MonoBehaviour
+namespace DamasDenis.Roaming
 {
-    [Header("Pengaturan Sudut Perspektif 2D")]
-    [Range(-85f, 85f)] 
-    public float angle = -45.0f; // Sudut rebah kemiringan peta
-    
-    [Range(0.1f, 2f)]
-    public float zScale = 0.5f;  // Seberapa ekstrem efek distorsi perspektifnya
-
-    private Camera cam;
-
-    void OnEnable()
+    /// <summary>
+    /// Orthographic camera with an oblique (sheared) projection, plus a smooth follow.
+    /// Heights in the 3D map are pushed sideways/upwards on screen, which gives the
+    /// "2D game with depth" look while keeping sprites pixel-sharp.
+    /// Runs in the editor too, so the angle sliders update the Game view live.
+    /// </summary>
+    [ExecuteAlways]
+    [RequireComponent(typeof(Camera))]
+    public sealed class ObliqueCamera2D : MonoBehaviour
     {
-        cam = GetComponent<Camera>();
-        CalculateOblique();
-    }
 
-    void Update()
-    {
-        // Dipanggil setiap frame agar Anda bisa langsung melihat perubahannya saat menggeser slider
-        CalculateOblique();
-    }
+        [Header("Follow")]
+        [SerializeField] private Transform target;
+        [Tooltip("Camera position relative to the target, in world units.")]
+        [SerializeField] private Vector3 offset = new Vector3(0f, 10f, 0f);
+        [Tooltip("Seconds to catch up. 0 = locked to the target.")]
+        [Min(0f)] [SerializeField] private float smoothTime = 0.15f;
 
-    void OnDisable()
-    {
-        if (cam != null)
+        private Camera cam;
+        private Vector3 velocity;
+
+        /// <summary>The transform the camera follows. Can be swapped at runtime.</summary>
+        public Transform Target
         {
-            cam.ResetProjectionMatrix();
+            get => target;
+            set => target = value;
         }
-    }
 
-    void CalculateOblique()
-    {
-        if (cam == null) return;
+        private void OnEnable()
+        {
+            cam = GetComponent<Camera>();
+        }
 
-        // Paksa kamera ke Orthographic agar piksel tetap tajam
-        cam.orthographic = true;
+        private void OnDisable()
+        {
+            // Hand the projection back to Unity so other scenes' cameras aren't left sheared.
+            if (cam != null) cam.ResetProjectionMatrix();
+        }
 
-        float orthoHeight = cam.orthographicSize;
-        float orthoWidth = cam.aspect * orthoHeight;
+        private void LateUpdate()
+        {
+            // LateUpdate so we move after the character has moved this frame (no jitter).
+            if (Application.isPlaying) Follow();
+        }
 
-        // 1. Buat matriks Orthographic dasar secara manual
-        Matrix4x4 m = Matrix4x4.Ortho(
-            -orthoWidth, orthoWidth, 
-            -orthoHeight, orthoHeight, 
-            cam.nearClipPlane, 
-            cam.farClipPlane
-        );
+        private void Follow()
+        {
+            if (target == null) return;
 
-        // 2. Lakukan injeksi kemiringan sudut (Oblique Projection) pada koordinat Z matriks
-        float s = zScale / orthoHeight;
-        m[0, 2] = +s * Mathf.Sin(Mathf.Deg2Rad * -angle);
-        m[1, 2] = -s * Mathf.Cos(Mathf.Deg2Rad * -angle);
-
-        // 3. Terapkan matriks modifikasi penuh ke kamera
-        cam.projectionMatrix = m;
+            Vector3 desired = target.position + offset;
+            transform.position = smoothTime <= 0f
+                ? desired
+                : Vector3.SmoothDamp(transform.position, desired, ref velocity, smoothTime);
+        }
     }
 }

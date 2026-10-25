@@ -1890,6 +1890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a0b4dd4121513548acd2e350bec1cfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyContainer: {fileID: 0}
   waves:
   - enemyPrefab: {fileID: 4295493673846017260, guid: 488269686d5ee2184a4ff395ef81ecf2, type: 3}
     count: 1

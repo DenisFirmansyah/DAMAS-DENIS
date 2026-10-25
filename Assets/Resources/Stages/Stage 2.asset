@@ -15,10 +15,12 @@ MonoBehaviour:
   stageId: stage_02
   sceneName: stage 2
   isOptionalStage: 0
-  survivalSeconds: 120
+  survivalSeconds: 40
   baseHealth: 100
   startingResources: 20
   completionResources: 20
-  briefing: []
-  relocationDialogue: []
+  briefing:
+  - {fileID: 11400000, guid: 3154d24eb14cdde67a392b0f5574c376, type: 2}
+  relocationDialogue:
+  - {fileID: 11400000, guid: eaa157e764a56db47bf8af3d9395fef2, type: 2}
   unlockedStaff: {fileID: 0}

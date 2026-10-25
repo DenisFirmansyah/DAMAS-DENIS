@@ -32,6 +32,10 @@ namespace DamasDenis.Stage
 
         public StageDefinition CurrentStage => stage;
         public bool IsBattleActive => phase == StagePhase.Battle;
+        private bool wavesSpawned;
+
+        public event System.Action<StageRecord> StageFinished;
+        public float RemainingSeconds => phase == StagePhase.Battle && stage != null ? Mathf.Max(0f, stage.SurvivalSeconds - elapsedSeconds) : 0f;
 
         private void Awake()
         {
@@ -89,6 +93,8 @@ namespace DamasDenis.Stage
             {
                 if (waveManager != null) waveManager.StopWaves();
 
+                if (waveManager != null) waveManager.OnWavesCompleted -= HandleWavesCompleted;
+
                 waveManager = null;
                 phase = StagePhase.AwaitingStage;
                 currentStageScene = default;
@@ -140,6 +146,13 @@ namespace DamasDenis.Stage
             if (waveManager == null)
                 waveManager = FindWaveManagerInScene(stageScene);
 
+            wavesSpawned = false;
+            if (waveManager != null)
+            {
+                waveManager.OnWavesCompleted -= HandleWavesCompleted;
+                waveManager.OnWavesCompleted += HandleWavesCompleted;
+            }
+
             // 4. Initialize StageState for this stage
             if (stageState == null) stageState = StageState.Instance ?? FindObjectOfType<StageState>();
             if (stageState == null) stageState = gameObject.AddComponent<StageState>();
@@ -160,11 +173,22 @@ namespace DamasDenis.Stage
                 dialogueController.Play(stage.Briefing, BeginBattle);
         }
 
+        private void HandleWavesCompleted() { wavesSpawned = true; }
+
         private void Update()
         {
             if (phase != StagePhase.Battle) return;
 
             elapsedSeconds += Time.deltaTime;
+
+            // Early win first, so a clear on the same frame as the timer still counts as cleared.
+            if (wavesSpawned && EnemyInstance.Active.Count == 0)
+            {
+                StageEventLog.Record(StageEvents.AllEnemiesCleared, stage.StageId);
+                FinishStage(true);
+                return;
+            }
+
             if (elapsedSeconds >= stage.SurvivalSeconds)
                 FinishStage(true);
         }
@@ -190,6 +214,7 @@ namespace DamasDenis.Stage
 
             record.won = won;
             record.elapsedSeconds = elapsedSeconds;
+            if (won) EvaluateStars();
             StageEventLog.Record(won ? "stage_won" : "stage_lost", stage.StageId);
 
             if (won)
@@ -215,9 +240,18 @@ namespace DamasDenis.Stage
                 MarkComplete();
         }
 
+        private void EvaluateStars()
+        {
+            record.starTwoMet = stage.StarTwoObjective != null && stage.StarTwoObjective.IsMet(record);
+            record.starThreeMet = stage.StarThreeObjective != null && stage.StarThreeObjective.IsMet(record);
+            record.stars = 1 + (record.starTwoMet ? 1 : 0) + (record.starThreeMet ? 1 : 0);
+            StageEventLog.Record(StageEvents.StarsAwarded, record.stars.ToString());
+        }
+
         private void MarkComplete()
         {
             phase = StagePhase.Complete;
+            StageFinished?.Invoke(record);
         }
 
         private void HandleStageEvent(string eventType, string detail)

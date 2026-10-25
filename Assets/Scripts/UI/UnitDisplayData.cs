@@ -39,6 +39,7 @@ namespace DamasDenis.UI
             isUnlocked = unitData != null ? unitData.IsUnlocked : false;
             unlockId = unitData != null ? unitData.UnlockId : "";
             typeLabel = unitData != null ? unitData.AttackType.ToString() : "Unknown";
+            isOnCooldown = unitData != null && StaffCooldowns.IsCoolingDown(unitData.UnlockId);
 
             if (unitData != null)
             {

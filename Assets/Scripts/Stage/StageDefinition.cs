@@ -22,6 +22,10 @@ namespace DamasDenis.Stage
         [SerializeField] private DialogueData[] briefing;
         [SerializeField] private DialogueData[] relocationDialogue;
 
+        [Header("Star objectives (star 1 = completing the stage)")]
+        [SerializeField] private StageObjective starTwoObjective;
+        [SerializeField] private StageObjective starThreeObjective;
+
         [Header("Optional-stage reward")]
         [SerializeField] private UnitDeploymentData unlockedStaff;
 
@@ -31,11 +35,12 @@ namespace DamasDenis.Stage
         public float SurvivalSeconds { get { return survivalSeconds; } }
         public float BaseHealth { get { return baseHealth; } }
         public int StartingResources { get { return startingResources; } }
-        /// <summary>Persistent Research Credits awarded upon completing the stage, spent on unit upgrades.</summary>
         public int CompletionResources { get { return completionResources; } }
         public int CompletionResearchCredits { get { return completionResources; } }
         public DialogueData[] Briefing { get { return briefing; } }
         public DialogueData[] RelocationDialogue { get { return relocationDialogue; } }
+        public StageObjective StarTwoObjective { get { return starTwoObjective; } }
+        public StageObjective StarThreeObjective { get { return starThreeObjective; } }
         public UnitDeploymentData UnlockedStaff { get { return unlockedStaff; } }
     }
 }

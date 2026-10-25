@@ -53,6 +53,12 @@ namespace DamasDenis.Core
             }
         }
 
+        private void OnDestroy()
+        {
+            if (_instance == this)
+                _instance = null;
+        }
+
         private void LoadPersistentData()
         {
             researchCredits = PlayerPrefs.GetInt(PrefsResearchCreditsKey, 0);
@@ -167,6 +173,32 @@ namespace DamasDenis.Core
         {
             if (record != null)
                 StageRecordStore.Save(record);
+        }
+
+        /// <summary>Best star count earned on a stage across all attempts. 0 if never won.</summary>
+        public int GetBestStars(string stageId)
+        {
+            if (string.IsNullOrEmpty(stageId)) return 0;
+
+            int best = 0;
+            List<StageRecord> records = StageRecordStore.GetAll();
+            for (int i = 0; i < records.Count; i++)
+            {
+                if (records[i].stageId != stageId || !records[i].won) continue;
+
+                // Records saved before stars existed have stars = 0 but were still wins.
+                best = Mathf.Max(best, Mathf.Max(1, records[i].stars));
+            }
+            return best;
+        }
+
+        /// <summary>Total stars across the given stages. The lobby can use this for a total.</summary>
+        public int GetTotalStars(IReadOnlyList<StageDefinition> stages)
+        {
+            int total = 0;
+            for (int i = 0; i < stages.Count; i++)
+                if (stages[i] != null) total += GetBestStars(stages[i].StageId);
+            return total;
         }
 
         /// <summary>

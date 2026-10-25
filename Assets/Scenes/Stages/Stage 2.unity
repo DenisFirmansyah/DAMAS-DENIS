@@ -1183,7 +1183,7 @@ MonoBehaviour:
     count: 10
     spawnDelay: 1
     waitForClear: 0
-  autoStart: 1
+  autoStart: 0
 --- !u!4 &1154843668
 Transform:
   m_ObjectHideFlags: 0

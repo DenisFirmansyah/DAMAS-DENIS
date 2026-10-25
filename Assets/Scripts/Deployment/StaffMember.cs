@@ -21,7 +21,7 @@ namespace DamasDenis.Deployment
 
             StaffCombat combat = GetComponent<StaffCombat>();
             if (combat != null)
-                combat.ApplyStageUpgrade(upgrade.DamageMultiplier, upgrade.RangeMultiplier, upgrade.AttackRateMultiplier);
+                combat.ApplyStageUpgrade(upgrade.DamageMultiplier, upgrade.AttackRateMultiplier);
 
             UpgradeLevel++;
             StageEventLog.Record("staff_upgraded", Data.DisplayName + " level " + UpgradeLevel);

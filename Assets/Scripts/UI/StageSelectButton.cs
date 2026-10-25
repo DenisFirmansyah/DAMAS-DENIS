@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
+using DamasDenis.Stage;
 
-namespace DamasDenis.Stage
+namespace DamasDenis.UI
 {
     [RequireComponent(typeof(Button))]
     public sealed class StageSelectButton : MonoBehaviour
     {
-        [SerializeField] private StageSelectionController selectionController;
+        [SerializeField] private LobbyController selectionController;
         [SerializeField] private StageDefinition stage;
 
         private void Awake()

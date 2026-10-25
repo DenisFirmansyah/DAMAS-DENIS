@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Layer Menu")]
     public GameObject pauseMenu;
+    public GameObject gameOverMenu;
     
     private void Start()
     {
@@ -79,13 +80,19 @@ public class UIManager : MonoBehaviour
         pauseMenu.SetActive(false);
     }
 
-    public void RestartLevel() {
-        Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    public void Lose()
+    {
+        Time.timeScale = 0f;
+        gameOverMenu.SetActive(true);
     }
 
-    public void MainMenu() {
+    public void RestartLevel() {
+        Time.timeScale = 1;                       // a paused retry would otherwise start frozen
+        GameManager.Instance.ReloadStage();
+    }
+
+    public void MainMenu() {                      // consider renaming to ExitToLobby
         Time.timeScale = 1;
-        SceneManager.LoadScene(0);
+        GameManager.Instance.LoadLobby();         // use whatever your public method is called
     }
 }

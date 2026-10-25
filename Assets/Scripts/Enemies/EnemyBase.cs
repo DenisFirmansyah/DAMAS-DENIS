@@ -172,6 +172,7 @@ namespace DamasDenis.Enemies
             StageState stageState = StageState.Instance;
             if (stageState == null) stageState = FindObjectOfType<StageState>();
             if (stageState != null) stageState.TakeDamage(enemyData.damage);
+            StageEventLog.Record(StageEvents.EnemyLeaked, enemyData.enemyName);
             Destroy(gameObject);
         }
 
@@ -228,6 +229,7 @@ namespace DamasDenis.Enemies
             StageState stageState = StageState.Instance;
             if (stageState == null) stageState = FindObjectOfType<StageState>();
             if (stageState != null) stageState.AddStageResources(enemyData.reward);
+            StageEventLog.Record(StageEvents.EnemyKilled, enemyData.enemyName);
             Destroy(gameObject);
         }
     }

@@ -76,6 +76,17 @@ namespace DamasDenis.UI
             UpdateVisuals();
         }
 
+        private void Update()
+        {
+            if (displayData == null || displayData.unitData == null) return;
+
+            bool cooling = StaffCooldowns.IsCoolingDown(displayData.unlockId);
+            if (cooling == displayData.isOnCooldown) return;
+
+            displayData.isOnCooldown = cooling;
+            UpdateVisuals();
+        }
+
         private void UpdateVisuals()
         {
             if (displayData == null) return;

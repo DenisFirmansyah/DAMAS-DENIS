@@ -7,6 +7,8 @@ namespace DamasDenis.Deployment
     public static class StaffCooldowns
     {
         private static readonly Dictionary<string, float> EndTimes = new Dictionary<string, float>();
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void Reset() => EndTimes.Clear();
 
         public static bool IsCoolingDown(string staffId)
         {

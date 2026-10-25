@@ -170,7 +170,7 @@ namespace DamasDenis.Deployment
         /// Called by the upgrade system. Range is ignored on purpose: ranges are tile patterns,
         /// and range upgrades are out of scope for the prototype.
         /// </summary>
-        public void ApplyStageUpgrade(float dmg, float rng, float attackRate)
+        public void ApplyStageUpgrade(float dmg, float attackRate)
         {
             damageMultiplier *= dmg;
             attackRateMultiplier *= attackRate;

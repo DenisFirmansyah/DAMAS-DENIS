@@ -1,18 +1,17 @@
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+public sealed class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    [Header("Audio Sources")]
+    [Header("Music")]
     [SerializeField] private AudioSource musicSource;
-    [SerializeField] private AudioSource sfxSource;
-
-    [Header("Main Menu Music")]
     [SerializeField] private AudioClip mainMenuMusic;
+    [SerializeField] private AudioClip gameplayMusic;
+    [SerializeField] private AudioClip roamingMusic;
 
-    [Header("Match Music")]
-    [SerializeField] private AudioClip matchMusic;
+    [Header("SFX")]
+    [SerializeField] private AudioSource sfxSource;
 
     private void Awake()
     {
@@ -23,28 +22,24 @@ public class AudioManager : MonoBehaviour
         }
 
         Instance = this;
-
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
+    private void Start() => ApplySettings();
+
+    private void OnDestroy()
     {
-        // ApplySettings();
+        if (Instance == this)
+            Instance = null;
     }
 
-    public void PlayMainMenuMusic()
-    {
-        PlayMusic(mainMenuMusic);
-    }
-
-    public void PlayMatchMusic()
-    {
-        PlayMusic(matchMusic);
-    }
+    public void PlayMainMenuMusic() => PlayMusic(mainMenuMusic);
+    public void PlayGameplayMusic() => PlayMusic(gameplayMusic);
+    public void PlayRoamingMusic() => PlayMusic(roamingMusic);
 
     private void PlayMusic(AudioClip clip)
     {
-        if (clip == null)
+        if (clip == null || musicSource == null)
             return;
 
         if (musicSource.clip == clip && musicSource.isPlaying)
@@ -57,34 +52,32 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySFX(AudioClip clip)
     {
-        if (clip == null)
-            return;
-
-        sfxSource.PlayOneShot(clip);
+        if (clip != null && sfxSource != null)
+            sfxSource.PlayOneShot(clip);
     }
 
-    public void SetMasterVolume(float value)
-    {
-        AudioListener.volume = Mathf.Clamp01(value);
-    }
+    public void SetMasterVolume(float value) => AudioListener.volume = Mathf.Clamp01(value);
 
     public void SetMusicVolume(float value)
     {
-        musicSource.volume = Mathf.Clamp01(value);
+        if (musicSource != null)
+            musicSource.volume = Mathf.Clamp01(value);
     }
 
     public void SetSFXVolume(float value)
     {
-        sfxSource.volume = Mathf.Clamp01(value);
+        if (sfxSource != null)
+            sfxSource.volume = Mathf.Clamp01(value);
     }
 
-    // public void ApplySettings()
-    // {
-    //     if (GameSettings.Instance == null)
-    //         return;
+    public void ApplySettings()
+    {
+        GameSettings settings = GameSettings.Instance;
+        if (settings == null)
+            return;
 
-    //     SetMasterVolume(GameSettings.Instance.MasterVolume);
-    //     SetMusicVolume(GameSettings.Instance.MusicVolume);
-    //     SetSFXVolume(GameSettings.Instance.SFXVolume);
-    // }
+        SetMasterVolume(settings.MasterVolume);
+        SetMusicVolume(settings.MusicVolume);
+        SetSFXVolume(settings.SFXVolume);
+    }
 }
