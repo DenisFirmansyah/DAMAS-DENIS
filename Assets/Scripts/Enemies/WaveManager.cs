@@ -20,7 +20,7 @@ namespace DamasDenis.Enemies
         [SerializeField] private Transform enemyContainer;
 
         public List<WaveSegment> waves; 
-        public bool autoStart = true;
+        public bool autoStart = false;
         private List<GameObject> activeEnemies = new List<GameObject>();
         private bool hasStarted;
         private bool stopped;

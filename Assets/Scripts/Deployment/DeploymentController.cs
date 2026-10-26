@@ -65,7 +65,7 @@ namespace DamasDenis.Deployment
             if (!IsPlacing)
                 return;
 
-            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1))
             {
                 CancelPlacement();
                 return;

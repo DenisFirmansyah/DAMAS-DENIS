@@ -37,6 +37,7 @@ namespace DamasDenis.Deployment
         [SerializeField] private float projectileSpeed = 10f;
         [SerializeField] private GameObject projectilePrefab;
         [Min(1f)] [SerializeField] private float maxHealth = 100f;
+        [SerializeField] StaffUpgradeDefinition upgrade;
 
         public string DisplayName => displayName;
         public string UnlockId => unlockId;
@@ -55,6 +56,7 @@ namespace DamasDenis.Deployment
         public float ProjectileSpeed => projectileSpeed;
         public GameObject ProjectilePrefab => projectilePrefab;
         public float MaxHealth => maxHealth;
+        public StaffUpgradeDefinition Upgrade => upgrade;
 
         public bool CanDeployOn(CellTerrain terrain)
         {

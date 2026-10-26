@@ -51,6 +51,7 @@ public class DialogueController : MonoBehaviour
 
     public void Play(DialogueData[] dialogueLines, Action completed = null, bool pauseGameplay = true)
     {
+        GamePause.Release(PauseReason.Dialogue);
         if (typingCoroutine != null) StopCoroutine(typingCoroutine);
         StopAllCoroutines();
         lines = dialogueLines;
@@ -69,7 +70,7 @@ public class DialogueController : MonoBehaviour
 
     IEnumerator ShowPanelWithDelay() {
         // 1. Hentikan waktu game terlebih dahulu
-        if (pausesGameplay) Time.timeScale = 0;
+        if (pausesGameplay) GamePause.Hold(PauseReason.Dialogue);
 
         // 2. Tunggu selama beberapa saat (menggunakan Realtime)
         yield return new WaitForSecondsRealtime(panelAppearDelay);
@@ -96,8 +97,8 @@ public class DialogueController : MonoBehaviour
             typingCoroutine = StartCoroutine(Type());
         } else {
             dialoguePanel.SetActive(false);
-            if (pausesGameplay) Time.timeScale = 1;
             isPlaying = false;
+            if (pausesGameplay) GamePause.Release(PauseReason.Dialogue);
             Action completed = onDialogueFinished;
             onDialogueFinished = null;
             completed?.Invoke();

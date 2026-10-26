@@ -22,7 +22,6 @@ namespace DamasDenis.UI
         public StageDefinition CurrentStage => stageDirector != null ? stageDirector.CurrentStage : null;
 
         [Header("UI Text")]
-        public TextMeshProUGUI researchCreditsText;
         public TextMeshProUGUI goldText;
 
         [Header("Events")]
@@ -60,21 +59,12 @@ namespace DamasDenis.UI
             unitBar.LoadPlayerStaffSet();
             unitBar.UnitChosen += OnUnitChosen;
 
-            // Subscribe to resource changes
-            if (playerState != null)
-            {
-                playerState.OnResearchCreditsChanged += UpdateResearchCredits;
-            }
-
             // Subscribe to stage changes
             if (stageState != null)
             {
                 stageState.OnStageResourceChanged += OnStageResourcesChanged;
                 OnStageResourcesChanged(stageState.CurrentStageResources); // initial state
             }
-
-            // Initial resource update
-            unitBar.UpdateResources();
 
             onUnitBarReady?.Invoke();
             Debug.Log("Unit Bar Manager initialized.");
@@ -100,14 +90,6 @@ namespace DamasDenis.UI
                 deploymentController.BeginPlacement(unit);
         }
 
-        private void UpdateResearchCredits(int credits)
-        {
-            if (researchCreditsText != null)
-            {
-                researchCreditsText.text = credits.ToString();
-            }
-        }
-
         private void UpdateGold(int gold)
         {
             if (goldText != null)
@@ -124,7 +106,6 @@ namespace DamasDenis.UI
             if (unitBar != null)
             {
                 unitBar.LoadPlayerStaffSet();
-                unitBar.UpdateResources();
 
                 // Update stage state
                 if (stageState != null && CurrentStage != null)
@@ -138,7 +119,6 @@ namespace DamasDenis.UI
         private void OnDestroy()
         {
             if (unitBar != null) unitBar.UnitChosen -= OnUnitChosen;
-            if (playerState != null) playerState.OnResearchCreditsChanged -= UpdateResearchCredits;
             if (stageState != null) stageState.OnStageResourceChanged -= OnStageResourcesChanged;
             if (deploymentController != null) deploymentController.PlacingChanged -= OnPlacingChanged;
         }
