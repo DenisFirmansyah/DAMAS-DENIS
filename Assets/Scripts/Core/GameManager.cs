@@ -147,7 +147,7 @@ public sealed class GameManager : MonoBehaviour
     private IEnumerator LoadSingleRoutine(string sceneName, GameState nextState)
     {
         IsLoading = true;
-        Time.timeScale = 1f;
+        GamePause.ReleaseAll();
         CurrentStage = null;
         CurrentStageDefinition = null;
 
@@ -167,7 +167,7 @@ public sealed class GameManager : MonoBehaviour
     private IEnumerator StartGameplayRoutine(string stageScene)
     {
         IsLoading = true;
-        Time.timeScale = 1f;
+        GamePause.ReleaseAll();
 
         AsyncOperation gameplayLoad = SceneManager.LoadSceneAsync(GameplayScene, LoadSceneMode.Single);
         if (gameplayLoad == null)
@@ -189,7 +189,7 @@ public sealed class GameManager : MonoBehaviour
     private IEnumerator ReloadStageRoutine()
     {
         IsLoading = true;
-        Time.timeScale = 1f;
+        GamePause.ReleaseAll();
 
         string stageScene = CurrentStage;
         Scene stage = SceneManager.GetSceneByName(stageScene);

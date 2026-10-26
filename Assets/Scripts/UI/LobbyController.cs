@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using DamasDenis.Stage;
+using DamasDenis.Core;
+using TMPro;
 
 namespace DamasDenis.UI
 {
@@ -12,6 +14,11 @@ namespace DamasDenis.UI
         [SerializeField] private GameObject unitListScreen;
         [SerializeField] private GameObject upgradeUnitScreen;
         [SerializeField] private GameObject journalScreen;
+
+        [Header("HUD - Persistent")]
+        [SerializeField] private TextMeshProUGUI researchCreditsText;
+
+        private PlayerState subscribedPlayerState;
 
         public static LobbyController Instance { get; private set; }
 
@@ -38,6 +45,32 @@ namespace DamasDenis.UI
         public void UpgradeUnit() => ShowOnly(upgradeUnitScreen);
         public void Journal() => ShowOnly(journalScreen);
         public void Back() => ShowOnly(stageListScreen);
+
+        private void SubscribePlayerState()
+        {
+            PlayerState playerState = PlayerState.Instance;
+            if (playerState != null && subscribedPlayerState != playerState)
+            {
+                UnsubscribePlayerState();
+                subscribedPlayerState = playerState;
+                subscribedPlayerState.OnResearchCreditsChanged += UpdateResearchCreditsUI;
+            }
+        }
+
+        private void UnsubscribePlayerState()
+        {
+            if (subscribedPlayerState == null)
+                return;
+
+            subscribedPlayerState.OnResearchCreditsChanged -= UpdateResearchCreditsUI;
+            subscribedPlayerState = null;
+        }
+
+        private void UpdateResearchCreditsUI(int credits)
+        {
+            if (researchCreditsText != null)
+                researchCreditsText.text = credits.ToString();
+        }
 
         public void SelectStage(StageDefinition stage)
         {

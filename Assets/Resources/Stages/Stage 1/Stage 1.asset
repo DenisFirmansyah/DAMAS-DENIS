@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: Stage 1
   m_EditorClassIdentifier: 
   stageId: stage_01
-  sceneName: stage 1
+  sceneName: Stage 1
   isOptionalStage: 0
-  survivalSeconds: 120
+  survivalSeconds: 600
   baseHealth: 100
   startingResources: 20
-  completionResources: 20
+  completionResources: 10
   briefing: []
   relocationDialogue: []
+  starTwoObjective: {fileID: 11400000, guid: 200c5b6bfa66a33d78bcc35135ec0841, type: 2}
+  starThreeObjective: {fileID: 11400000, guid: b27040e3f83ec35aab56b5ff73f635f8, type: 2}
   unlockedStaff: {fileID: 0}

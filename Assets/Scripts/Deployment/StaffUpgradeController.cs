@@ -3,28 +3,27 @@ using UnityEngine;
 
 namespace DamasDenis.Deployment
 {
-    public sealed class StaffUpgradeController : MonoBehaviour
+    public static class StaffUpgradeStore
     {
-        [SerializeField] private PlayerState playerState;
+        private const string Prefix = "DamasDenis.StaffUpgrade.";
+        public static int GetLevel(string unlockId) => PlayerPrefs.GetInt(Prefix + unlockId, 0);
+        public static void SetLevel(string unlockId, int level) { PlayerPrefs.SetInt(Prefix + unlockId, level); PlayerPrefs.Save(); }
+    }
 
-        private void Awake()
+    // 2) Logic: plain class, no MonoBehaviour. The Lobby upgrade screen owns one.
+    public sealed class StaffUpgradeService
+    {
+        private readonly PlayerState player;
+        public StaffUpgradeService(PlayerState player) { this.player = player; }
+
+        public bool TryPurchase(StaffUpgradeDefinition def)
         {
-            if (playerState == null) playerState = PlayerState.Instance;
-        }
-
-        public bool TryUpgrade(StaffMember staff, StaffUpgradeDefinition upgrade)
-        {
-            if (playerState == null) playerState = PlayerState.Instance;
-
-            if (staff == null || upgrade == null || playerState == null ||
-                !playerState.TrySpendResearchCredits(upgrade.ResourceCost))
-                return false;
-
-            if (staff.TryApplyUpgrade(upgrade))
-                return true;
-
-            playerState.AddResearchCredits(upgrade.ResourceCost);
-            return false;
+            if (def == null || def.TargetStaff == null || player == null) return false;
+            string id = def.TargetStaff.UnlockId;
+            int level = StaffUpgradeStore.GetLevel(id);
+            if (level >= def.MaximumLevel || !player.TrySpendResearchCredits(def.ResourceCost)) return false;
+            StaffUpgradeStore.SetLevel(id, level + 1);
+            return true;
         }
     }
 }

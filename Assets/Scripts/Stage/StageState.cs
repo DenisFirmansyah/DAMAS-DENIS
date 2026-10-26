@@ -25,9 +25,6 @@ namespace DamasDenis.Stage
         [SerializeField] private int regenAmount = 1;
         private float regenTimer;
 
-        [Header("UI Feedback")]
-        [SerializeField] private GameObject gameOverMenu;
-
         public event System.Action<float> OnHealthChanged;
         public event System.Action<int> OnStageResourceChanged;
         public event System.Action OnBaseDefeated;
@@ -87,9 +84,6 @@ namespace DamasDenis.Stage
             currentStageResources = Mathf.Clamp(startingResources, 0, maxStageResources);
             regenTimer = 0f;
 
-            if (gameOverMenu != null)
-                gameOverMenu.SetActive(false);
-
             OnHealthChanged?.Invoke(currentHealth);
             OnStageResourceChanged?.Invoke(currentStageResources);
         }
@@ -142,9 +136,9 @@ namespace DamasDenis.Stage
 
         private void Die()
         {
-            Time.timeScale = 0f;
-            if (gameOverMenu != null)
-                gameOverMenu.SetActive(true);
+            // Time.timeScale = 0f;
+            // if (gameOverMenu != null)
+            //     gameOverMenu.SetActive(true);
         }
     }
 }

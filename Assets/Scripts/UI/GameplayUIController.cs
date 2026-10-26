@@ -3,27 +3,48 @@ using UnityEngine;
 using UnityEngine.UI;
 using DamasDenis.Core;
 using DamasDenis.Stage;
+using DamasDenis.Deployment;
 
 public sealed class GameplayUIController : UIScreen
 {
     [Header("HUD - Stage")]
-    [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private Image healthBarFill;
 
-    [Header("HUD - Persistent")]
-    [SerializeField] private TextMeshProUGUI researchCreditsText;
-
     [Header("Gameplay Screens")]
+    [SerializeField] private StageDirector stageDirector;
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject winMenu;
     [SerializeField] private GameObject gameOverMenu;
 
+    [SerializeField] private DeploymentController deploymentController;
+    
+
     private StageState subscribedStageState;
-    private PlayerState subscribedPlayerState;
     private bool isPaused;
     private bool isGameOver;
 
+    private void Start()
+    {
+        SubscribeToState();
+        RefreshAll();
+
+        if (stageDirector != null)
+        {
+            stageDirector.StageFinished -= OnStageFinished; 
+            stageDirector.StageFinished += OnStageFinished;
+        }
+    }
+
+       private void Update()
+    {
+        if (!Input.GetKeyDown(KeyCode.Escape) || isGameOver || GamePause.Has(PauseReason.Dialogue)) return;
+        if (deploymentController != null && deploymentController.IsPlacing) { deploymentController.CancelPlacement(); return; }
+        if (isPaused) ResumeGame(); else PauseGame();
+    }
+
     protected override void OnEnable()
     {
+        if (stageDirector != null) stageDirector.StageFinished -= OnStageFinished;
         base.OnEnable();
         SubscribeToState();
         RefreshAll();
@@ -37,9 +58,17 @@ public sealed class GameplayUIController : UIScreen
 
     private void OnDestroy()
     {
+        if (stageDirector != null) stageDirector.StageFinished -= OnStageFinished;
+
         UnsubscribeFromState();
-        if (Time.timeScale == 0f)
-            Time.timeScale = 1f;
+        if (GamePause.IsPaused)
+            GamePause.ReleaseAll();
+    }
+
+    private void OnStageFinished(StageRecord record)
+    {
+        if (record != null && record.won) ShowWin(record);
+        else Lose();
     }
 
     private void SubscribeToState()
@@ -47,67 +76,28 @@ public sealed class GameplayUIController : UIScreen
         StageState stageState = StageState.Instance;
         if (stageState != null && subscribedStageState != stageState)
         {
-            UnsubscribeStageState();
+            UnsubscribeFromState();
             subscribedStageState = stageState;
-            subscribedStageState.OnStageResourceChanged += UpdateGoldUI;
             subscribedStageState.OnHealthChanged += UpdateHealthUI;
-        }
-
-        PlayerState playerState = PlayerState.Instance;
-        if (playerState != null && subscribedPlayerState != playerState)
-        {
-            UnsubscribePlayerState();
-            subscribedPlayerState = playerState;
-            subscribedPlayerState.OnResearchCreditsChanged += UpdateResearchCreditsUI;
         }
     }
 
     private void UnsubscribeFromState()
     {
-        UnsubscribeStageState();
-        UnsubscribePlayerState();
-    }
-
-    private void UnsubscribeStageState()
-    {
         if (subscribedStageState == null)
             return;
 
-        subscribedStageState.OnStageResourceChanged -= UpdateGoldUI;
         subscribedStageState.OnHealthChanged -= UpdateHealthUI;
         subscribedStageState = null;
-    }
-
-    private void UnsubscribePlayerState()
-    {
-        if (subscribedPlayerState == null)
-            return;
-
-        subscribedPlayerState.OnResearchCreditsChanged -= UpdateResearchCreditsUI;
-        subscribedPlayerState = null;
     }
 
     private void RefreshAll()
     {
         if (subscribedStageState != null)
         {
-            UpdateGoldUI(subscribedStageState.CurrentStageResources);
             UpdateHealthUI(subscribedStageState.CurrentHealth);
         }
-
-        if (subscribedPlayerState != null)
-            UpdateResearchCreditsUI(subscribedPlayerState.ResearchCredits);
     }
-
-    private void UpdateGoldUI(int amount)
-    {
-        if (goldText == null)
-            return;
-
-        int max = subscribedStageState != null ? subscribedStageState.MaxStageResources : 100;
-        goldText.text = $"{amount}/{max}";
-    }
-
     private void UpdateHealthUI(float currentHealth)
     {
         if (healthBarFill == null)
@@ -120,19 +110,13 @@ public sealed class GameplayUIController : UIScreen
         healthBarFill.fillAmount = Mathf.Clamp01(currentHealth / max);
     }
 
-    private void UpdateResearchCreditsUI(int credits)
-    {
-        if (researchCreditsText != null)
-            researchCreditsText.text = credits.ToString();
-    }
-
     public void PauseGame()
     {
         if (isPaused || isGameOver)
             return;
 
         isPaused = true;
-        Time.timeScale = 0f;
+        GamePause.Hold(PauseReason.PauseMenu);
         if (pauseMenu != null)
             pauseMenu.SetActive(true);
     }
@@ -143,9 +127,16 @@ public sealed class GameplayUIController : UIScreen
             return;
 
         isPaused = false;
-        Time.timeScale = 1f;
+        GamePause.Release(PauseReason.PauseMenu);
         if (pauseMenu != null)
             pauseMenu.SetActive(false);
+    }
+
+    private void ShowWin(StageRecord record)
+    {
+        GamePause.Hold(PauseReason.GameOver);   // reuse the reason, or add PauseReason.Result
+        if (winMenu != null) winMenu.SetActive(true);
+        // later: show stars and objectives from the record (record.events, record.elapsedSeconds)
     }
 
     public void Lose()
@@ -155,7 +146,7 @@ public sealed class GameplayUIController : UIScreen
 
         isGameOver = true;
         isPaused = false;
-        Time.timeScale = 0f;
+        GamePause.Hold(PauseReason.GameOver);
 
         if (pauseMenu != null)
             pauseMenu.SetActive(false);
@@ -171,7 +162,7 @@ public sealed class GameplayUIController : UIScreen
             return;
         }
 
-        Time.timeScale = 1f;
+        GamePause.ReleaseAll();
         isPaused = false;
         isGameOver = false;
         GameManager.Instance.ReloadStage();
@@ -185,7 +176,7 @@ public sealed class GameplayUIController : UIScreen
             return;
         }
 
-        Time.timeScale = 1f;
+        GamePause.ReleaseAll();
         isPaused = false;
         isGameOver = false;
         GameManager.Instance.LoadLobby();

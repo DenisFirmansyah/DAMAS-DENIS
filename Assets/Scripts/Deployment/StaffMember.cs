@@ -12,20 +12,12 @@ namespace DamasDenis.Deployment
         public void Initialize(UnitDeploymentData data)
         {
             Data = data;
-        }
-
-        public bool TryApplyUpgrade(StaffUpgradeDefinition upgrade)
-        {
-            if (upgrade == null || Data != upgrade.TargetStaff || UpgradeLevel >= upgrade.MaximumLevel)
-                return false;
-
-            StaffCombat combat = GetComponent<StaffCombat>();
-            if (combat != null)
-                combat.ApplyStageUpgrade(upgrade.DamageMultiplier, upgrade.AttackRateMultiplier);
-
-            UpgradeLevel++;
-            StageEventLog.Record("staff_upgraded", Data.DisplayName + " level " + UpgradeLevel);
-            return true;
+            UpgradeLevel = StaffUpgradeStore.GetLevel(data.UnlockId);
+            StaffUpgradeDefinition up = data.Upgrade;
+            if (up != null && UpgradeLevel > 0)
+                GetComponent<StaffCombat>()?.ApplyStageUpgrade(
+                    Mathf.Pow(up.DamageMultiplier, UpgradeLevel),
+                    Mathf.Pow(up.AttackRateMultiplier, UpgradeLevel));
         }
     }
 }

@@ -25,8 +25,6 @@ namespace DamasDenis.UI
         public PlayerState playerState;
 
         [Header("UI Elements")]
-        public TextMeshProUGUI researchCreditsText;
-        public TextMeshProUGUI goldText;
         public GameObject emptyStateText;
 
         private List<UnitSlot> _activeSlots = new List<UnitSlot>();
@@ -116,13 +114,6 @@ namespace DamasDenis.UI
         /// <summary>
         /// Update UI with current player resources.
         /// </summary>
-        public void UpdateResources()
-        {
-            if (researchCreditsText != null && playerState != null)
-            {
-                researchCreditsText.text = playerState.ResearchCredits.ToString();
-            }
-        }
 
         public void UpdateAffordability(int currentResources)
         {

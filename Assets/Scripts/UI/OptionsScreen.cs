@@ -14,15 +14,13 @@ public sealed class OptionsScreen : UIScreen
 
     protected override void OnShowComplete() => Refresh();
 
-    private void Refresh()
-    {
-        GameSettings settings = GameSettings.Instance;
-        if (settings == null)
-            return;
-
-        if (masterSlider != null) masterSlider.SetValueWithoutNotify(settings.MasterVolume);
-        if (musicSlider != null) musicSlider.SetValueWithoutNotify(settings.MusicVolume);
-        if (sfxSlider != null) sfxSlider.SetValueWithoutNotify(settings.SFXVolume);
+    protected override void OnEnable() { base.OnEnable(); Refresh(); }
+    
+    private void Refresh() {
+        var s = GameSettings.Instance; if (s == null) return;
+        masterSlider.SetValueWithoutNotify(s.MasterVolume); masterTextSlider.text = Mathf.RoundToInt(s.MasterVolume*100).ToString();
+        musicSlider.SetValueWithoutNotify(s.MusicVolume); musicTextSlider.text = Mathf.RoundToInt(s.MusicVolume*100).ToString();
+        sfxSlider.SetValueWithoutNotify(s.SFXVolume); sfxTextSlider.text = Mathf.RoundToInt(s.SFXVolume*100).ToString();
     }
 
     public void SetMasterVolume(float value)
