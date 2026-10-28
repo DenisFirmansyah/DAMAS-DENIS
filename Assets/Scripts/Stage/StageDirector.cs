@@ -24,6 +24,7 @@ namespace DamasDenis.Stage
         [SerializeField] private WaveManager waveManager;
         [SerializeField] private DeploymentController deploymentController;
         [SerializeField] private DialogueController dialogueController;
+        [SerializeField] private StageCameraFramer cameraFramer;
 
         private StagePhase phase = StagePhase.AwaitingStage;
         private float elapsedSeconds;
@@ -141,6 +142,8 @@ namespace DamasDenis.Stage
             {
                 deploymentController.SetUnitContainer(stageUnitContainer);
             }
+
+            if (cameraFramer != null) cameraFramer.Frame();
 
             // 3. Resolve WaveManager in the stage scene
             if (waveManager == null)

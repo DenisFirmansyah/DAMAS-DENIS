@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7faafe78b5e4fe543929f37ca7809181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: c178e599d85f865b586ed70c1eca5698, type: 2}
+  enemyData: {fileID: 11400000, guid: adc12ecf6bfdb6b3194622137cebca70, type: 2}
   startDelay: 1
   blockReach: 0.45
   currentHealth: 0

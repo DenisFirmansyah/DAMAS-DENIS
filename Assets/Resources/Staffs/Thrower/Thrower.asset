@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 972f821c5ed931ee2b662af77714cc9e, type: 3}
+  m_Name: Thrower
+  m_EditorClassIdentifier: 
+  displayName: Thrower
+  unlockId: staff.thrower
+  unlockedByDefault: 1
+  unitPrefab: {fileID: 5702450014059770907, guid: b9e64ce035e8b84e79965ddd04088fda, type: 3}
+  deploymentCost: 10
+  deployOnGround: 1
+  deployOnElevated: 1
+  canFace: 1
+  isMedic: 0
+  attackType: 1
+  damage: 10
+  rangePattern: {fileID: 11400000, guid: 43690530c09ac051da343bcd3de29332, type: 2}
+  blockCount: 0
+  attackSpeed: 0.5
+  projectileSpeed: 10
+  projectilePrefab: {fileID: 0}
+  maxHealth: 15
+  upgrade: {fileID: 11400000, guid: f2a3cfba6e1281179867df11e6676a25, type: 2}

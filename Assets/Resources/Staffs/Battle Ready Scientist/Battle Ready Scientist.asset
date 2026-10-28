@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: Battle Ready Scientist
   unlockId: staff.battle_ready
   unlockedByDefault: 1
-  unitPrefab: {fileID: 0}
+  unitPrefab: {fileID: 5702450014059770907, guid: b9e64ce035e8b84e79965ddd04088fda, type: 3}
   deploymentCost: 20
   deployOnGround: 1
   deployOnElevated: 0
@@ -28,5 +28,5 @@ MonoBehaviour:
   attackSpeed: 1
   projectileSpeed: 10
   projectilePrefab: {fileID: 0}
-  maxHealth: 200
-  upgrade: {fileID: 0}
+  maxHealth: 100
+  upgrade: {fileID: 11400000, guid: a1edc856f078e8af8a80b516b352e755, type: 2}

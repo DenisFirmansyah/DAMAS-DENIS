@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: Melee Volunteer
   unlockId: staff.volunteer
   unlockedByDefault: 1
-  unitPrefab: {fileID: 0}
+  unitPrefab: {fileID: 5702450014059770907, guid: b9e64ce035e8b84e79965ddd04088fda, type: 3}
   deploymentCost: 5
   deployOnGround: 1
   deployOnElevated: 0
@@ -28,5 +28,5 @@ MonoBehaviour:
   attackSpeed: 1
   projectileSpeed: 10
   projectilePrefab: {fileID: 0}
-  maxHealth: 100
+  maxHealth: 20
   upgrade: {fileID: 11400000, guid: aea44fcc2d48d237d9d5fac9f1c7d41d, type: 2}

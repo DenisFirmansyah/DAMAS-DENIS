@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 207040cddf9de6dc59a19a527ed9a869, type: 3}
+  m_Name: Stage 2
+  m_EditorClassIdentifier: 
+  stageId: stage_02
+  sceneName: Stage 2
+  isOptionalStage: 0
+  survivalSeconds: 120
+  baseHealth: 100
+  startingResources: 20
+  completionResources: 20
+  briefing:
+  - {fileID: 11400000, guid: 3154d24eb14cdde67a392b0f5574c376, type: 2}
+  relocationDialogue:
+  - {fileID: 11400000, guid: eaa157e764a56db47bf8af3d9395fef2, type: 2}
+  starTwoObjective: {fileID: 11400000, guid: 200c5b6bfa66a33d78bcc35135ec0841, type: 2}
+  starThreeObjective: {fileID: 0}
+  unlockedStaff: {fileID: 0}

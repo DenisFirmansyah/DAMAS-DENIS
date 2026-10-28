@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 795c7bf06c553cb4abf89b19750dfc7c, type: 3}
   m_Name: Demolition
   m_EditorClassIdentifier: 
-  enemyName: 
+  enemyName: Demolition
   description: 
   canBeBlocked: 1
-  attackDamage: 5
-  attackInterval: 1
-  enemyPrefab: {fileID: 0}
-  maxHealth: 0
-  damage: 0
-  speed: 0
-  reward: 0
-  type: 0
+  attackDamage: 20
+  attackInterval: 0.5
+  enemyPrefab: {fileID: 5537864082338509712, guid: 2539254d3524fb3438726cd98b7fa45a, type: 3}
+  maxHealth: 60
+  damage: 30
+  speed: 0.5
+  reward: 5
+  type: 1

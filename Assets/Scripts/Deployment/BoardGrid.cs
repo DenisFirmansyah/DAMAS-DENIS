@@ -57,5 +57,24 @@ namespace DamasDenis.Deployment
             cell = null;
             return false;
         }
+
+        /// <summary>Bounds of every registered cell (cell edges included). False if the board is empty.</summary>
+        public static bool TryGetBounds(out Bounds bounds)
+        {
+            bounds = default;
+            bool any = false;
+            float half = CellSize * 0.5f;
+            
+
+            foreach (MapCell cell in cells.Values)
+            {
+                if (cell == null) continue;                 // destroyed but not yet unregistered
+                Vector3 p = cell.SurfacePoint;
+                if (!any) { bounds = new Bounds(p, Vector3.zero); any = true; }
+                bounds.Encapsulate(p - new Vector3(half, 0f, half));
+                bounds.Encapsulate(p + new Vector3(half, 0f, half));
+            }
+            return any;
+        }
     }
 }
