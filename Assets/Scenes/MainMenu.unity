@@ -1093,7 +1093,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 144.15
+  m_fontSize: 144.25
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1287,7 +1287,6 @@ GameObject:
   - component: {fileID: 314104246}
   - component: {fileID: 314104245}
   - component: {fileID: 314104244}
-  - component: {fileID: 314104247}
   - component: {fileID: 314104248}
   m_Layer: 5
   m_Name: Enter Game Button
@@ -1361,17 +1360,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 452532383}
+        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
+        m_MethodName: PlayGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1415,21 +1410,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 314104242}
   m_CullTransparentMesh: 1
---- !u!114 &314104247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 314104242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df98a803c031525aca9bd99e2a0c498c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectionController: {fileID: 452532384}
-  stage: {fileID: 11400000, guid: d6f151f0aa25d3b0095bbb5bc09d8cec, type: 2}
-  stage: {fileID: 11400000, guid: d6f151f0aa25d3b0095bbb5bc09d8cec, type: 2}
 --- !u!114 &314104248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1531,81 +1511,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 333815622}
   m_CullTransparentMesh: 1
---- !u!1 &416726610
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 416726611}
-  - component: {fileID: 416726613}
-  - component: {fileID: 416726612}
-  m_Layer: 5
-  m_Name: Level Screen
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &416726611
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 416726610}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2104807736}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &416726612
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 416726610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &416726613
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 416726610}
-  m_CullTransparentMesh: 1
 --- !u!1 &420789300
 GameObject:
   m_ObjectHideFlags: 0
@@ -1690,7 +1595,6 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 38.15
   m_fontSize: 38.15
   m_fontSizeBase: 36
   m_fontWeight: 400
@@ -2074,7 +1978,7 @@ MonoBehaviour:
   showDuration: 0.25
   hideDuration: 0.2
   mainMenu: {fileID: 1689769070}
-  levelMenu: {fileID: 416726610}
+  levelMenu: {fileID: 0}
   optionsMenu: {fileID: 433292560}
   creditsMenu: {fileID: 711923806}
 --- !u!114 &452532384
@@ -2091,10 +1995,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showDuration: 0.25
   hideDuration: 0.2
+  lobbyScreen: {fileID: 0}
   stageListScreen: {fileID: 0}
   unitListScreen: {fileID: 0}
   upgradeUnitScreen: {fileID: 0}
   journalScreen: {fileID: 0}
+  researchCreditsText: {fileID: 0}
 --- !u!1 &462881557
 GameObject:
   m_ObjectHideFlags: 0
@@ -2698,7 +2604,6 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
   m_IsActive: 0
 --- !u!224 &711923807
 RectTransform:
@@ -3792,7 +3697,6 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.25
   m_fontSize: 28.25
   m_fontSizeBase: 36
   m_fontWeight: 400
@@ -5421,7 +5325,6 @@ RectTransform:
   m_Children:
   - {fileID: 452532382}
   - {fileID: 1689769071}
-  - {fileID: 416726611}
   - {fileID: 433292561}
   - {fileID: 711923807}
   - {fileID: 1633529452}

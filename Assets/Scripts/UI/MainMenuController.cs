@@ -29,7 +29,7 @@ public sealed class MainMenuController : UIScreen
             Instance = null;
     }
 
-    public void PlayGame() => ShowOnly(levelMenu);
+    public void PlayGame() => GameManager.Instance.LoadLobby();
 
     public void Options() => ShowOnly(optionsMenu);
 

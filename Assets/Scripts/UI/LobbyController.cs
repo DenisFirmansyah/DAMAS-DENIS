@@ -10,6 +10,7 @@ namespace DamasDenis.UI
     public sealed class LobbyController : UIScreen
     {
         [Header("Lobby Screens")]
+        [SerializeField] private GameObject lobbyScreen;
         [SerializeField] private GameObject stageListScreen;
         [SerializeField] private GameObject unitListScreen;
         [SerializeField] private GameObject upgradeUnitScreen;
@@ -41,10 +42,11 @@ namespace DamasDenis.UI
                 Instance = null;
         }
 
+        public void StageList() => ShowOnly(stageListScreen);
         public void UnitList() => ShowOnly(unitListScreen);
         public void UpgradeUnit() => ShowOnly(upgradeUnitScreen);
         public void Journal() => ShowOnly(journalScreen);
-        public void Back() => ShowOnly(stageListScreen);
+        public void Back() => ShowOnly(lobbyScreen);
 
         private void SubscribePlayerState()
         {
@@ -116,8 +118,9 @@ namespace DamasDenis.UI
 
         private void SetActiveIfAssigned(GameObject screen, bool active)
         {
-            if (screen != null)
+            if (screen != null) {
                 screen.SetActive(active);
+            }
         }
     }
 }
