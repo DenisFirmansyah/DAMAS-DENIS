@@ -11,9 +11,10 @@ namespace DamasDenis.Stage
     {
         public static StageState Instance { get; private set; }
 
-        [Header("Stage Attributes (Health)")]
+        [Header("Stage Attributes (Health & Time)")]
         [SerializeField] private float maxHealth = 100f;
         [SerializeField] private float currentHealth;
+        [SerializeField] private float remainingSeconds;
 
         [Header("Stage Economy (Placement Cost Currency)")]
         [SerializeField] private int maxStageResources = 100;
@@ -24,13 +25,16 @@ namespace DamasDenis.Stage
         [SerializeField] private float regenInterval = 1f;
         [SerializeField] private int regenAmount = 1;
         private float regenTimer;
+        private int lastDisplayedSecond = -1;
 
         public event System.Action<float> OnHealthChanged;
+        public event System.Action<float> OnTimeChanged;
         public event System.Action<int> OnStageResourceChanged;
         public event System.Action OnBaseDefeated;
 
         public float MaxHealth => maxHealth;
         public float CurrentHealth => currentHealth;
+        public float RemainingSeconds => remainingSeconds;
         public int MaxStageResources => maxStageResources;
         public int CurrentStageResources => currentStageResources;
         public bool EnableRegen
@@ -58,6 +62,7 @@ namespace DamasDenis.Stage
         private void Start()
         {
             OnHealthChanged?.Invoke(currentHealth);
+            OnTimeChanged?.Invoke(remainingSeconds);
             OnStageResourceChanged?.Invoke(currentStageResources);
         }
 
@@ -65,6 +70,18 @@ namespace DamasDenis.Stage
         {
             if (enableRegen)
                 HandleRegeneration();
+
+            if (remainingSeconds <= 0f)
+                return;
+
+            remainingSeconds = Mathf.Max(0f, remainingSeconds - Time.deltaTime);
+
+            int currentSecond = Mathf.CeilToInt(remainingSeconds);
+            if (currentSecond != lastDisplayedSecond)
+            {
+                lastDisplayedSecond = currentSecond;
+                OnTimeChanged?.Invoke(remainingSeconds);
+            }
         }
 
         private void OnDestroy()
@@ -75,16 +92,19 @@ namespace DamasDenis.Stage
             }
         }
 
-        public void Initialize(float baseHealth, int startingResources, int maxResources = 100)
+        public void Initialize(float baseHealth, float survivalSeconds, int startingResources, int maxResources = 100)
         {
             Time.timeScale = 1f;
             maxHealth = baseHealth;
             currentHealth = maxHealth;
+            remainingSeconds = survivalSeconds;
+            lastDisplayedSecond = -1;
             maxStageResources = Mathf.Max(maxResources, startingResources);
             currentStageResources = Mathf.Clamp(startingResources, 0, maxStageResources);
             regenTimer = 0f;
 
             OnHealthChanged?.Invoke(currentHealth);
+            OnTimeChanged?.Invoke(remainingSeconds);
             OnStageResourceChanged?.Invoke(currentStageResources);
         }
 
@@ -123,7 +143,7 @@ namespace DamasDenis.Stage
 
         public void TakeDamage(float amount)
         {
-            currentHealth -= amount;
+            currentHealth = Mathf.Max(0f, currentHealth - amount);
             OnHealthChanged?.Invoke(currentHealth);
 
             if (currentHealth <= 0f)

@@ -18,7 +18,7 @@ namespace DamasDenis.Stage
         public string stageId;
         public bool won;
         public float elapsedSeconds;
-        public int stars;          // 0 = lost
+        public int stars;
         public bool starTwoMet;
         public bool starThreeMet;
         public List<StageEventRecord> events = new List<StageEventRecord>();

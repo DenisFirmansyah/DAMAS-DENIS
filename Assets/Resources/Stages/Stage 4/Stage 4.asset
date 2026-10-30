@@ -10,17 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 207040cddf9de6dc59a19a527ed9a869, type: 3}
-  m_Name: tes
+  m_Name: Stage 4
   m_EditorClassIdentifier: 
-  stageId: tes
-  sceneName: tes
+  stageId: stage_4
+  sceneName: Stage 4
+  stageName: Sector 4
+  stageDesc: Euthanasia aja Facility
   isOptionalStage: 0
   survivalSeconds: 600
   baseHealth: 100
   startingResources: 20
-  completionResources: 10
+  completionResources: 20
   briefing: []
   relocationDialogue: []
   starTwoObjective: {fileID: 11400000, guid: 200c5b6bfa66a33d78bcc35135ec0841, type: 2}
-  starThreeObjective: {fileID: 11400000, guid: b27040e3f83ec35aab56b5ff73f635f8, type: 2}
+  starThreeObjective: {fileID: 0}
   unlockedStaff: {fileID: 0}

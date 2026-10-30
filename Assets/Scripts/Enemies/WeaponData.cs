@@ -24,16 +24,6 @@ public class WeaponData : ScriptableObject
     public float weaponRotation;
     [Min(0)] public int sortingOrderOffset = 1;
 
-    [Header("Combat")]
-    [Min(0f)]
-    public float damage = 10f;
-    [Min(0f)]
-    public float attackRange = 5f;
-    [Min(0.01f)]
-    public float fireInterval = 0.15f;
-    [Min(0f)]
-    public float projectileSpeed = 15f;
-
     [Header("Projectile")]
     public GameObject projectilePrefab;
 

@@ -9,6 +9,7 @@ public sealed class GameplayUIController : UIScreen
 {
     [Header("HUD - Stage")]
     [SerializeField] private Image healthBarFill;
+    [SerializeField] private TextMeshProUGUI timeText;
 
     [Header("Gameplay Screens")]
     [SerializeField] private StageDirector stageDirector;
@@ -79,6 +80,7 @@ public sealed class GameplayUIController : UIScreen
             UnsubscribeFromState();
             subscribedStageState = stageState;
             subscribedStageState.OnHealthChanged += UpdateHealthUI;
+            subscribedStageState.OnTimeChanged += UpdateTimeLeftUI;
         }
     }
 
@@ -88,6 +90,7 @@ public sealed class GameplayUIController : UIScreen
             return;
 
         subscribedStageState.OnHealthChanged -= UpdateHealthUI;
+        subscribedStageState.OnHealthChanged -= UpdateTimeLeftUI;
         subscribedStageState = null;
     }
 
@@ -96,6 +99,7 @@ public sealed class GameplayUIController : UIScreen
         if (subscribedStageState != null)
         {
             UpdateHealthUI(subscribedStageState.CurrentHealth);
+            UpdateTimeLeftUI(subscribedStageState.RemainingSeconds);
         }
     }
     private void UpdateHealthUI(float currentHealth)
@@ -108,6 +112,17 @@ public sealed class GameplayUIController : UIScreen
             : 100f;
 
         healthBarFill.fillAmount = Mathf.Clamp01(currentHealth / max);
+    }
+
+    private void UpdateTimeLeftUI(float timeLeft)
+    {
+        if (timeText == null)
+            return;
+
+        timeLeft = Mathf.Max(0f, timeLeft);
+
+        int totalSeconds = Mathf.CeilToInt(Mathf.Max(0f, timeLeft));
+        timeText.text = $"{totalSeconds / 60:00}:{totalSeconds % 60:00}";
     }
 
     public void PauseGame()
@@ -180,5 +195,16 @@ public sealed class GameplayUIController : UIScreen
         isPaused = false;
         isGameOver = false;
         GameManager.Instance.LoadLobby();
+    }
+
+    public void RoamingMode()
+    {
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError("Cannot start roaming because GameManager.Instance is missing.", this);
+            return;
+        }
+
+        GameManager.Instance.StartRoaming();
     }
 }

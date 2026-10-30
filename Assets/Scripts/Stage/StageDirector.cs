@@ -160,7 +160,7 @@ namespace DamasDenis.Stage
             if (stageState == null) stageState = StageState.Instance ?? FindObjectOfType<StageState>();
             if (stageState == null) stageState = gameObject.AddComponent<StageState>();
 
-            stageState.Initialize(stage.BaseHealth, stage.StartingResources);
+            stageState.Initialize(stage.BaseHealth, stage.SurvivalSeconds, stage.StartingResources);
             stageState.OnBaseDefeated -= HandleBaseDefeated;
             stageState.OnBaseDefeated += HandleBaseDefeated;
 

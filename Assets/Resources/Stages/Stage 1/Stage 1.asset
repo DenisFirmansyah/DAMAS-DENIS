@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 207040cddf9de6dc59a19a527ed9a869, type: 3}
   m_Name: Stage 1
   m_EditorClassIdentifier: 
-  stageId: stage_1
+  stageId: stage_01
   sceneName: Stage 1
+  stageName: Sector 1
+  stageDesc: Euthanasia Facility
   isOptionalStage: 0
   survivalSeconds: 120
   baseHealth: 100

@@ -15,8 +15,6 @@ namespace DamasDenis.UI
         [SerializeField] private GameObject unitListScreen;
         [SerializeField] private GameObject upgradeUnitScreen;
         [SerializeField] private GameObject journalScreen;
-
-        [Header("HUD - Persistent")]
         [SerializeField] private TextMeshProUGUI researchCreditsText;
 
         private PlayerState subscribedPlayerState;
@@ -72,23 +70,6 @@ namespace DamasDenis.UI
         {
             if (researchCreditsText != null)
                 researchCreditsText.text = credits.ToString();
-        }
-
-        public void SelectStage(StageDefinition stage)
-        {
-            if (stage == null || string.IsNullOrWhiteSpace(stage.SceneName))
-            {
-                Debug.LogError("SelectStage requires a StageDefinition with a valid scene name.", this);
-                return;
-            }
-
-            if (GameManager.Instance == null)
-            {
-                Debug.LogError("Cannot start gameplay because GameManager.Instance is missing.", this);
-                return;
-            }
-
-            GameManager.Instance.StartGameplay(stage);
         }
 
         public void RoamingMode()

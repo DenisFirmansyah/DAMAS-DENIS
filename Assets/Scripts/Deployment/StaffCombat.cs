@@ -59,13 +59,6 @@ namespace DamasDenis.Deployment
             projectileSpeed = data.ProjectileSpeed;
             projectilePrefab = data.ProjectilePrefab;
             weaponVisual = WeaponVisualController.Configure(gameObject, data.Weapon, data.WeaponMountPath);
-            if (data.Weapon != null)
-            {
-                damage = data.Weapon.damage;
-                attackSpeed = 1f / Mathf.Max(0.01f, data.Weapon.fireInterval);
-                projectileSpeed = data.Weapon.projectileSpeed;
-                projectilePrefab = data.Weapon.projectilePrefab;
-            }
             pattern = data.RangePattern;
             vitality.Initialize(data.MaxHealth);
             initialized = true;

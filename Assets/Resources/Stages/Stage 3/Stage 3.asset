@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageId: stage_03
   sceneName: Stage 3
+  stageName: Sector 3
+  stageDesc: Euthanasiap Facility
   isOptionalStage: 0
   survivalSeconds: 300
   baseHealth: 100

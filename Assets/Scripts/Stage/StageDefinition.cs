@@ -10,6 +10,8 @@ namespace DamasDenis.Stage
         [SerializeField] private string stageId = "stage_01";
         [Tooltip("Scene name configured in Build Settings for this selectable stage.")]
         [SerializeField] private string sceneName;
+        [SerializeField] private string stageName;
+        [SerializeField] private string stageDesc;
         [SerializeField] private bool isOptionalStage;
 
         [Header("Battle tuning")]
@@ -31,6 +33,8 @@ namespace DamasDenis.Stage
 
         public string StageId { get { return stageId; } }
         public string SceneName { get { return sceneName; } }
+        public string StageName { get { return stageName; } }
+        public string StageDesc { get { return stageDesc; } }
         public bool IsOptionalStage { get { return isOptionalStage; } }
         public float SurvivalSeconds { get { return survivalSeconds; } }
         public float BaseHealth { get { return baseHealth; } }
