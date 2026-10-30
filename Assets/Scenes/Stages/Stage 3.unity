@@ -3814,6 +3814,67 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 874515271}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &894955108
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 894955109}
+  - component: {fileID: 894955110}
+  m_Layer: 0
+  m_Name: EnemyPath (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &894955109
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894955108}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1208469489}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &894955110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894955108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5965f5d7f1ebcca48b581b1f54a2797f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxStepDistance: 1.1
+  startPoint: {fileID: 150766375}
+  path:
+  - {fileID: 150766375}
+  - {fileID: 1266309280}
+  - {fileID: 641792143}
+  - {fileID: 149990465}
+  - {fileID: 2108895271}
+  - {fileID: 1005632051}
+  - {fileID: 1692841912}
+  - {fileID: 1344856672}
+  - {fileID: 1208067045}
+  - {fileID: 1132693338}
+  - {fileID: 1267104977}
+  - {fileID: 715018509}
+  - {fileID: 1383454381}
+  - {fileID: 1923183869}
 --- !u!1 &981635995
 GameObject:
   m_ObjectHideFlags: 0
@@ -5164,6 +5225,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 592770077}
+  - {fileID: 894955109}
   - {fileID: 2005908044}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8733,7 +8795,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7cc9d6b87bc56e2ca8813ec122e0d31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageDefinition: {fileID: 11400000, guid: d6f151f0aa25d3b0095bbb5bc09d8cec, type: 2}
+  stageDefinition: {fileID: 11400000, guid: 4b8a87f3ceebcef1fb131d6936e81529, type: 2}
   unitContainer: {fileID: 2066252793}
   enemyContainer: {fileID: 544815517}
 --- !u!4 &1949570939

@@ -214,19 +214,5 @@ namespace DamasDenis.Core
         }
 
         #endregion
-
-        #region Stage Runtime Forwarders (Compatibility)
-
-        // Forwarders redirecting to StageState for backward compatibility
-        public float currentHealth => StageState.Instance != null ? StageState.Instance.CurrentHealth : 0f;
-        public float maxHealth => StageState.Instance != null ? StageState.Instance.MaxHealth : 100f;
-        public int currentResources => StageState.Instance != null ? StageState.Instance.CurrentStageResources : 0;
-        public int maxResources => StageState.Instance != null ? StageState.Instance.MaxStageResources : 100;
-
-        public void AddResources(int amount) => StageState.Instance?.AddStageResources(amount);
-        public bool TrySpendResources(int amount) => StageState.Instance != null && StageState.Instance.TrySpendStageResources(amount);
-        public void TakeDamage(float amount) => StageState.Instance?.TakeDamage(amount);
-
-        #endregion
     }
 }

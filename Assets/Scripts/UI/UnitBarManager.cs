@@ -6,12 +6,6 @@ using TMPro;
 
 namespace DamasDenis.UI
 {
-    /// <summary>
-    /// Unit Bar Manager: Orchestrates the unit bar lifecycle.
-    /// - Loads player staff set on scene start
-    /// - Updates resource displays
-    /// - Handles stage transitions
-    /// </summary>
     public class UnitBarManager : MonoBehaviour
     {
         [Header("References")]
@@ -63,7 +57,7 @@ namespace DamasDenis.UI
             if (stageState != null)
             {
                 stageState.OnStageResourceChanged += OnStageResourcesChanged;
-                OnStageResourcesChanged(stageState.CurrentStageResources); // initial state
+                OnStageResourcesChanged(stageState.CurrentStageResources);
             }
 
             onUnitBarReady?.Invoke();
@@ -107,7 +101,6 @@ namespace DamasDenis.UI
             {
                 unitBar.LoadPlayerStaffSet();
 
-                // Update stage state
                 if (stageState != null && CurrentStage != null)
                 {
                     var deployable = unitBar.GetDeployableUnits(CurrentStage);

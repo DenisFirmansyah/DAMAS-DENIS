@@ -20,7 +20,6 @@ namespace DamasDenis.Roaming
                 return;
             }
 
-            // Play pauses gameplay (timeScale 0), which CharacterControl treats as "input blocked".
             dialogue.Play(lines);
         }
     }

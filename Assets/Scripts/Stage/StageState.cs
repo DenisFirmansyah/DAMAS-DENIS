@@ -130,15 +130,7 @@ namespace DamasDenis.Stage
             {
                 currentHealth = 0f;
                 OnBaseDefeated?.Invoke();
-                Die();
             }
-        }
-
-        private void Die()
-        {
-            // Time.timeScale = 0f;
-            // if (gameOverMenu != null)
-            //     gameOverMenu.SetActive(true);
         }
     }
 }

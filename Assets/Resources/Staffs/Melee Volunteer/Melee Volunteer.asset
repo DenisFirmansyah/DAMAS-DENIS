@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: Melee Volunteer
   unlockId: staff.volunteer
   unlockedByDefault: 1
-  unitPrefab: {fileID: 5702450014059770907, guid: b9e64ce035e8b84e79965ddd04088fda, type: 3}
+  unitPrefab: {fileID: 3806210277141399765, guid: 5738b0cb4d708ff428b1711093fc8a0f, type: 3}
   deploymentCost: 5
   deployOnGround: 1
   deployOnElevated: 0

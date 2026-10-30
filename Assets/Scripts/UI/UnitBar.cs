@@ -49,7 +49,6 @@ namespace DamasDenis.UI
 
         private void Awake()
         {
-            // Find PlayerState if not assigned
             if (playerState == null)
             {
                 playerState = FindObjectOfType<PlayerState>();
@@ -124,7 +123,6 @@ namespace DamasDenis.UI
         public void ShowEmptyState(string message)
         {
             emptyStateText?.SetActive(true);
-            // emptyStateText?.GetComponent<TextMeshProUGUI>().text = message;
         }
     }
 }

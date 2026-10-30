@@ -15,7 +15,7 @@ MonoBehaviour:
   stageId: stage_1
   sceneName: Stage 1
   isOptionalStage: 0
-  survivalSeconds: 75
+  survivalSeconds: 120
   baseHealth: 100
   startingResources: 20
   completionResources: 20

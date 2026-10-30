@@ -134,7 +134,7 @@ public sealed class GameplayUIController : UIScreen
 
     private void ShowWin(StageRecord record)
     {
-        GamePause.Hold(PauseReason.GameOver);   // reuse the reason, or add PauseReason.Result
+        GamePause.Hold(PauseReason.GameOver);
         if (winMenu != null) winMenu.SetActive(true);
         // later: show stars and objectives from the record (record.events, record.elapsedSeconds)
     }

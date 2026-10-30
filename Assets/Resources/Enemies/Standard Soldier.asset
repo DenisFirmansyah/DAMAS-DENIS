@@ -17,7 +17,7 @@ MonoBehaviour:
   canBeBlocked: 1
   attackDamage: 5
   attackInterval: 1
-  enemyPrefab: {fileID: 5537864082338509712, guid: 2539254d3524fb3438726cd98b7fa45a, type: 3}
+  enemyPrefab: {fileID: 7925381764994484637, guid: ef6a3721589681c4ca158bdd9307bb5d, type: 3}
   maxHealth: 25
   damage: 5
   speed: 1

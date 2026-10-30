@@ -4,7 +4,6 @@ public sealed class MainMenuController : UIScreen
 {
     [Header("Menu Screens")]
     [SerializeField] private GameObject mainMenu;
-    [SerializeField] private GameObject levelMenu;
     [SerializeField] private GameObject optionsMenu;
     [SerializeField] private GameObject creditsMenu;
 
@@ -37,11 +36,6 @@ public sealed class MainMenuController : UIScreen
 
     public void BackToMainMenu() => ShowOnly(mainMenu);
 
-    public void BackToLevelMenu() => ShowOnly(levelMenu);
-
-    // Compatibility for existing OptionsScreen button wiring.
-    public void Back() => BackToMainMenu();
-
     public void ExitGame()
     {
         Application.Quit();
@@ -59,7 +53,6 @@ public sealed class MainMenuController : UIScreen
         }
 
         SetActiveIfAssigned(mainMenu, target == mainMenu);
-        SetActiveIfAssigned(levelMenu, target == levelMenu);
         SetActiveIfAssigned(optionsMenu, target == optionsMenu);
         SetActiveIfAssigned(creditsMenu, target == creditsMenu);
     }

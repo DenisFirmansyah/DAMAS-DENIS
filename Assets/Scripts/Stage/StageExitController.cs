@@ -11,7 +11,7 @@ public sealed class StageExitController : MonoBehaviour
 
     private void OnStageFinished(StageRecord record)
     {
-        if (!record.won) return;               // the Game Over panel handles losses
-        GameManager.Instance.LoadLobby();      // replace with your real method name
+        if (!record.won) return;
+        GameManager.Instance.StartRoaming();
     }
 }

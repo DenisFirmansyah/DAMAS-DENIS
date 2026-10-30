@@ -5,22 +5,12 @@ using DamasDenis.Deployment;
 
 namespace DamasDenis.UI
 {
-    /// <summary>
-    /// Individual slot in the unit bar.
-    /// Shows unit portrait, name, cost, stats, and upgrade button.
-    /// Handles click events and visual states (locked, cooldown, selected).
-    /// </summary>
     public class UnitSlot : MonoBehaviour
     {
         [Header("References")]
         public Image portraitImage;
         public TextMeshProUGUI nameText;
         public TextMeshProUGUI costText;
-        // public TextMeshProUGUI damageText;
-        // public TextMeshProUGUI rangeText;
-        // public TextMeshProUGUI speedText;
-        // public TextMeshProUGUI healthText;
-        // public TextMeshProUGUI typeText;
         public Button selectButton;
         // public Button upgradeButton;
 
@@ -55,8 +45,6 @@ namespace DamasDenis.UI
 
         private void Awake()
         {
-            // Wiring in code means you can't forget the inspector OnClick.
-            // If you already set OnClick in the prefab, remove it or clicks fire twice.
             if (selectButton != null)
                 selectButton.onClick.AddListener(OnSelectClick);
         }
@@ -114,24 +102,12 @@ namespace DamasDenis.UI
             // Cost
             costText.text = displayData.cost.ToString();
 
-            // Stats
-            // damageText.text = displayData.damage.ToString("F0");
-            // rangeText.text = displayData.range.ToString("F0");
-            // speedText.text = displayData.attackSpeed.ToString("F1");
-            // healthText.text = displayData.maxHealth.ToString("F0");
-            // typeText.text = displayData.typeLabel;
-
-            // Lock overlay
-            // bool isLocked = !displayData.isUnlocked;
-            // lockOverlay.color = isLocked ? lockedColor : Color.clear;
-
             // Cooldown overlay
             cooldownOverlay.color = displayData.isOnCooldown ? cooldownColor : Color.clear;
 
             // Button interactivity
             bool canInteract = displayData.isUnlocked && !displayData.isOnCooldown;
             selectButton.interactable = canInteract;
-            // upgradeButton.interactable = canInteract;
 
             // Highlight selected
             if (displayData.isSelected)
@@ -161,12 +137,6 @@ namespace DamasDenis.UI
             onSelect?.Invoke(displayData.unitData);
 
             Debug.Log("slot Chose");
-        }
-
-        public void OnUpgradeClick()
-        {
-            // For prototype: just log
-            Debug.Log($"Upgrade {displayData.displayName}");
         }
 
         public void SetSelected(bool selected)

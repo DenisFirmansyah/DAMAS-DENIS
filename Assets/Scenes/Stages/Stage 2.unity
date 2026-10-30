@@ -5488,7 +5488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7cc9d6b87bc56e2ca8813ec122e0d31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageDefinition: {fileID: 11400000, guid: d6f151f0aa25d3b0095bbb5bc09d8cec, type: 2}
+  stageDefinition: {fileID: 11400000, guid: 678bf0be66b19d5fb8d13f6e9980c3f6, type: 2}
   unitContainer: {fileID: 2066252793}
   enemyContainer: {fileID: 544815517}
 --- !u!4 &1949570939
@@ -5730,6 +5730,7 @@ MonoBehaviour:
   - {fileID: 591097415}
   - {fileID: 2058269300}
   - {fileID: 1551344095}
+  - {fileID: 1505773695}
   - {fileID: 479975051}
   - {fileID: 196540346}
 --- !u!1 &2008792807
