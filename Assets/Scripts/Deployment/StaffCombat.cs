@@ -28,6 +28,7 @@ namespace DamasDenis.Deployment
         private float damageMultiplier = 1f;
         private float attackRateMultiplier = 1f;
         private StaffBlocker blocker;
+        private WeaponVisualController weaponVisual;
 
         private readonly List<Vector2Int> coordinateBuffer = new List<Vector2Int>();
         private readonly List<MapCell> coveredCells = new List<MapCell>();
@@ -57,6 +58,14 @@ namespace DamasDenis.Deployment
             attackSpeed = data.AttackSpeed;
             projectileSpeed = data.ProjectileSpeed;
             projectilePrefab = data.ProjectilePrefab;
+            weaponVisual = WeaponVisualController.Configure(gameObject, data.Weapon, data.WeaponMountPath);
+            if (data.Weapon != null)
+            {
+                damage = data.Weapon.damage;
+                attackSpeed = 1f / Mathf.Max(0.01f, data.Weapon.fireInterval);
+                projectileSpeed = data.Weapon.projectileSpeed;
+                projectilePrefab = data.Weapon.projectilePrefab;
+            }
             pattern = data.RangePattern;
             vitality.Initialize(data.MaxHealth);
             initialized = true;
@@ -76,7 +85,11 @@ namespace DamasDenis.Deployment
             if (fireCooldown > 0f) return;
 
             EnemyInstance target = FindTarget();
-            if (target == null) return;
+            if (target == null)
+            {
+                weaponVisual?.SetMoving(false);
+                return;
+            }
 
             Attack(target);
             fireCooldown = 1f / Mathf.Max(0.01f, AttackSpeed);
@@ -142,6 +155,7 @@ namespace DamasDenis.Deployment
 
         private void Attack(EnemyInstance target)
         {
+            weaponVisual?.PlayAttack();
             float effectiveDamage = Damage;
 
             if (attackType == UnitAttackType.Ranged && projectilePrefab != null)

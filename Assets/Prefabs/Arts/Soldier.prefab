@@ -687,6 +687,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 89c511c33a21aa049aab94fd1088e6eb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 380936509761097486}
+    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 89c511c33a21aa049aab94fd1088e6eb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6285821696062190253}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: 89c511c33a21aa049aab94fd1088e6eb, type: 3}
 --- !u!4 &553546199363322364 stripped
 Transform:
@@ -750,6 +753,22 @@ MonoBehaviour:
     showGizmo: 1
   - color: {r: 0, g: 1, b: 0, a: 1}
     showGizmo: 1
+--- !u!114 &-6285821696062190253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7925381764994484637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7faafe78b5e4fe543929f37ca7809181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyData: {fileID: 11400000, guid: adc12ecf6bfdb6b3194622137cebca70, type: 2}
+  startDelay: 1
+  blockReach: 0.45
+  currentHealth: 0
 --- !u!4 &8209197995613953635 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2015287661806188099, guid: 89c511c33a21aa049aab94fd1088e6eb, type: 3}

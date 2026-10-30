@@ -23,6 +23,10 @@ public class EnemyData : ScriptableObject {
     
     [Header("Visuals")]
     public GameObject enemyPrefab;
+    [Tooltip("Weapon visual and attack animation used by this enemy prefab.")]
+    public WeaponData weapon;
+    [Tooltip("Path from the enemy prefab root to the hand/bone socket. Empty uses the prefab root.")]
+    public string weaponMountPath;
 
     [Header("Stats")]
     public float maxHealth;

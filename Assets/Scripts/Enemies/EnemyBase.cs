@@ -22,6 +22,8 @@ namespace DamasDenis.Enemies
         [Header("References")]
         private Animator anim;
         private SpriteRenderer sr;
+        private WeaponVisualController weaponVisual;
+        private readonly HashSet<int> floatAnimatorParameters = new HashSet<int>();
 
         [Header("Movement")]
         [Tooltip("Seconds the enemy waits after spawning before it starts walking.")]
@@ -108,6 +110,8 @@ namespace DamasDenis.Enemies
                 visualObj.transform.localPosition = new Vector3(0, -0.5f, 0);
                 anim = visualObj.GetComponentInChildren<Animator>();
                 sr = visualObj.GetComponentInChildren<SpriteRenderer>();
+                weaponVisual = WeaponVisualController.Configure(visualObj, enemyData.weapon, enemyData.weaponMountPath);
+                CacheAnimatorParameters();
             }
 
             nextIndex = 1; // point 0 is where the enemy spawned
@@ -162,15 +166,44 @@ namespace DamasDenis.Enemies
 
             if (anim != null)
             {
-                anim.SetFloat("Horizontal", direction.x);
-                anim.SetFloat("Vertical", direction.z);
-                anim.SetFloat("Speed", 1f);
+                SetAnimatorFloatIfPresent("Horizontal", direction.x);
+                SetAnimatorFloatIfPresent("Vertical", direction.z);
+                SetAnimatorFloatIfPresent("Speed", 1f);
             }
+            weaponVisual?.SetMoving(true);
 
             if (sr != null)
             {
-                if (direction.x < -0.1f) sr.flipX = true;
-                else if (direction.x > 0.1f) sr.flipX = false;
+                if (direction.x < -0.1f)
+                {
+                    sr.flipX = true;
+                    weaponVisual?.SetFacing(true);
+                }
+                else if (direction.x > 0.1f)
+                {
+                    sr.flipX = false;
+                    weaponVisual?.SetFacing(false);
+                }
+            }
+        }
+
+        private void SetAnimatorFloatIfPresent(string parameterName, float value)
+        {
+            if (anim == null) return;
+            int parameterHash = Animator.StringToHash(parameterName);
+            if (floatAnimatorParameters.Contains(parameterHash))
+                anim.SetFloat(parameterHash, value);
+        }
+
+        private void CacheAnimatorParameters()
+        {
+            if (anim == null) return;
+
+            AnimatorControllerParameter[] parameters = anim.parameters;
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                if (parameters[i].type == AnimatorControllerParameterType.Float)
+                    floatAnimatorParameters.Add(parameters[i].nameHash);
             }
         }
 
@@ -207,12 +240,14 @@ namespace DamasDenis.Enemies
         
         private void FightBlocker()
         {
-            if (anim != null) anim.SetFloat("Speed", 0f);
+            SetAnimatorFloatIfPresent("Speed", 0f);
+            weaponVisual?.SetMoving(false);
 
             attackTimer -= Time.deltaTime;
             if (attackTimer > 0f) return;
 
             attackTimer = enemyData.attackInterval;
+            weaponVisual?.PlayAttack();
             blockedBy.TakeDamage(enemyData.attackDamage);
         }
 

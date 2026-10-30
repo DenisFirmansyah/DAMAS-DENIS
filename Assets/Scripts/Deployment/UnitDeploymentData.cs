@@ -1,4 +1,5 @@
 using UnityEngine;
+using DamasDenis.Enemies;
 
 namespace DamasDenis.Deployment
 {
@@ -36,6 +37,9 @@ namespace DamasDenis.Deployment
         [Min(0.01f)] [SerializeField] private float attackSpeed = 1f;
         [SerializeField] private float projectileSpeed = 10f;
         [SerializeField] private GameObject projectilePrefab;
+        [SerializeField] private WeaponData weapon;
+        [Tooltip("Path from the unit prefab root to the hand/bone socket. Empty uses the prefab root.")]
+        [SerializeField] private string weaponMountPath;
         [Min(1f)] [SerializeField] private float maxHealth = 100f;
         [SerializeField] StaffUpgradeDefinition upgrade;
 
@@ -55,6 +59,8 @@ namespace DamasDenis.Deployment
         public float AttackSpeed => attackSpeed;
         public float ProjectileSpeed => projectileSpeed;
         public GameObject ProjectilePrefab => projectilePrefab;
+        public WeaponData Weapon => weapon;
+        public string WeaponMountPath => weaponMountPath;
         public float MaxHealth => maxHealth;
         public StaffUpgradeDefinition Upgrade => upgrade;
 
