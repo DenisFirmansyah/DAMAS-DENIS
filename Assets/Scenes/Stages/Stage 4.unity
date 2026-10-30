@@ -7348,7 +7348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7cc9d6b87bc56e2ca8813ec122e0d31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageDefinition: {fileID: 11400000, guid: d6f151f0aa25d3b0095bbb5bc09d8cec, type: 2}
+  stageDefinition: {fileID: 11400000, guid: 71b05b9907045a334887e54c4c637773, type: 2}
   unitContainer: {fileID: 2066252793}
   enemyContainer: {fileID: 544815517}
 --- !u!4 &1949570939
