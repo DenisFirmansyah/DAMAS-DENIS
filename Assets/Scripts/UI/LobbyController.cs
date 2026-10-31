@@ -15,6 +15,8 @@ namespace DamasDenis.UI
         [SerializeField] private GameObject unitListScreen;
         [SerializeField] private GameObject upgradeUnitScreen;
         [SerializeField] private GameObject journalScreen;
+        [SerializeField] private GameObject optionScreen;
+        [SerializeField] private GameObject exitScreen;
         [SerializeField] private TextMeshProUGUI researchCreditsText;
 
         private PlayerState subscribedPlayerState;
@@ -34,6 +36,14 @@ namespace DamasDenis.UI
             Instance = this;
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                HandleBackInput();
+            }
+        }
+
         private void OnDestroy()
         {
             if (Instance == this)
@@ -44,7 +54,16 @@ namespace DamasDenis.UI
         public void UnitList() => ShowOnly(unitListScreen);
         public void UpgradeUnit() => ShowOnly(upgradeUnitScreen);
         public void Journal() => ShowOnly(journalScreen);
+        public void Options() => ShowOnly(optionScreen);
         public void Back() => ShowOnly(lobbyScreen);
+        public void ExitScreen() => ShowOnly(exitScreen);
+        public void ExitGame()
+        {
+            Application.Quit();
+    #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+    #endif
+    }
 
         private void SubscribePlayerState()
         {
@@ -83,6 +102,25 @@ namespace DamasDenis.UI
             GameManager.Instance.StartRoaming();
         }
 
+        private void HandleBackInput()
+        {
+            if (IsScreenActive(exitScreen))
+                return;
+
+            if (IsScreenActive(lobbyScreen))
+            {
+                ExitScreen();
+                return;
+            }
+
+            Back();
+        }
+
+        private bool IsScreenActive(GameObject screen)
+        {
+            return screen != null && screen.activeSelf;
+        } 
+
         private void ShowOnly(GameObject target)
         {
             if (target == null)
@@ -95,6 +133,8 @@ namespace DamasDenis.UI
             SetActiveIfAssigned(unitListScreen, target == unitListScreen);
             SetActiveIfAssigned(upgradeUnitScreen, target == upgradeUnitScreen);
             SetActiveIfAssigned(journalScreen, target == journalScreen);
+            SetActiveIfAssigned(optionScreen, target == optionScreen);
+            SetActiveIfAssigned(exitScreen, target == exitScreen);
         }
 
         private void SetActiveIfAssigned(GameObject screen, bool active)
