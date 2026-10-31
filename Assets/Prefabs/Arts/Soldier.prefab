@@ -1207,7 +1207,6 @@ GameObject:
   m_Component:
   - component: {fileID: 720441988704981935}
   - component: {fileID: 8581298620725691020}
-  - component: {fileID: 8966876190471301638}
   m_Layer: 0
   m_Name: Visual Container
   m_TagString: Untagged
@@ -1261,20 +1260,6 @@ MonoBehaviour:
   targetCamera: {fileID: 0}
   mode: 0
   pivot: {fileID: 0}
---- !u!114 &8966876190471301638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6408301592175480658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fc1818446f96fd4ea075decdd812c0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  depthMaterial: {fileID: 2100000, guid: cfbec179d7d59b54ea656099ae1eb469, type: 2}
-  includeInactive: 1
 --- !u!1 &6641505061145547618
 GameObject:
   m_ObjectHideFlags: 0

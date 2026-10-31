@@ -21,8 +21,13 @@ MonoBehaviour:
   baseHealth: 100
   startingResources: 20
   completionResources: 20
-  briefing: []
-  relocationDialogue: []
+  briefing:
+  - {fileID: 11400000, guid: e9ee99f7fe2696d448a24e2f04b5e2d4, type: 2}
+  relocationDialogue:
+  - {fileID: 11400000, guid: be64b47e23daeba449c5ff9d301efa59, type: 2}
+  - {fileID: 11400000, guid: d125bc1160399844fb6718a8745de68f, type: 2}
+  - {fileID: 11400000, guid: 184217e8fa168034496fd329bbc89fed, type: 2}
+  - {fileID: 11400000, guid: 2589c21c54063db4baefb021807c1aff, type: 2}
   starTwoObjective: {fileID: 11400000, guid: 200c5b6bfa66a33d78bcc35135ec0841, type: 2}
   starThreeObjective: {fileID: 11400000, guid: 59c65ac5642deead292ae3c567137b1b, type: 2}
   unlockedStaff: {fileID: 0}

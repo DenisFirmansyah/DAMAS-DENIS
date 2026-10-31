@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d528706eaf95ef946a9578824143bdf3, type: 3}
   m_Name: E1
   m_EditorClassIdentifier: 
-  speakerName: Aku
-  dialogue: Kamu
+  speakerName: Female Staff
+  dialogue: Thank you, God, we still alive.

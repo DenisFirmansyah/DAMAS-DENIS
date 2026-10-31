@@ -22,9 +22,15 @@ MonoBehaviour:
   startingResources: 20
   completionResources: 20
   briefing:
-  - {fileID: 11400000, guid: 3154d24eb14cdde67a392b0f5574c376, type: 2}
+  - {fileID: 11400000, guid: c59b369b6d757cb4baec0d80c90904fa, type: 2}
+  - {fileID: 11400000, guid: 2d734fcf09b20f2419017a92d34819a7, type: 2}
+  - {fileID: 11400000, guid: c6b0e6555a740454d9727fdf5888d7bd, type: 2}
+  - {fileID: 11400000, guid: b889a861e88e9c648a25cbb8078123fb, type: 2}
+  - {fileID: 11400000, guid: 3c3d39cd1d455ae48be69b2f072532b4, type: 2}
+  - {fileID: 11400000, guid: 3195db49bc14ce34a8486a9980c171ec, type: 2}
+  - {fileID: 11400000, guid: 320d71aab27fef94d94680057584a13e, type: 2}
   relocationDialogue:
-  - {fileID: 11400000, guid: eaa157e764a56db47bf8af3d9395fef2, type: 2}
+  - {fileID: 11400000, guid: 785106430d3eba644867c74606a34503, type: 2}
   starTwoObjective: {fileID: 11400000, guid: 200c5b6bfa66a33d78bcc35135ec0841, type: 2}
   starThreeObjective: {fileID: 11400000, guid: b27040e3f83ec35aab56b5ff73f635f8, type: 2}
   unlockedStaff: {fileID: 0}
