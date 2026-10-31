@@ -62,5 +62,10 @@ namespace DamasDenis.UI
             shownPrompt = text;
             promptText.text = text;
         }
+
+        public void ReturnToLobby()
+        {
+            GameManager.Instance.LoadLobby();
+        }
     }
 }

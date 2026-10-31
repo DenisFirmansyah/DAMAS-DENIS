@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1888448892926337805}
   - component: {fileID: 575393424495605099}
   m_Layer: 0
-  m_Name: Store Point
+  m_Name: Store Point 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 533658054304206140}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.564, y: 1.068, z: -6.433}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prompt: Store
-  stepId: stage1.parts.stored
-  requiredStepId: stage1.parts.collected
+  stepId: stage3.parts.stored
+  requiredStepId: stage3.parts.collected
   eventType: parts_sent
   lockedLines:
   - {fileID: 11400000, guid: bfda6e9287ec448fb8f5ab7e9f0c89eb, type: 2}
