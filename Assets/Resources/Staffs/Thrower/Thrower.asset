@@ -15,18 +15,20 @@ MonoBehaviour:
   displayName: Thrower
   unlockId: staff.thrower
   unlockedByDefault: 1
-  unitPrefab: {fileID: 5702450014059770907, guid: b9e64ce035e8b84e79965ddd04088fda, type: 3}
+  unitPrefab: {fileID: 5702450014059770907, guid: af68f806b5ef7440b8b8c315cb42e578, type: 3}
   deploymentCost: 10
   deployOnGround: 1
   deployOnElevated: 1
   canFace: 1
   isMedic: 0
   attackType: 1
-  damage: 10
+  damage: 12
   rangePattern: {fileID: 11400000, guid: 43690530c09ac051da343bcd3de29332, type: 2}
   blockCount: 0
-  attackSpeed: 0.5
+  attackSpeed: 1
   projectileSpeed: 10
-  projectilePrefab: {fileID: 7694949244247594112, guid: 6cb61703728d7dc8abf84d605a72dcc8, type: 3}
+  projectilePrefab: {fileID: 7664083285868993478, guid: 83183b79c9a2adc40a93c5ae63913cf6, type: 3}
+  weapon: {fileID: 11400000, guid: ca7e2a734952ad6489cba2a815916415, type: 2}
+  weaponMountPath: 
   maxHealth: 15
   upgrade: {fileID: 11400000, guid: f2a3cfba6e1281179867df11e6676a25, type: 2}

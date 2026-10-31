@@ -17,8 +17,10 @@ MonoBehaviour:
   canBeBlocked: 1
   attackDamage: 5
   attackInterval: 1
-  enemyPrefab: {fileID: 7925381764994484637, guid: ef6a3721589681c4ca158bdd9307bb5d, type: 3}
-  maxHealth: 25
+  enemyPrefab: {fileID: 2617455329949538921, guid: ef6a3721589681c4ca158bdd9307bb5d, type: 3}
+  weapon: {fileID: 11400000, guid: 2b7c6b8061b9fc94bb8ac97823a97166, type: 2}
+  weaponMountPath: 
+  maxHealth: 30
   damage: 5
   speed: 1
   reward: 1
