@@ -119,7 +119,7 @@ namespace DamasDenis.UI
 
             if (starTwoObjective && starThreeObjective != null)
                 starTwoObjective.text = stage != null ? stage.StarTwoObjective.Title: "No Obj";
-                starThreeObjective.text = stage != null ? stage.StarTwoObjective.Title : "No stage";
+                starThreeObjective.text = stage != null ? stage.StarThreeObjective.Title : "No stage specific Obj";
 
             if (previousButton != null) previousButton.interactable = viewedIndex > 0;
             if (nextButton != null) nextButton.interactable = viewedIndex < reachableIndex;

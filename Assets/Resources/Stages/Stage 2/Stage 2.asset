@@ -15,7 +15,7 @@ MonoBehaviour:
   stageId: stage_02
   sceneName: Stage 2
   stageName: Sector 2
-  stageDesc: Euthanasial Facility
+  stageDesc: Matterhorn Facility
   isOptionalStage: 0
   survivalSeconds: 120
   baseHealth: 100
@@ -26,5 +26,5 @@ MonoBehaviour:
   relocationDialogue:
   - {fileID: 11400000, guid: eaa157e764a56db47bf8af3d9395fef2, type: 2}
   starTwoObjective: {fileID: 11400000, guid: 200c5b6bfa66a33d78bcc35135ec0841, type: 2}
-  starThreeObjective: {fileID: 0}
+  starThreeObjective: {fileID: 11400000, guid: 29de30dc246138dd3997df8e1fe2cf1e, type: 2}
   unlockedStaff: {fileID: 0}

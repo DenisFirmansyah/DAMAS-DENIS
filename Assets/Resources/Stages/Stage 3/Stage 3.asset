@@ -15,7 +15,7 @@ MonoBehaviour:
   stageId: stage_03
   sceneName: Stage 3
   stageName: Sector 3
-  stageDesc: Euthanasiap Facility
+  stageDesc: Patagonia Facility
   isOptionalStage: 0
   survivalSeconds: 300
   baseHealth: 100
@@ -24,5 +24,5 @@ MonoBehaviour:
   briefing: []
   relocationDialogue: []
   starTwoObjective: {fileID: 11400000, guid: 200c5b6bfa66a33d78bcc35135ec0841, type: 2}
-  starThreeObjective: {fileID: 0}
+  starThreeObjective: {fileID: 11400000, guid: 753f2836f61958c009c86e9c7fff8552, type: 2}
   unlockedStaff: {fileID: 11400000, guid: 84a70f7eebff186928f0f41dfd8d8ea3, type: 2}

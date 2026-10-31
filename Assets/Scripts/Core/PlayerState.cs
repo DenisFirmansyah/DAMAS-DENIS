@@ -204,6 +204,7 @@ namespace DamasDenis.Core
         /// <summary>
         /// Clears all persistent player progress and research credits.
         /// </summary>
+        [ContextMenu("Debug/Reset All Progress")]
         public void ResetAllProgress()
         {
             researchCredits = 0;
@@ -211,6 +212,7 @@ namespace DamasDenis.Core
             PlayerPrefs.DeleteKey("DamasDenis.StageRecords");
             PlayerPrefs.Save();
             OnResearchCreditsChanged?.Invoke(researchCredits);
+            Debug.Log("Progress has been reset!");
         }
 
         #endregion

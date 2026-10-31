@@ -15,7 +15,7 @@ MonoBehaviour:
   stageId: stage_4
   sceneName: Stage 4
   stageName: Sector 4
-  stageDesc: Euthanasia aja Facility
+  stageDesc: Bdubsaja Facility
   isOptionalStage: 0
   survivalSeconds: 600
   baseHealth: 100
@@ -24,5 +24,5 @@ MonoBehaviour:
   briefing: []
   relocationDialogue: []
   starTwoObjective: {fileID: 11400000, guid: 200c5b6bfa66a33d78bcc35135ec0841, type: 2}
-  starThreeObjective: {fileID: 0}
+  starThreeObjective: {fileID: 11400000, guid: 59c65ac5642deead292ae3c567137b1b, type: 2}
   unlockedStaff: {fileID: 0}

@@ -15,7 +15,7 @@ MonoBehaviour:
   stageId: stage_01
   sceneName: Stage 1
   stageName: Sector 1
-  stageDesc: Euthanasia Facility
+  stageDesc: Coba Facility
   isOptionalStage: 0
   survivalSeconds: 120
   baseHealth: 100

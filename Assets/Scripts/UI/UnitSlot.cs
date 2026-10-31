@@ -125,7 +125,6 @@ namespace DamasDenis.UI
             if (displayData.unitData == null || displayData.unitData.UnitPrefab == null)
                 return null;
 
-            // Explicit null check: "?." skips Unity's destroyed-object check.
             SpriteRenderer sr = displayData.unitData.UnitPrefab.GetComponentInChildren<SpriteRenderer>();
             return sr != null ? sr.sprite : null;
         }
