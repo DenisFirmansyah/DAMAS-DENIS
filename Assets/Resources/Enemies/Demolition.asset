@@ -18,7 +18,7 @@ MonoBehaviour:
   attackDamage: 20
   attackInterval: 2
   enemyPrefab: {fileID: 2617455329949538921, guid: ef6a3721589681c4ca158bdd9307bb5d, type: 3}
-  weapon: {fileID: 0}
+  weapon: {fileID: 11400000, guid: 54e215c17645c0f419eb5513db0f12bc, type: 2}
   weaponMountPath: 
   maxHealth: 60
   damage: 15

@@ -15,11 +15,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Lobby.unity
     guid: 56f30f4babd0f544fbd0bb312ac98d2b
   - enabled: 1
-    path: Assets/Scenes/Roaming.unity
-    guid: 1c970131091a86d708465684b313a4e0
-  - enabled: 1
     path: Assets/Scenes/Gameplay.unity
     guid: 47610140de411bf4eb41e66cf6262c9c
+  - enabled: 1
+    path: Assets/Scenes/Stages/Roaming.unity
+    guid: e8837000261491e4186886a384a4eccf
   - enabled: 1
     path: Assets/Scenes/Stages/Stage 1.unity
     guid: a1a0ef6a417caf61f99fd09f282c973d
@@ -29,9 +29,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Stages/Stage 3.unity
     guid: 0d7d2c71f69e5f6d688c2defec63ab06
-  - enabled: 1
-    path: Assets/Scenes/Stages/Template Stage.unity
-    guid: 705e5d1543076e0a28fefb49e82a88b2
   - enabled: 1
     path: Assets/Scenes/Review.unity
     guid: 908f5b234827045bc81d74adaf9567cc
