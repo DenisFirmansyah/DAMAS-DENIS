@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1888448892926337805}
   - component: {fileID: 575393424495605099}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Store Point 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 4884215092306183163}
   - component: {fileID: 2846007943710593801}
   - component: {fileID: 7113687815494544919}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

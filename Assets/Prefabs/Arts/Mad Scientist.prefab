@@ -654,6 +654,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1534221149253280927}
+  - component: {fileID: 3021486153019459963}
   m_Layer: 0
   m_Name: Visual Container
   m_TagString: Untagged
@@ -692,6 +693,21 @@ Transform:
   - {fileID: 4951027456618610251}
   m_Father: {fileID: 5314706368815175307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3021486153019459963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2924743539387605396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 615eb3113281ee570a06d8e776ca4431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetCamera: {fileID: 0}
+  mode: 0
+  pivot: {fileID: 1534221149253280927}
 --- !u!1 &3091407658962334489
 GameObject:
   m_ObjectHideFlags: 0
@@ -1845,7 +1861,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5314706368815175307}
   - component: {fileID: 7615042085567850775}
-  - component: {fileID: 9179678283109928426}
   m_Layer: 0
   m_Name: Mad Scientist
   m_TagString: Untagged
@@ -1896,21 +1911,6 @@ MonoBehaviour:
     showGizmo: 1
   - color: {r: 0, g: 1, b: 0, a: 1}
     showGizmo: 1
---- !u!114 &9179678283109928426
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8099414368561564479}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 615eb3113281ee570a06d8e776ca4431, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetCamera: {fileID: 0}
-  mode: 1
-  pivot: {fileID: 0}
 --- !u!1 &8183718725212980541
 GameObject:
   m_ObjectHideFlags: 0

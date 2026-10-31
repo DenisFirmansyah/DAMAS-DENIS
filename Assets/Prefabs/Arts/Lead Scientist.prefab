@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6518667363901580899}
+  - component: {fileID: 3266206706319500231}
   m_Layer: 0
   m_Name: Visual Container
   m_TagString: Untagged
@@ -47,6 +48,21 @@ Transform:
   - {fileID: 5844015492097144131}
   m_Father: {fileID: 820430256407108597}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3266206706319500231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336702548598645834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 615eb3113281ee570a06d8e776ca4431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetCamera: {fileID: 0}
+  mode: 0
+  pivot: {fileID: 6518667363901580899}
 --- !u!1 &816104877162178886
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,7 +73,6 @@ GameObject:
   m_Component:
   - component: {fileID: 820430256407108597}
   - component: {fileID: 4394280019458358693}
-  - component: {fileID: 5625297410759890804}
   m_Layer: 0
   m_Name: Lead Scientist
   m_TagString: Untagged
@@ -108,21 +123,6 @@ MonoBehaviour:
     showGizmo: 1
   - color: {r: 0, g: 1, b: 0, a: 1}
     showGizmo: 1
---- !u!114 &5625297410759890804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 816104877162178886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 615eb3113281ee570a06d8e776ca4431, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetCamera: {fileID: 0}
-  mode: 1
-  pivot: {fileID: 0}
 --- !u!1 &938486172562756084
 GameObject:
   m_ObjectHideFlags: 0

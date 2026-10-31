@@ -129,7 +129,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 476912889982654965}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.05972187, w: 0.99821514}
+  m_LocalRotation: {x: 0, y: 0, z: 0.059706457, w: 0.99821603}
   m_LocalPosition: {x: 0.3033485, y: -0.000000035757488, z: 0}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1}
   m_ConstrainProportionsScale: 0
@@ -161,7 +161,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 760870186265002193}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.99220026, w: 0.12465431}
+  m_LocalRotation: {x: 0, y: 0, z: 0.9922005, w: 0.12465208}
   m_LocalPosition: {x: 0.41416472, y: 0.21013686, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -258,7 +258,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1167297502909879846}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.000010963528, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.0000022314487, w: 1}
   m_LocalPosition: {x: 0.3539658, y: 0.0013623234, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -386,7 +386,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2010369985191744492}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.016106822, w: 0.9998703}
+  m_LocalRotation: {x: 0, y: 0, z: -0.016136426, w: 0.9998698}
   m_LocalPosition: {x: 0.3743487, y: 0.00000016833118, z: 0}
   m_LocalScale: {x: 0.9999999, y: 0.9999999, z: 1}
   m_ConstrainProportionsScale: 0
@@ -508,8 +508,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7171318357552383733}
-  - component: {fileID: 8345695634905913492}
-  - component: {fileID: 9080690544672320604}
   - component: {fileID: 7221814602684257343}
   m_Layer: 0
   m_Name: Unit Female No Mask
@@ -527,61 +525,13 @@ Transform:
   m_GameObject: {fileID: 2516118781026779971}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.8141103, y: 1.0000002, z: -6.566498}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 893024009055663750}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8345695634905913492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2516118781026779971}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 097b551f2844b054290f18a39bf892e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Solvers:
-  - {fileID: 1229493054125784620}
-  - {fileID: 8779827151009744084}
-  - {fileID: 4368765189539791782}
-  - {fileID: 3564291387390545441}
-  m_Weight: 1
-  m_SolverEditorData:
-  - color: {r: 0, g: 1, b: 0, a: 1}
-    showGizmo: 1
-  - color: {r: 0, g: 1, b: 0, a: 1}
-    showGizmo: 1
-  - color: {r: 0, g: 1, b: 0, a: 1}
-    showGizmo: 1
-  - color: {r: 0, g: 1, b: 0, a: 1}
-    showGizmo: 1
---- !u!95 &9080690544672320604
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2516118781026779971}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a0853775c17e6fc4d96f5ad28430caa5, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!210 &7221814602684257343
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -1197,7 +1147,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5197106038683520420}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.99890625, w: 0.046758592}
+  m_LocalRotation: {x: 0, y: 0, z: -0.9989061, w: 0.046763267}
   m_LocalPosition: {x: 0.06645609, y: -0.09486444, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1490,7 +1440,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7224744752518329605}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.000048432492, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.00002350099, w: 1}
   m_LocalPosition: {x: 0.27093768, y: 0.0005326278, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1573,6 +1523,8 @@ GameObject:
   m_Component:
   - component: {fileID: 893024009055663750}
   - component: {fileID: 5470237162743597856}
+  - component: {fileID: 2954484369674853883}
+  - component: {fileID: 4722976534158680394}
   m_Layer: 0
   m_Name: Visual Container
   m_TagString: Untagged
@@ -1624,7 +1576,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetCamera: {fileID: 0}
   mode: 0
-  pivot: {fileID: 0}
+  pivot: {fileID: 893024009055663750}
+--- !u!95 &2954484369674853883
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7773134929533640380}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0853775c17e6fc4d96f5ad28430caa5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4722976534158680394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7773134929533640380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 097b551f2844b054290f18a39bf892e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Solvers:
+  - {fileID: 1229493054125784620}
+  - {fileID: 8779827151009744084}
+  - {fileID: 4368765189539791782}
+  - {fileID: 3564291387390545441}
+  m_Weight: 1
+  m_SolverEditorData:
+  - color: {r: 0, g: 1, b: 0, a: 1}
+    showGizmo: 1
+  - color: {r: 0, g: 1, b: 0, a: 1}
+    showGizmo: 1
+  - color: {r: 0, g: 1, b: 0, a: 1}
+    showGizmo: 1
+  - color: {r: 0, g: 1, b: 0, a: 1}
+    showGizmo: 1
 --- !u!1 &7990067279804867697
 GameObject:
   m_ObjectHideFlags: 0
