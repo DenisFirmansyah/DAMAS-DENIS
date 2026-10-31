@@ -16,10 +16,12 @@ MonoBehaviour:
   description: 
   canBeBlocked: 1
   attackDamage: 20
-  attackInterval: 0.5
-  enemyPrefab: {fileID: 7925381764994484637, guid: ef6a3721589681c4ca158bdd9307bb5d, type: 3}
+  attackInterval: 2
+  enemyPrefab: {fileID: 2617455329949538921, guid: ef6a3721589681c4ca158bdd9307bb5d, type: 3}
+  weapon: {fileID: 0}
+  weaponMountPath: 
   maxHealth: 60
-  damage: 30
+  damage: 15
   speed: 0.5
   reward: 5
   type: 1

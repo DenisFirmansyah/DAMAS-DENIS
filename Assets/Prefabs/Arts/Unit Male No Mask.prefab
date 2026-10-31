@@ -538,15 +538,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 61af1e4bedf87af4fb3f42af746fc736, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.300527
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 61af1e4bedf87af4fb3f42af746fc736, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.0000002
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 61af1e4bedf87af4fb3f42af746fc736, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.087661
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: 61af1e4bedf87af4fb3f42af746fc736, type: 3}
       propertyPath: m_LocalRotation.w
@@ -739,7 +739,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetCamera: {fileID: 0}
-  mode: 1
+  mode: 0
 --- !u!95 &-8947104954869859317
 Animator:
   serializedVersion: 5
