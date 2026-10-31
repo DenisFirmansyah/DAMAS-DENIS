@@ -10,6 +10,11 @@ public sealed class GameplayUIController : UIScreen
     [Header("HUD - Stage")]
     [SerializeField] private Image healthBarFill;
     [SerializeField] private TextMeshProUGUI timeText;
+    [SerializeField] private Image pauseButton;
+    [SerializeField] private Sprite playImage;
+    [SerializeField] private Sprite pausedImage;
+    [SerializeField] private TextMeshProUGUI starTwoObjective;
+    [SerializeField] private TextMeshProUGUI starThreeObjective;
 
     [Header("Gameplay Screens")]
     [SerializeField] private StageDirector stageDirector;
@@ -100,6 +105,7 @@ public sealed class GameplayUIController : UIScreen
         {
             UpdateHealthUI(subscribedStageState.CurrentHealth);
             UpdateTimeLeftUI(subscribedStageState.RemainingSeconds);
+            UpdateObjectives();
         }
     }
     private void UpdateHealthUI(float currentHealth)
@@ -125,6 +131,13 @@ public sealed class GameplayUIController : UIScreen
         timeText.text = $"{totalSeconds / 60:00}:{totalSeconds % 60:00}";
     }
 
+    private void UpdateObjectives()
+    {
+        if (starTwoObjective && starThreeObjective != null)
+            starTwoObjective.text = "* {}";
+            starThreeObjective.text = "* {}";
+    }
+
     public void PauseGame()
     {
         if (isPaused || isGameOver)
@@ -134,6 +147,7 @@ public sealed class GameplayUIController : UIScreen
         GamePause.Hold(PauseReason.PauseMenu);
         if (pauseMenu != null)
             pauseMenu.SetActive(true);
+            pauseButton.sprite = pausedImage;
     }
 
     public void ResumeGame()
@@ -145,6 +159,7 @@ public sealed class GameplayUIController : UIScreen
         GamePause.Release(PauseReason.PauseMenu);
         if (pauseMenu != null)
             pauseMenu.SetActive(false);
+            pauseButton.sprite = playImage;
     }
 
     private void ShowWin(StageRecord record)
