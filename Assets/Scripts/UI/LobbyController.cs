@@ -13,11 +13,9 @@ namespace DamasDenis.UI
         [SerializeField] private GameObject lobbyScreen;
         [SerializeField] private GameObject stageListScreen;
         [SerializeField] private GameObject unitListScreen;
-        [SerializeField] private GameObject upgradeUnitScreen;
         [SerializeField] private GameObject journalScreen;
         [SerializeField] private GameObject optionScreen;
         [SerializeField] private GameObject exitScreen;
-        [SerializeField] private TextMeshProUGUI researchCreditsText;
 
         private PlayerState subscribedPlayerState;
 
@@ -52,7 +50,6 @@ namespace DamasDenis.UI
 
         public void StageList() => ShowOnly(stageListScreen);
         public void UnitList() => ShowOnly(unitListScreen);
-        public void UpgradeUnit() => ShowOnly(upgradeUnitScreen);
         public void Journal() => ShowOnly(journalScreen);
         public void Options() => ShowOnly(optionScreen);
         public void Back() => ShowOnly(lobbyScreen);
@@ -72,7 +69,6 @@ namespace DamasDenis.UI
             {
                 UnsubscribePlayerState();
                 subscribedPlayerState = playerState;
-                subscribedPlayerState.OnResearchCreditsChanged += UpdateResearchCreditsUI;
             }
         }
 
@@ -81,14 +77,7 @@ namespace DamasDenis.UI
             if (subscribedPlayerState == null)
                 return;
 
-            subscribedPlayerState.OnResearchCreditsChanged -= UpdateResearchCreditsUI;
             subscribedPlayerState = null;
-        }
-
-        private void UpdateResearchCreditsUI(int credits)
-        {
-            if (researchCreditsText != null)
-                researchCreditsText.text = credits.ToString();
         }
 
         public void RoamingMode()
@@ -131,7 +120,6 @@ namespace DamasDenis.UI
 
             SetActiveIfAssigned(stageListScreen, target == stageListScreen);
             SetActiveIfAssigned(unitListScreen, target == unitListScreen);
-            SetActiveIfAssigned(upgradeUnitScreen, target == upgradeUnitScreen);
             SetActiveIfAssigned(journalScreen, target == journalScreen);
             SetActiveIfAssigned(optionScreen, target == optionScreen);
             SetActiveIfAssigned(exitScreen, target == exitScreen);

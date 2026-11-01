@@ -24,7 +24,6 @@ namespace DamasDenis.Deployment
         [SerializeField] private bool deployOnGround = true;
         [SerializeField] private bool deployOnElevated;
         [SerializeField] private bool canFace = true;
-        [SerializeField] private bool isMedic;
 
         [Header("Combat Type & Attributes")]
         [SerializeField] private UnitAttackType attackType = UnitAttackType.Ranged;
@@ -54,7 +53,6 @@ namespace DamasDenis.Deployment
         public GameObject UnitPrefab => unitPrefab;
         public int DeploymentCost => deploymentCost;
         public bool CanFace => canFace;
-        public bool IsMedic => isMedic;
         public bool IsUnlocked => unlockedByDefault || StaffUnlocks.IsUnlocked(unlockId);
 
         public UnitAttackType AttackType => attackType;

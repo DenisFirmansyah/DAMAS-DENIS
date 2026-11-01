@@ -17,6 +17,8 @@ MonoBehaviour:
   canBeBlocked: 1
   attackDamage: 5
   attackInterval: 1
+  attackRange: 1.5
+  rangedAttackInterval: 1.5
   enemyPrefab: {fileID: 9069093869066230649, guid: 308169595325ae945aa64e886a61b261, type: 3}
   weapon: {fileID: 11400000, guid: 2b7c6b8061b9fc94bb8ac97823a97166, type: 2}
   weaponMountPath: 

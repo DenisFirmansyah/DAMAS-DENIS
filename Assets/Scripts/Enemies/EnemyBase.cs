@@ -42,6 +42,11 @@ namespace DamasDenis.Enemies
         private bool canMove;
         private StaffBlocker blockedBy;
         private float attackTimer;
+        private const float RetargetInterval = 0.2f;
+        private static readonly List<DeployedUnit> unitBuffer = new List<DeployedUnit>();
+        private DeployedUnit rangedTarget;
+        private float rangedTimer;
+        private float retargetTimer;
 
         public bool IsDead { get; private set; }
 
@@ -122,7 +127,6 @@ namespace DamasDenis.Enemies
         {
             if (!canMove || IsDead) return;
 
-            // blockedBy turns null on its own if the blocker is destroyed (Unity null check).
             if (blockedBy == null)
                 TryGetBlocked();
 
@@ -131,6 +135,8 @@ namespace DamasDenis.Enemies
                 FightBlocker();
                 return;
             }
+
+            if (AttackElevatedUnit()) return;
 
             Move();
         }
@@ -254,6 +260,87 @@ namespace DamasDenis.Enemies
         public void ReleaseFromBlocker()
         {
             blockedBy = null;
+        }
+
+        private bool AttackElevatedUnit()
+        {
+            if (enemyData.attackRange <= 0f) return false;
+
+            // A destroyed target is null (Unity null check); also drop it if it left range.
+            if (rangedTarget != null && FlatDistance(transform.position, rangedTarget.transform.position) > enemyData.attackRange)
+                rangedTarget = null;
+
+            if (rangedTarget == null)
+            {
+                retargetTimer -= Time.deltaTime;
+                if (retargetTimer > 0f) return false;
+
+                retargetTimer = RetargetInterval;
+                rangedTarget = FindElevatedTarget();
+                if (rangedTarget == null) return false;
+
+                rangedTimer = 0f; // first shot lands immediately, like the melee fight
+            }
+
+            SetAnimatorFloatIfPresent("Speed", 0f);
+            weaponVisual?.SetMoving(false);
+
+            // Face the target (same screen-X flip rule as Move).
+            float dx = rangedTarget.transform.position.x - transform.position.x;
+            if (sr != null && Mathf.Abs(dx) > 0.1f)
+            {
+                sr.flipX = dx < 0f;
+                weaponVisual?.SetFacing(dx < 0f);
+            }
+
+            rangedTimer -= Time.deltaTime;
+            if (rangedTimer > 0f) return true;
+
+            rangedTimer = enemyData.rangedAttackInterval;
+            weaponVisual?.PlayAttack();
+            DamageUnit(rangedTarget, enemyData.attackDamage);
+            return true;
+        }
+
+        private DeployedUnit FindElevatedTarget()
+        {
+            StageMapContext map = StageMapContext.Current;
+            if (map == null) return null;
+
+            map.GetOrCreateUnitContainer().GetComponentsInChildren(unitBuffer);
+
+            DeployedUnit best = null;
+            float bestDistance = float.MaxValue;
+            for (int i = 0; i < unitBuffer.Count; i++)
+            {
+                DeployedUnit unit = unitBuffer[i];
+                if (!IsElevated(unit)) continue;
+
+                float distance = FlatDistance(transform.position, unit.transform.position);
+                if (distance > enemyData.attackRange || distance >= bestDistance) continue;
+
+                best = unit;
+                bestDistance = distance;
+            }
+
+            unitBuffer.Clear(); // don't keep references alive between calls
+            return best;
+        }
+
+
+        private static bool IsElevated(DeployedUnit unit) => unit.Cell != null && unit.Cell.Terrain == CellTerrain.Elevated;
+
+        private static void DamageUnit(DeployedUnit unit, float amount)
+        {
+            StaffVitality vitality = unit.GetComponent<StaffVitality>();
+            if (vitality != null) vitality.TakeDamage(amount);
+        }
+
+            private void OnDrawGizmosSelected()
+        {
+            if (enemyData == null || enemyData.attackRange <= 0f) return;
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, enemyData.attackRange);
         }
 
         public void TakeDamage(float amount) 

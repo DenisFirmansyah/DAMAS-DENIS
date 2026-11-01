@@ -21,6 +21,12 @@ public class EnemyData : ScriptableObject {
     [Tooltip("Seconds between hits on the blocking unit.")]
     [Min(0.05f)] public float attackInterval = 1f;
     
+    [Header("Ranged (elevated targets)")]
+    [Tooltip("Tiles (world units) within which this enemy can hit elevated units. 0 = never.")]
+    [Min(0f)] public float attackRange = 0f;
+    [Tooltip("Seconds between ranged hits. Damage uses Attack Damage above.")]
+    [Min(0.05f)] public float rangedAttackInterval = 1.5f;
+    
     [Header("Visuals")]
     public GameObject enemyPrefab;
     [Tooltip("Weapon visual and attack animation used by this enemy prefab.")]

@@ -644,6 +644,7 @@ GameObject:
   - component: {fileID: 168267364}
   - component: {fileID: 168267363}
   - component: {fileID: 168267362}
+  - component: {fileID: 168267365}
   m_Layer: 5
   m_Name: Close Button
   m_TagString: Untagged
@@ -764,6 +765,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 168267360}
   m_CullTransparentMesh: 1
+--- !u!114 &168267365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168267360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea3c7441465a5b69ab733a93fa57a5c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickCue: {fileID: 11400000, guid: bf9fcbd2185f3f5acbcfe127be4bbc57, type: 2}
 --- !u!1 &199555338
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,7 +18,6 @@ namespace DamasDenis.UI
         public float range;
         public float attackSpeed;
         public float maxHealth;
-        public bool isMedic;
         public bool isUnlocked;
         public bool isSelected;
         public bool isOnCooldown;
@@ -35,17 +34,11 @@ namespace DamasDenis.UI
             range  = unitData != null && unitData.RangePattern != null ? unitData.RangePattern.CellCount : 0;
             attackSpeed = unitData != null ? unitData.AttackSpeed : 0f;
             maxHealth = unitData != null ? unitData.MaxHealth : 0f;
-            isMedic = unitData != null ? unitData.IsMedic : false;
             isUnlocked = unitData != null ? unitData.IsUnlocked : false;
             unlockId = unitData != null ? unitData.UnlockId : "";
             typeLabel = unitData != null ? unitData.AttackType.ToString() : "Unknown";
             isOnCooldown = unitData != null && StaffCooldowns.IsCoolingDown(unitData.UnlockId);
-
-            if (unitData != null)
-            {
-                // Check upgrade level from deployed staff (optional - for UI showing current level)
-                // For now, we just show the base data
-            }
+            upgradeLevel = unitData != null ? StaffUpgradeStore.GetLevel(unitData.UnlockId) : 0;
         }
 
         public override string ToString()

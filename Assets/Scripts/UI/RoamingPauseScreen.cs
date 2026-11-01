@@ -20,5 +20,6 @@ namespace DamasDenis.UI
 
         /// <summary>Quit button OnClick. LoadLobby already calls GamePause.ReleaseAll.</summary>
         public void QuitToLobby() => GameManager.Instance.LoadLobby();
+        
     }
 }

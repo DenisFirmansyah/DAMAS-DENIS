@@ -13,12 +13,6 @@ namespace DamasDenis.Roaming
         void Interact(CharacterControl interactor);
     }
 
-    /// <summary>
-    /// Roaming-mode player: WASD movement on the board's XZ plane and F to interact.
-    /// Put this on the unit ROOT (with a CharacterController). The 2D sprite is a child
-    /// that carries the Billboard script, same as deployed units.
-    /// Uses the legacy Input class, like DeploymentController and DialogueController.
-    /// </summary>
     [RequireComponent(typeof(CharacterController))]
     public sealed class CharacterControl : MonoBehaviour
     {
@@ -70,7 +64,6 @@ namespace DamasDenis.Roaming
 
         private void Update()
         {
-            // Dialogue pauses gameplay with timeScale 0; don't let F or WASD act underneath it.
             bool blocked = !InputEnabled || Time.timeScale <= 0f;
 
             Vector2 input = blocked ? Vector2.zero : ReadMoveInput();
@@ -93,7 +86,7 @@ namespace DamasDenis.Roaming
             if (Input.GetKey(downKey)) v.y -= 1f;
             if (Input.GetKey(rightKey)) v.x += 1f;
             if (Input.GetKey(leftKey)) v.x -= 1f;
-            return Vector2.ClampMagnitude(v, 1f); // stops diagonals being faster
+            return Vector2.ClampMagnitude(v, 1f);
         }
 
         private void Move(Vector2 input)
