@@ -22,10 +22,14 @@ namespace DamasDenis.Roaming
             public Transform storePoint;
             public string collectText = "Collect the parts";
             public string storeText = "Bring them to storage";
+            [NonSerialized] public Transform collectInstance;
+            [NonSerialized] public Transform storeInstance;
         }
 
         [SerializeField] private Entry[] entries;
         [SerializeField] private string allDoneText = "Nothing left to do. Head back when you're ready.";
+
+
 
         private void Start()
         {
@@ -66,10 +70,23 @@ namespace DamasDenis.Roaming
             {
                 var collect = Instantiate(e.collectPrefab, e.collectPoint.position, e.collectPoint.rotation, transform);
                 collect.Configure(CollectedId(e), string.Empty);
+                e.collectInstance = collect.transform;
             }
 
             var store = Instantiate(e.storePrefab, e.storePoint.position, e.storePoint.rotation, transform);
             store.Configure(StoredId(e), CollectedId(e));
+            e.storeInstance = store.transform;
+        }
+
+        public Transform GetObjectiveTarget()
+        {
+            foreach (Entry e in entries)
+            {
+                if (!IsUnlocked(e)) continue;
+                if (!RoamingProgress.IsDone(CollectedId(e))) return e.collectInstance;
+                if (!RoamingProgress.IsDone(StoredId(e))) return e.storeInstance;
+            }
+            return null;
         }
     }
 }
