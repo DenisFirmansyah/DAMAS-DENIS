@@ -23,7 +23,7 @@ MonoBehaviour:
   weapon: {fileID: 11400000, guid: 2b7c6b8061b9fc94bb8ac97823a97166, type: 2}
   weaponMountPath: 
   maxHealth: 30
-  damage: 5
+  damage: 1
   speed: 1
   reward: 1
   type: 0

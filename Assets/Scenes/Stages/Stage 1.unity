@@ -5315,13 +5315,13 @@ MonoBehaviour:
   waves:
   - enemyPrefab: {fileID: 4295493673846017260, guid: 488269686d5ee2184a4ff395ef81ecf2, type: 3}
     enemyPath: {fileID: 592770078}
-    count: 2
+    count: 6
     spawnDelay: 1
     waitForClear: 0
   - enemyPrefab: {fileID: 4295493673846017260, guid: 488269686d5ee2184a4ff395ef81ecf2, type: 3}
     enemyPath: {fileID: 2005908045}
-    count: 3
-    spawnDelay: 3
+    count: 7
+    spawnDelay: 5
     waitForClear: 0
   autoStart: 0
 --- !u!4 &1603209385
