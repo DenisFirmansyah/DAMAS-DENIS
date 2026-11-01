@@ -19,19 +19,19 @@ public class WeaponData : ScriptableObject
     public string weaponName;
 
     [Header("Visual")]
-    public Sprite weaponSprite;
+    public GameObject weaponPrefab;
     public Vector2 weaponOffset;
     public float weaponRotation;
-    [Min(0)] public int sortingOrderOffset = 1;
 
     [Header("Projectile")]
     public GameObject projectilePrefab;
+    [Min(0.01f)] public float projectileSpeed = 15f;
 
     [Header("Animation States")]
     [Tooltip("Animator state played whenever this weapon attacks.")]
-    public string attackAnimationState = "Soldier_Shoot";
+    public string attackAnimationState;
     [Tooltip("Animator state played while the character moves.")]
-    public string moveAnimationState = "Soldier_Run";
+    public string moveAnimationState;
     [Tooltip("Optional state played after movement stops. Leave empty to keep the current pose.")]
     public string idleAnimationState;
 }

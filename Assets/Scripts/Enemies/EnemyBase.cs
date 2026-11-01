@@ -41,12 +41,14 @@ namespace DamasDenis.Enemies
         // private bool isMoving = true;
         private bool canMove;
         private StaffBlocker blockedBy;
+        private bool rangedBlockerTarget;
         private float attackTimer;
         private const float RetargetInterval = 0.2f;
         private static readonly List<DeployedUnit> unitBuffer = new List<DeployedUnit>();
         private DeployedUnit rangedTarget;
         private float rangedTimer;
         private float retargetTimer;
+        private bool missingProjectileWarningLogged;
 
         public bool IsDead { get; private set; }
 
@@ -128,7 +130,10 @@ namespace DamasDenis.Enemies
             if (!canMove || IsDead) return;
 
             if (blockedBy == null)
+            {
+                rangedBlockerTarget = false;
                 TryGetBlocked();
+            }
 
             if (blockedBy != null)
             {
@@ -137,6 +142,13 @@ namespace DamasDenis.Enemies
             }
 
             if (AttackElevatedUnit()) return;
+
+            TryGetRangedBlocker();
+            if (blockedBy != null)
+            {
+                FightBlocker();
+                return;
+            }
 
             Move();
         }
@@ -238,9 +250,32 @@ namespace DamasDenis.Enemies
                 if (blocker != null && blocker.TryBlock(this))
                 {
                     blockedBy = blocker;
+                    rangedBlockerTarget = false;
                     attackTimer = 0f; // first hit lands immediately
                     return;
                 }
+            }
+        }
+
+        private void TryGetRangedBlocker()
+        {
+            if (!enemyData.canBeBlocked || enemyData.attackRange <= 0f) return;
+
+            for (int i = nextIndex; i < path.PointCount; i++)
+            {
+                MapCell cell = path.GetCell(i);
+                if (cell == null || !cell.IsOccupied) continue;
+
+                float distance = FlatDistance(transform.position, cell.SurfacePoint);
+                if (distance > enemyData.attackRange) continue;
+
+                StaffBlocker blocker = cell.Occupant.GetComponent<StaffBlocker>();
+                if (blocker == null || !blocker.TryBlock(this)) continue;
+
+                blockedBy = blocker;
+                rangedBlockerTarget = true;
+                attackTimer = 0f;
+                return;
             }
         }
         
@@ -249,12 +284,27 @@ namespace DamasDenis.Enemies
             SetAnimatorFloatIfPresent("Speed", 0f);
             weaponVisual?.SetMoving(false);
 
+            if (rangedBlockerTarget && blockedBy != null)
+            {
+                float dx = blockedBy.transform.position.x - transform.position.x;
+                if (sr != null && Mathf.Abs(dx) > 0.1f)
+                {
+                    sr.flipX = dx < 0f;
+                    weaponVisual?.SetFacing(dx < 0f);
+                }
+            }
+
             attackTimer -= Time.deltaTime;
             if (attackTimer > 0f) return;
 
-            attackTimer = enemyData.attackInterval;
+            attackTimer = rangedBlockerTarget
+                ? enemyData.rangedAttackInterval
+                : enemyData.attackInterval;
             weaponVisual?.PlayAttack();
-            blockedBy.TakeDamage(enemyData.attackDamage);
+            if (rangedBlockerTarget)
+                FireProjectile(blockedBy.transform);
+            else
+                blockedBy.TakeDamage(enemyData.attackDamage);
         }
 
         public void ReleaseFromBlocker()
@@ -298,7 +348,7 @@ namespace DamasDenis.Enemies
 
             rangedTimer = enemyData.rangedAttackInterval;
             weaponVisual?.PlayAttack();
-            DamageUnit(rangedTarget, enemyData.attackDamage);
+            FireProjectile(rangedTarget.transform);
             return true;
         }
 
@@ -330,10 +380,31 @@ namespace DamasDenis.Enemies
 
         private static bool IsElevated(DeployedUnit unit) => unit.Cell != null && unit.Cell.Terrain == CellTerrain.Elevated;
 
-        private static void DamageUnit(DeployedUnit unit, float amount)
+        private void FireProjectile(Transform target)
         {
-            StaffVitality vitality = unit.GetComponent<StaffVitality>();
-            if (vitality != null) vitality.TakeDamage(amount);
+            GameObject prefab = enemyData.weapon != null ? enemyData.weapon.projectilePrefab : null;
+            if (prefab == null)
+            {
+                if (!missingProjectileWarningLogged)
+                {
+                    Debug.LogError(
+                        $"{enemyData.enemyName}: ranged attacks need a projectile prefab assigned in Weapon Data.",
+                        this);
+                    missingProjectileWarningLogged = true;
+                }
+                return;
+            }
+
+            Vector3 spawnPosition = transform.position + Vector3.up * 0.5f;
+            GameObject projectileObject = Instantiate(prefab, spawnPosition, Quaternion.identity);
+            EnemyAttackProjectile projectile = projectileObject.GetComponent<EnemyAttackProjectile>();
+            if (projectile == null)
+                projectile = projectileObject.AddComponent<EnemyAttackProjectile>();
+
+            projectile.Setup(
+                target,
+                enemyData.weapon.projectileSpeed,
+                enemyData.attackDamage);
         }
 
             private void OnDrawGizmosSelected()

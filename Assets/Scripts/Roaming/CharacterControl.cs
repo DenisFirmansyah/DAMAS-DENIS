@@ -38,7 +38,7 @@ namespace DamasDenis.Roaming
         [SerializeField] private Animator animator;
         [SerializeField] private SpriteRenderer spriteRenderer;
 
-        private static readonly int SpeedHash = Animator.StringToHash("Speed");
+        private static readonly int RunHash = Animator.StringToHash("Run");
 
         private readonly Collider[] hitBuffer = new Collider[16];
         private CharacterController controller;
@@ -125,14 +125,14 @@ namespace DamasDenis.Roaming
         private void UpdateVisual(Vector2 input)
         {
             if (animator != null)
-                animator.SetFloat(SpeedHash, input.sqrMagnitude > 0.0001f ? 1f : 0f);
+                animator.SetBool(RunHash, input.sqrMagnitude > 0.0001f);
 
+            if (input.x < -0.1f) transform.localScale = new Vector3(-1f, 1f, 1f); // spriteRenderer.flipX = true;
+            else if (input.x > 0.1f) transform.localScale = new Vector3(1f, 1f, 1f); // spriteRenderer.flipX = false;
             // Sprites face screen left/right, so flip on the screen-space X input.
-            if (spriteRenderer != null)
-            {
-                if (input.x < -0.1f) spriteRenderer.flipX = true;
-                else if (input.x > 0.1f) spriteRenderer.flipX = false;
-            }
+            // if (spriteRenderer != null)
+            // {
+            // }
         }
 
         private void RefreshInteractable()

@@ -12,8 +12,8 @@ namespace DamasDenis.Enemies
         private Transform characterRoot;
         private Transform weaponMount;
         private Animator animator;
-        private SpriteRenderer bodyRenderer;
-        private SpriteRenderer weaponRenderer;
+        private GameObject weaponInstance;
+        private Vector3 weaponBaseScale;
         private string currentActionState;
         private bool facingLeft;
 
@@ -29,8 +29,7 @@ namespace DamasDenis.Enemies
                 data,
                 character.transform,
                 mountPath,
-                character.GetComponentInChildren<Animator>(true),
-                character.GetComponentInChildren<SpriteRenderer>(true));
+                character.GetComponentInChildren<Animator>(true));
             return controller;
         }
 
@@ -38,13 +37,11 @@ namespace DamasDenis.Enemies
             WeaponData weaponData,
             Transform root,
             string mountPath,
-            Animator characterAnimator,
-            SpriteRenderer characterRenderer)
+            Animator characterAnimator)
         {
             weapon = weaponData;
             characterRoot = root;
             animator = characterAnimator;
-            bodyRenderer = characterRenderer;
             currentActionState = null;
 
             if (weapon == null || characterRoot == null) return;
@@ -65,39 +62,26 @@ namespace DamasDenis.Enemies
                 }
             }
 
-            if (weaponRenderer == null)
+            if (weaponInstance != null)
             {
-                Transform existingWeapon = weaponMount.Find("Weapon Visual");
-                GameObject weaponObject = existingWeapon != null
-                    ? existingWeapon.gameObject
-                    : new GameObject("Weapon Visual");
-                if (existingWeapon == null)
-                    weaponObject.transform.SetParent(weaponMount, false);
-
-                weaponRenderer = weaponObject.GetComponent<SpriteRenderer>();
-                if (weaponRenderer == null)
-                    weaponRenderer = weaponObject.AddComponent<SpriteRenderer>();
-            }
-            else if (weaponRenderer.transform.parent != weaponMount)
-            {
-                weaponRenderer.transform.SetParent(weaponMount, false);
+                Destroy(weaponInstance);
+                weaponInstance = null;
             }
 
-            weaponRenderer.transform.localPosition = weapon.weaponOffset;
-            weaponRenderer.transform.localRotation = Quaternion.Euler(0f, 0f, weapon.weaponRotation);
-            weaponRenderer.sprite = weapon.weaponSprite;
-            weaponRenderer.enabled = weapon.weaponSprite != null;
-
-            if (bodyRenderer != null)
+            if (weapon.weaponPrefab == null)
             {
-                weaponRenderer.sortingLayerID = bodyRenderer.sortingLayerID;
-                weaponRenderer.sortingOrder = bodyRenderer.sortingOrder + weapon.sortingOrderOffset;
+                Debug.LogError($"{name}: '{weapon.weaponName}' has no weapon prefab assigned.", this);
+                return;
             }
 
-            if (weapon.weaponSprite == null)
-                Debug.LogWarning($"{name}: '{weapon.weaponName}' has no weapon sprite assigned.", this);
+            weaponInstance = Instantiate(weapon.weaponPrefab, weaponMount, false);
+            weaponInstance.name = weapon.weaponPrefab.name;
+            Transform weaponTransform = weaponInstance.transform;
+            weaponTransform.localPosition = weapon.weaponOffset;
+            weaponTransform.localRotation = Quaternion.Euler(0f, 0f, weapon.weaponRotation);
+            weaponBaseScale = weaponTransform.localScale;
 
-            SetFacing(facingLeft);
+            ApplyFacing();
         }
 
         public void PlayAttack()
@@ -124,14 +108,20 @@ namespace DamasDenis.Enemies
         public void SetFacing(bool isFacingLeft)
         {
             facingLeft = isFacingLeft;
-            if (weaponRenderer == null || weapon == null) return;
+            ApplyFacing();
+        }
 
+        private void ApplyFacing()
+        {
+            if (weaponInstance == null || weapon == null) return;
+
+            Transform weaponTransform = weaponInstance.transform;
             Vector2 offset = weapon.weaponOffset;
-            weaponRenderer.transform.localPosition = new Vector3(
-                facingLeft ? -offset.x : offset.x,
-                offset.y,
-                0f);
-            weaponRenderer.flipX = facingLeft;
+            weaponTransform.localPosition = new Vector3(facingLeft ? -offset.x : offset.x, offset.y, 0f);
+            weaponTransform.localScale = new Vector3(
+                facingLeft ? -Mathf.Abs(weaponBaseScale.x) : Mathf.Abs(weaponBaseScale.x),
+                weaponBaseScale.y,
+                weaponBaseScale.z);
         }
 
         private void PlayState(string stateName, bool restart = false)

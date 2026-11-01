@@ -20,16 +20,16 @@ MonoBehaviour:
   deployOnGround: 1
   deployOnElevated: 0
   canFace: 1
-  isMedic: 0
   attackType: 1
-  damage: 18
+  damage: 10
   rangePattern: {fileID: 11400000, guid: dbc48975268cdea95a79968e4cb2d812, type: 2}
-  blockCount: 0
+  blockCount: 2
   attackSpeed: 1
   projectileSpeed: 10
   projectilePrefab: {fileID: 1541075867686858713, guid: 1575975711d73da4da949c4c64acbc7e, type: 3}
   weapon: {fileID: 11400000, guid: 2b7c6b8061b9fc94bb8ac97823a97166, type: 2}
-  weaponMountPath: 
+  weaponMountPath: Unit Male No Mask/Visual Container/bone_1/bone_2/bone_4/bone_5/Weapon
+    Socket
   maxHealth: 100
   upgrade: {fileID: 11400000, guid: a1edc856f078e8af8a80b516b352e755, type: 2}
   deploySfx: {fileID: 11400000, guid: e685d4a4b286bf196ab0b000cf74fd5d, type: 2}

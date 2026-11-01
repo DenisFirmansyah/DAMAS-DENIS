@@ -14,15 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: 1
   weaponName: M14
-  weaponSprite: {fileID: 21300000, guid: 97807029a24f6564989e7b5c5df5775a, type: 3}
+  weaponPrefab: {fileID: 5006825694900186540, guid: 4bc421e00d5f5284496bb6802a09c683, type: 3}
   weaponOffset: {x: 0, y: 0}
-  weaponRotation: 0
-  sortingOrderOffset: 1
-  damage: 10
-  attackRange: 5
-  fireInterval: 0.15
-  projectileSpeed: 15
+  weaponRotation: -10
   projectilePrefab: {fileID: 1541075867686858713, guid: 1575975711d73da4da949c4c64acbc7e, type: 3}
-  attackAnimationState: Soldier_Shoot
-  moveAnimationState: Soldier_Run
-  idleAnimationState: 
+  projectileSpeed: 15
+  attackAnimationState: M14_Attack
+  moveAnimationState: Run
+  idleAnimationState: Idle

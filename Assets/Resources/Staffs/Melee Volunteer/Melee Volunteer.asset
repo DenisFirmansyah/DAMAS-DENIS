@@ -19,17 +19,17 @@ MonoBehaviour:
   deploymentCost: 5
   deployOnGround: 1
   deployOnElevated: 0
-  canFace: 0
-  isMedic: 0
+  canFace: 1
   attackType: 0
   damage: 5
   rangePattern: {fileID: 11400000, guid: cc5a379a34f53541aa85e552d4daab61, type: 2}
-  blockCount: 1
+  blockCount: 2
   attackSpeed: 1
   projectileSpeed: 10
   projectilePrefab: {fileID: 0}
   weapon: {fileID: 11400000, guid: ca7e2a734952ad6489cba2a815916415, type: 2}
-  weaponMountPath: 
+  weaponMountPath: Unit Male No Mask/Visual Container/bone_1/bone_2/bone_4/bone_5/Weapon
+    Socket
   maxHealth: 60
   upgrade: {fileID: 11400000, guid: aea44fcc2d48d237d9d5fac9f1c7d41d, type: 2}
   deploySfx: {fileID: 11400000, guid: e685d4a4b286bf196ab0b000cf74fd5d, type: 2}
