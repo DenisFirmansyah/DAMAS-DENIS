@@ -254,10 +254,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicSource: {fileID: 2023260191}
-  mainMenuMusic: {fileID: 8300000, guid: 64788075ed7aaf8bcb3e74a145750a5b, type: 3}
-  gameplayMusic: {fileID: 0}
-  roamingMusic: {fileID: 0}
+  mainMenuMusic: {fileID: 8300000, guid: d198ac98ce0280978a523f30bac6cac9, type: 3}
+  gameplayMusic: {fileID: 8300000, guid: fa418d78a1346725b96d23fc13108d85, type: 3}
+  roamingMusic: {fileID: 8300000, guid: 4a044ed24a4759296b45b6a62ae52344, type: 3}
   sfxSource: {fileID: 1133284935}
+  poolSize: 12
 --- !u!4 &745919266
 Transform:
   m_ObjectHideFlags: 0
