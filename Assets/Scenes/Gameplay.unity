@@ -3455,9 +3455,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 291523178}
-        m_TargetAssemblyTypeName: UIScreen, Assembly-CSharp
-        m_MethodName: Hide
-        m_Mode: 6
+        m_TargetAssemblyTypeName: GameplayUIController, Assembly-CSharp
+        m_MethodName: RestartLevel
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
