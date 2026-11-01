@@ -1525,6 +1525,7 @@ GameObject:
   - component: {fileID: 5470237162743597856}
   - component: {fileID: 2954484369674853883}
   - component: {fileID: 4722976534158680394}
+  - component: {fileID: 5809406378707812920}
   m_Layer: 0
   m_Name: Visual Container
   m_TagString: Untagged
@@ -1625,6 +1626,22 @@ MonoBehaviour:
     showGizmo: 1
   - color: {r: 0, g: 1, b: 0, a: 1}
     showGizmo: 1
+--- !u!114 &5809406378707812920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7773134929533640380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b266af1abdf6eb9a3a2180dc0c88e64c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flipTarget: {fileID: 893024009055663750}
+  targetCamera: {fileID: 0}
+  artFacesRight: 1
+  sideThreshold: 0.3
 --- !u!1 &7990067279804867697
 GameObject:
   m_ObjectHideFlags: 0

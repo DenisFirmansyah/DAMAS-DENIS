@@ -195,6 +195,9 @@ public sealed class GameplayUIController : UIScreen
         GamePause.ReleaseAll();
         isPaused = false;
         isGameOver = false;
+        pauseMenu.SetActive(false);
+        winMenu.SetActive(false);
+        gameOverMenu.SetActive(false);
         GameManager.Instance.ReloadStage();
     }
 

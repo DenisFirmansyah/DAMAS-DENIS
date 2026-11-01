@@ -34,6 +34,7 @@ namespace DamasDenis.Deployment
                 DeployedUnit du = GetComponent<DeployedUnit>();
                 string who = du != null && du.Data != null ? du.Data.DisplayName : gameObject.name;
                 StageEventLog.Record(StageEvents.StaffDied, who);
+                AudioManager.Instance?.PlaySFX(du.Data.DeathSfx);
                 Died?.Invoke(this);
                 Destroy(gameObject);
             }

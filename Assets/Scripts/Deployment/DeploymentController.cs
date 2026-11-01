@@ -170,7 +170,6 @@ namespace DamasDenis.Deployment
             lastMouseScreenPos = Input.mousePosition;
             preview = Instantiate(selectedUnit.UnitPrefab, cell.SurfacePoint, Quaternion.identity, unitContainer);
             SetPreviewState(preview, true);
-            // AttachFacingIndicator();
             UpdatePreviewRotation();
 
             if (!selectedUnit.CanFace)
@@ -231,15 +230,6 @@ namespace DamasDenis.Deployment
                 : Vector2Int.down;
         }
 
-        // private void AttachFacingIndicator()
-        // {
-        //     if (facingIndicatorPrefab == null || preview == null || !selectedUnit.CanFace)
-        //         return;
-
-        //     // Parented to the preview, so it rotates with it. Local offset comes from the prefab.
-        //     Instantiate(facingIndicatorPrefab, preview.transform);
-        // }
-
         private void SetPreviewState(GameObject root, bool isPreview)
         {
             foreach (Collider col in root.GetComponentsInChildren<Collider>())
@@ -248,7 +238,7 @@ namespace DamasDenis.Deployment
             foreach (MonoBehaviour behaviour in
                     root.GetComponentsInChildren<MonoBehaviour>())
             {
-                if (!(behaviour is DeployedUnit) && !(behaviour is Billboard))
+                if (!(behaviour is DeployedUnit) && !(behaviour is Billboard) && !(behaviour is UnitVisualFlip))
                     behaviour.enabled = !isPreview;
             }
 
@@ -286,6 +276,7 @@ namespace DamasDenis.Deployment
             deployedUnit.Initialize(pendingCell, selectedUnit, pendingFacing);
             pendingCell.SetOccupant(deployedUnit);
             StageEventLog.Record("staff_deployed", selectedUnit.DisplayName);
+            AudioManager.Instance?.PlaySFX(selectedUnit.DeploySfx);
             selectedUnit = null;
             pendingCell = null;
             preview = null;
@@ -302,7 +293,6 @@ namespace DamasDenis.Deployment
                     mapCellLayer, QueryTriggerInteraction.Collide))
                 return null; // Clicking empty space is normal, so no warning.
 
-            // The collider can sit on a child of the tile, so search upward.
             MapCell cell = hit.collider.GetComponentInParent<MapCell>();
             if (cell == null)
                 Debug.LogWarning($"[Deploy] '{hit.collider.name}' is on the Map Cell layer but has no MapCell.");
@@ -340,6 +330,8 @@ namespace DamasDenis.Deployment
             if (direction.sqrMagnitude > 0f)
             {
                 preview.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+                UnitVisualFlip flip = preview.GetComponentInChildren<UnitVisualFlip>();
+                if (flip != null) flip.SetFacing(pendingFacing);
             }
         }
 

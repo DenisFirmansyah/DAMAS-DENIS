@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public sealed class AudioManager : MonoBehaviour
 {
@@ -12,6 +13,13 @@ public sealed class AudioManager : MonoBehaviour
 
     [Header("SFX")]
     [SerializeField] private AudioSource sfxSource;
+    [Header("SFX Pool")]
+    [SerializeField, Min(1)] private int poolSize = 12;
+
+    private AudioSource[] pool;
+    private SfxCue[] poolCue;
+    private readonly Dictionary<SfxCue, float> lastPlayTime = new Dictionary<SfxCue, float>();
+    private float sfxVolume = 1f;
 
     private void Awake()
     {
@@ -23,6 +31,18 @@ public sealed class AudioManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        pool = new AudioSource[poolSize];
+        poolCue = new SfxCue[poolSize];
+        for (int i = 0; i < poolSize; i++)
+        {
+            GameObject voice = new GameObject($"SFX Voice {i}");
+            voice.transform.SetParent(transform, false);
+            AudioSource source = voice.AddComponent<AudioSource>();
+            source.playOnAwake = false;
+            source.spatialBlend = 0f;
+            pool[i] = source;
+        }
     }
 
     private void Start() => ApplySettings();
@@ -50,10 +70,44 @@ public sealed class AudioManager : MonoBehaviour
         musicSource.Play();
     }
 
-    public void PlaySFX(AudioClip clip)
+    /// <summary>Plays a cue through the pool, respecting its voice limit and minimum interval.</summary>
+    public void PlaySFX(SfxCue cue)
     {
-        if (clip != null && sfxSource != null)
-            sfxSource.PlayOneShot(clip);
+        if (cue == null || pool == null) return;
+
+        AudioClip clip = cue.PickClip();
+        if (clip == null) return;
+
+        // unscaledTime, NOT Time.time: Time.time freezes at timeScale 0,
+        // which would mute pause-menu button clicks after the first one.
+        float now = Time.unscaledTime;
+        if (lastPlayTime.TryGetValue(cue, out float last) && now - last < cue.MinInterval)
+            return;
+
+        int sameCue = 0;
+        int free = -1;
+        for (int i = 0; i < pool.Length; i++)
+        {
+            if (pool[i].isPlaying)
+            {
+                if (poolCue[i] == cue) sameCue++;
+            }
+            else if (free < 0)
+            {
+                free = i;
+            }
+        }
+
+        if (sameCue >= cue.MaxVoices || free < 0) return; // too many of this cue, or pool full
+
+        AudioSource source = pool[free];
+        source.clip = clip;
+        source.pitch = 1f + Random.Range(-cue.PitchVariation, cue.PitchVariation);
+        source.volume = cue.Volume * sfxVolume;
+        source.Play();
+
+        poolCue[free] = cue;
+        lastPlayTime[cue] = now;
     }
 
     public void SetMasterVolume(float value) => AudioListener.volume = Mathf.Clamp01(value);
@@ -66,8 +120,9 @@ public sealed class AudioManager : MonoBehaviour
 
     public void SetSFXVolume(float value)
     {
+        sfxVolume = Mathf.Clamp01(value);
         if (sfxSource != null)
-            sfxSource.volume = Mathf.Clamp01(value);
+            sfxSource.volume = sfxVolume;
     }
 
     public void ApplySettings()

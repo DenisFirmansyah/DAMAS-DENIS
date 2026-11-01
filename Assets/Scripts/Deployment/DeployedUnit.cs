@@ -41,6 +41,8 @@ namespace DamasDenis.Deployment
             // Hybrid 3D Environment: Root rotates on XZ plane to define gameplay direction.
             // 2D Character Sprite child will handle visual billboarding.
             transform.rotation = Quaternion.LookRotation(new Vector3(facing.x, 0f, facing.y), Vector3.up);
+            UnitVisualFlip flip = GetComponentInChildren<UnitVisualFlip>();
+            if (flip != null) flip.SetFacing(facing);
         }
 
         private void OnDestroy()

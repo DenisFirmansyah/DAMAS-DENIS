@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6518667363901580899}
   - component: {fileID: 3266206706319500231}
+  - component: {fileID: 3922958853206970444}
   m_Layer: 0
   m_Name: Visual Container
   m_TagString: Untagged
@@ -63,6 +64,22 @@ MonoBehaviour:
   targetCamera: {fileID: 0}
   mode: 0
   pivot: {fileID: 6518667363901580899}
+--- !u!114 &3922958853206970444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336702548598645834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b266af1abdf6eb9a3a2180dc0c88e64c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flipTarget: {fileID: 6518667363901580899}
+  targetCamera: {fileID: 0}
+  artFacesRight: 1
+  sideThreshold: 0.3
 --- !u!1 &816104877162178886
 GameObject:
   m_ObjectHideFlags: 0

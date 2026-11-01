@@ -43,6 +43,12 @@ namespace DamasDenis.Deployment
         [Min(1f)] [SerializeField] private float maxHealth = 100f;
         [SerializeField] StaffUpgradeDefinition upgrade;
 
+        [Header("Audio")]
+        [SerializeField] private SfxCue deploySfx;
+        [SerializeField] private SfxCue deathSfx;
+        public SfxCue DeploySfx => deploySfx;
+        public SfxCue DeathSfx => deathSfx;
+
         public string DisplayName => displayName;
         public string UnlockId => unlockId;
         public GameObject UnitPrefab => unitPrefab;

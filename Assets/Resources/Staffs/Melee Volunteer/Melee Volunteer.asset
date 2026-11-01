@@ -32,3 +32,5 @@ MonoBehaviour:
   weaponMountPath: 
   maxHealth: 60
   upgrade: {fileID: 11400000, guid: aea44fcc2d48d237d9d5fac9f1c7d41d, type: 2}
+  deploySfx: {fileID: 11400000, guid: e685d4a4b286bf196ab0b000cf74fd5d, type: 2}
+  deathSfx: {fileID: 11400000, guid: 50a37b92fb8e5345899f76576b713796, type: 2}
