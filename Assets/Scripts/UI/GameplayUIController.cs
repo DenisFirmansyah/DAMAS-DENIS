@@ -33,12 +33,6 @@ public sealed class GameplayUIController : UIScreen
     {
         SubscribeToState();
         RefreshAll();
-
-        if (stageDirector != null)
-        {
-            stageDirector.StageFinished -= OnStageFinished; 
-            stageDirector.StageFinished += OnStageFinished;
-        }
     }
 
        private void Update()
@@ -50,14 +44,15 @@ public sealed class GameplayUIController : UIScreen
 
     protected override void OnEnable()
     {
-        if (stageDirector != null) stageDirector.StageFinished -= OnStageFinished;
         base.OnEnable();
+        if (stageDirector != null) stageDirector.StageFinished += OnStageFinished;
         SubscribeToState();
         RefreshAll();
     }
 
     protected override void OnDisable()
     {
+        if (stageDirector != null) stageDirector.StageFinished -= OnStageFinished;
         UnsubscribeFromState();
         base.OnDisable();
     }
@@ -95,7 +90,7 @@ public sealed class GameplayUIController : UIScreen
             return;
 
         subscribedStageState.OnHealthChanged -= UpdateHealthUI;
-        subscribedStageState.OnHealthChanged -= UpdateTimeLeftUI;
+        subscribedStageState.OnTimeChanged -= UpdateTimeLeftUI;
         subscribedStageState = null;
     }
 

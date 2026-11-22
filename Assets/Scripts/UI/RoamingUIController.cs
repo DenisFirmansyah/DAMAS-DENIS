@@ -5,7 +5,7 @@ using UnityEngine;
 namespace DamasDenis.UI
 {
     /// <summary>Owns the Roaming scene's UI input: Escape toggles pause, and the "[F] ..." prompt.</summary>
-    public sealed class RoamingUIController : MonoBehaviour
+    public sealed class RoamingUIController : UIScreen
     {
         [Header("References")]
         [SerializeField] private CharacterControl character;
@@ -22,8 +22,9 @@ namespace DamasDenis.UI
         private bool inputWasEnabled = true;
         private string shownPrompt;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             if (promptRoot != null) promptRoot.SetActive(false);
         }
 

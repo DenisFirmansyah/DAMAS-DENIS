@@ -37,13 +37,7 @@ namespace DamasDenis.Enemies
                 return;
             }
 
-            Vector3 aimPoint = target.position + Vector3.up * aimHeight;
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                aimPoint,
-                speed * Time.deltaTime);
-
-            if ((aimPoint - transform.position).sqrMagnitude <= hitDistance * hitDistance)
+            if (HomingProjectileMotion.MoveAndCheckHit(transform, target, speed, aimHeight, hitDistance))
             {
                 ApplyDamage();
                 Destroy(gameObject);

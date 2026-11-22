@@ -2374,7 +2374,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &193819009
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2740,7 +2740,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -756.37006}
+  m_SizeDelta: {x: 0, y: -756.3835}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &231890669
 MonoBehaviour:
@@ -2762,7 +2762,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 550, y: 400}
+  m_CellSize: {x: 600, y: 500}
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 1
   m_ConstraintCount: 3
@@ -52567,7 +52567,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 138224842}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.02, y: 0.8}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -67926,7 +67926,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Coming Soon
+  m_text: Unit List
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 896b6d43cc944814f93ffec1a8ed7c92, type: 2}
   m_sharedMaterial: {fileID: -858046452640893767, guid: 896b6d43cc944814f93ffec1a8ed7c92, type: 2}
@@ -72780,14 +72780,6 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.06878842
       objectReference: {fileID: 0}
-    - target: {fileID: 8780225115680704420, guid: 909e0c24726f83b4ba61b66bac895a41, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.9976313
-      objectReference: {fileID: 0}
-    - target: {fileID: 8780225115680704420, guid: 909e0c24726f83b4ba61b66bac895a41, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.06878842
-      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4906269172013660178, guid: 909e0c24726f83b4ba61b66bac895a41, type: 3}
     - {fileID: 5170268516279772948, guid: 909e0c24726f83b4ba61b66bac895a41, type: 3}
@@ -72864,3 +72856,4 @@ SceneRoots:
   - {fileID: 1883153605}
   - {fileID: 2114434520}
   - {fileID: 1220403218259651631}
+  - {fileID: 1511864555}

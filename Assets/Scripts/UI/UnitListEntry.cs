@@ -89,7 +89,7 @@ namespace DamasDenis.UI
             if (upgradeButton != null) upgradeButton.interactable = canBuy;
         }
 
-        private void OnUpgradeClicked()
+        public void OnUpgradeClicked()
         {
             if (current != null) UpgradeRequested?.Invoke(current);
         }

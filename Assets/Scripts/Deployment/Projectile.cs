@@ -3,6 +3,16 @@ using UnityEngine;
 
 namespace DamasDenis.Deployment
 {
+    internal static class HomingProjectileMotion
+    {
+        public static bool MoveAndCheckHit(Transform projectile, Transform target, float speed, float aimHeight, float hitDistance)
+        {
+            Vector3 aim = target.position + Vector3.up * aimHeight;
+            projectile.position = Vector3.MoveTowards(projectile.position, aim, speed * Time.deltaTime);
+            return (aim - projectile.position).sqrMagnitude <= hitDistance * hitDistance;
+        }
+    }
+
     /// <summary>Homing projectile. Damages its target when it gets close enough; no physics needed.</summary>
     public class Projectile : MonoBehaviour
     {
@@ -28,10 +38,7 @@ namespace DamasDenis.Deployment
         {
             if (target == null || target.IsDead) { Destroy(gameObject); return; }
 
-            Vector3 aim = target.transform.position + Vector3.up * aimHeight;
-            transform.position = Vector3.MoveTowards(transform.position, aim, speed * Time.deltaTime);
-
-            if ((aim - transform.position).sqrMagnitude <= hitDistance * hitDistance)
+            if (HomingProjectileMotion.MoveAndCheckHit(transform, target.transform, speed, aimHeight, hitDistance))
             {
                 target.TakeDamage(damage);
                 Destroy(gameObject);

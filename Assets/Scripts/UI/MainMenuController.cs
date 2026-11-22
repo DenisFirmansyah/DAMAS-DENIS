@@ -36,6 +36,12 @@ public sealed class MainMenuController : UIScreen
 
     public void BackToMainMenu() => ShowOnly(mainMenu);
 
+    public void ResetGameData()
+    {
+        PlayerPrefs.DeleteAll();
+        ShowOnly(mainMenu);
+    }
+
     public void ExitGame()
     {
         Application.Quit();
